@@ -23,7 +23,7 @@ const GRID_LINE_WIDTH = 1;
 
 const GRID_OFFSET = CANVAS_MARGIN + CANVAS_PADDING;
 
-var TRACK_WIDTH = 200;
+var TRACK_WIDTH = 80;
 
 const DRAW_INTERVAL = 30;
 
@@ -97,7 +97,25 @@ window.onload = function () {
     gameState = GAME_STATE_RACING;
   }
 
+  // document.body.style.zoom = '50%';
+
   canvas.addEventListener('mousedown', (evt) => {
+    handleMouseDown(evt, false);
+  });
+
+  canvas.addEventListener('mousemove', (evt) => {
+    handleMouseMove(evt, false);
+  });
+
+  canvas.addEventListener('touchstart', function (evt) {
+    handleMouseDown(evt, true);
+  });
+
+  canvas.addEventListener('touchmove', function (evt) {
+    handleMouseMove(evt, true);
+  });
+
+  function handleMouseDown(evt, touch = false) {
     switch (gameState) {
       case GAME_STATE_DRAWING:
         if (!trackDrawingActive) {
@@ -108,6 +126,7 @@ window.onload = function () {
           }
         } else {
           initRacecars();
+          startRace();
           // drawTrack();
         }
 
@@ -120,56 +139,23 @@ window.onload = function () {
       default:
         break;
     }
-  });
+    if (touch) {
+      // do not call mouse event again;
+      evt.preventDefault();
+    }
+  }
 
-  // var bgToggle = true;
-  // function toggleBackground(red = false) {
-  //   canvas.style.backgroundColor = bgToggle ? (red ? 'red' : '#eee') : '#fff';
-  //   bgToggle = !bgToggle;
-  // }
-  // canvas.addEventListener('touchstart', function (evt) {
-  //   console.log('touchstart!');
-  //   switch (gameState) {
-  //     case GAME_STATE_DRAWING:
-  //       if (!trackDrawingActive) {
-  //         if (!lastDrawingMousePos) {
-  //           firstDrawingMousePos = calculateMousePos(evt);
-  //           lastDrawingMousePos = firstDrawingMousePos;
-  //           ctx.beginPath();
-  //         }
-  //       } else {
-  //         initRacecars();
-  //         // drawTrack();
-  //       }
-
-  //       trackDrawingActive = !trackDrawingActive;
-  //       break;
-  //     case GAME_STATE_RACING:
-  //       hideGridOptionPointers();
-  //       animateRacecars();
-  //       break;
-  //     default:
-  //       break;
-  //   }
-
-  //   evt.preventDefault();
-  // });
-  // canvas.addEventListener('touchmove', function (evt) {
-  //   if (trackDrawingActive) {
-  //     traceTrack(evt);
-  //   } else if (gameState === GAME_STATE_RACING) {
-  //     drawGridPointer(evt);
-  //   }
-  //   evt.preventDefault();
-  // });
-
-  canvas.addEventListener('mousemove', (evt) => {
+  function handleMouseMove(evt, touch = false) {
     if (trackDrawingActive) {
       traceTrack(evt);
     } else if (gameState === GAME_STATE_RACING) {
       drawGridPointer(evt);
     }
-  });
+    if (touch) {
+      // do not call mouse event again;
+      evt.preventDefault();
+    }
+  }
 
   window.addEventListener('keydown', (evt) => {
     let key = evt.key.toLowerCase();
@@ -189,8 +175,7 @@ window.onload = function () {
         break;
       case 'enter':
         console.log('Drive Mode enabled!');
-        gameState = GAME_STATE_RACING;
-        drawGridOptionPointers();
+        startRace();
         break;
       case 'backspace':
         localStorage.removeItem('track');
@@ -200,6 +185,11 @@ window.onload = function () {
     }
   });
 };
+
+function startRace() {
+  gameState = GAME_STATE_RACING;
+  drawGridOptionPointers();
+}
 
 // function isMouseOnGridOptions(mousePos) {
 //   mousePos.x = Math.round(mousePos.x);
@@ -589,7 +579,7 @@ function initRacecars() {
 
   setTimeout(() => {
     ctx.setTransform(1, 0, 0, 1, 0, 0);
-  }, 100);
+  }, 1000);
 }
 
 function initExplosion() {
@@ -727,6 +717,10 @@ function traceTrack(evt) {
   middleTrackPoints.push(mousePos);
   leftTrackPoints.push(nextLeftPos);
 
+  if (middleTrackPoints.length % 5 === 0) {
+    console.log(rightTrackPoints);
+  }
+
   // MOVE BACK TO CURSOR
   ctx.moveTo(mousePos.x, mousePos.y);
 
@@ -765,6 +759,24 @@ function intersects(a, b, c, d, p, q, r, s) {
 }
 
 function calculateMousePos(evt, onCanvas = true) {
+  if (evt.changedTouches) {
+    evt = evt.changedTouches[0];
+  }
+  var rect = onCanvas ? canvas.getBoundingClientRect() : { left: 0, top: 0 };
+  var root = onCanvas
+    ? { scrollLeft: 0, scrollTop: 0 }
+    : document.documentElement;
+  var mouseX = evt.clientX - rect.left + root.scrollLeft;
+  var mouseY = evt.clientY - rect.top + root.scrollTop;
+  return {
+    x: mouseX,
+    y: mouseY,
+  };
+}
+
+function calculateMousePosTouch(evt, onCanvas = true) {
+  console.log(evt.clientX);
+  evt = evt.changedTouches[0];
   var rect = onCanvas ? canvas.getBoundingClientRect() : { left: 0, top: 0 };
   var root = onCanvas
     ? { scrollLeft: 0, scrollTop: 0 }
