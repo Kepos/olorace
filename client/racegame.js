@@ -16,7 +16,7 @@ const GRID_WIDTH = 2200;
 const GRID_HEIGHT = 2200;
 // Board padding
 const CANVAS_PADDING = 10;
-// width / height of the grid boxed
+// width / height of the grid boxes
 const GRID_BOX_WIDTH = 40;
 // line width of the grid lines
 const GRID_LINE_WIDTH = 1;
@@ -28,7 +28,7 @@ var TRACK_WIDTH = 200;
 const DRAW_INTERVAL = 20;
 
 var NUM_PLAYERS = 4;
-var playerColors = ['green', 'blue', 'yellow', 'red'];
+var playerColors = ['#003a23', '#0e5fa9', '#ecc717', '#9a1a20'];
 // player that currently is picking next stop
 var currentPlayer = 0;
 var racecarsPos = [];
@@ -92,7 +92,7 @@ window.onload = function () {
   ctx.lineJoin = 'bevel';
 
   let storedTrackObj = localStorage.getItem('track');
-  if (storedTrackObj) {
+  if (true && storedTrackObj) {
     storedTrackObj = JSON.parse(storedTrackObj);
     rightTrackPoints = storedTrackObj.right;
     leftTrackPoints = storedTrackObj.left;
@@ -462,9 +462,18 @@ function animateRacecars() {
       ctx.rotate(degrees_to_radians(-carVectAngles[i]));
     }
 
+    // Calculate Center Position of all the racecars for camera
+    let avgPos = { x: 0, y: 0 };
+    for (let i = 0; i < NUM_PLAYERS; i++) {
+      avgPos.x += racecarsPos[i].x;
+      avgPos.y += racecarsPos[i].y;
+    }
+    avgPos.x /= NUM_PLAYERS;
+    avgPos.y /= NUM_PLAYERS;
+
     window.scrollTo(
-      racecarsPos[0].x - window.innerWidth / 2,
-      racecarsPos[0].y - window.innerHeight / 2
+      avgPos.x - window.innerWidth / 2,
+      avgPos.y - window.innerHeight / 2
     );
 
     frames++;
@@ -621,6 +630,10 @@ function initRacecars() {
   startLine.x = startLine.x / (NUM_PLAYERS + 1);
   startLine.y = startLine.y / (NUM_PLAYERS + 1);
 
+  // round to nearest multiple of 40 so that the cars start on a valid grid point
+  startLine.x = Math.round(startLine.x / 40) * 40;
+  startLine.y = Math.round(startLine.y / 40) * 40;
+
   // ctx.translate(firstDrawingRightPos.x, firstDrawingRightPos.y);
   ctx.setTransform(1, 0, 0, 1, firstDrawingRightPos.x, firstDrawingRightPos.y);
   ctx.rotate(degrees_to_radians(startLineAngle));
@@ -641,7 +654,7 @@ function initRacecars() {
 
       ctx.rotate(degrees_to_radians(-(startLineAngle + 90)));
     };
-    racecarImgs[i].src = `assets/racecar_${i + 1}.png`;
+    racecarImgs[i].src = `assets/racecar-${i + 1}.png`;
 
     // add array for every car with the first position
     racecarsStopsArray.push([
@@ -873,7 +886,7 @@ function drawRacecarsHistory() {
     if (!racecarsStopsArray[i]) continue;
     ctx.beginPath();
     ctx.moveTo(racecarsStopsArray[i][0].x, racecarsStopsArray[i][0].y);
-    for (let j = 1; j < racecarsStopsArray[i].length; i++) {
+    for (let j = 1; j < racecarsStopsArray[i].length - 1; j++) {
       ctx.lineTo(racecarsStopsArray[i][j].x, racecarsStopsArray[i][j].y);
     }
     ctx.lineTo(racecarsPos[i].x, racecarsPos[i].y);
@@ -917,7 +930,7 @@ function drawTrack(drawEndLine = true) {
 
   // if draw race cars history
   if (true) {
-    // drawRacecarsHistory();
+    drawRacecarsHistory();
   }
 }
 
