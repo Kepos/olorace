@@ -68,6 +68,7 @@ let lastMouseMoveEvt;
 const GAME_STATE_DRAWING = 0;
 const GAME_STATE_PICKING = 1;
 const GAME_STATE_RACING = 2;
+const GAME_STATE_END = 3;
 var gameState = GAME_STATE_DRAWING;
 
 let infoPanelTempl;
@@ -224,7 +225,6 @@ window.onload = function () {
               middleTrackPoints[middleTrackPoints.length - 1];
           }
 
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
           drawTrack(false);
 
           infoPanelTempl.querySelector('.info-text').innerHTML =
@@ -243,6 +243,9 @@ window.onload = function () {
       case 'backspace':
         localStorage.removeItem('track');
         break;
+      case 'r':
+        gameState = GAME_STATE_END;
+        replay();
       default:
         break;
     }
@@ -273,6 +276,11 @@ function startRace() {
   gameState = GAME_STATE_PICKING;
   gridPointer.style.backgroundColor = playerColors[0];
   drawGridOptionPointers();
+}
+
+function endGame() {
+  gameState = GAME_STATE_END;
+  replay();
 }
 
 // function isMouseOnGridOptions(mousePos) {
@@ -483,17 +491,13 @@ function animateRacecars() {
       console.log('Next ROund:', currentPlayer);
       if (currentPlayer === -1) {
         // game Over for all
-        replay();
-        // alert('Game Over!');
+        endGame();
       } else {
         gridPointer.style.backgroundColor = playerColors[currentPlayer];
         drawGridOptionPointers();
       }
       return;
     }
-
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     drawTrack();
     drawRacecarsHistory();
@@ -535,13 +539,16 @@ function animateRacecars() {
 
     // Calculate Center Position of all the racecars for camera
     let avgPos = { x: 0, y: 0 };
+    // number of active players
+    let playerNum = 0;
     for (let i = 0; i < NUM_PLAYERS; i++) {
       if (racecarsPos[i].x < 0) continue;
       avgPos.x += racecarsPos[i].x;
       avgPos.y += racecarsPos[i].y;
+      playerNum++;
     }
-    avgPos.x /= NUM_PLAYERS;
-    avgPos.y /= NUM_PLAYERS;
+    avgPos.x /= playerNum;
+    avgPos.y /= playerNum;
 
     window.scrollTo(
       avgPos.x - window.innerWidth / 2,
@@ -590,17 +597,12 @@ function replay() {
         clearInterval(animInterval);
       }
 
-      ctx.setTransform(1, 0, 0, 1, 0, 0);
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
       drawTrack();
-      drawRacecarsHistory(f);
+      // drawRacecarsHistory(f);
 
       for (let i = 0; i < NUM_PLAYERS; i++) {
         // skip this if racecar is dead
-        if (racecarsPos[i].x < 0 || !carVects[i]) continue;
-        if (checkForBoundaryCrash(racecarsPos[i], carVects[i])) {
-          //clearInterval(animInterval);
+        if (racecarsPos[i].x < 0 || !carVects[i]) {
           racecarsPos[i] = {
             x: -500,
             y: -500,
@@ -629,13 +631,15 @@ function replay() {
 
       // Calculate Center Position of all the racecars for camera
       let avgPos = { x: 0, y: 0 };
+      let playerNum = 0;
       for (let i = 0; i < NUM_PLAYERS; i++) {
         if (racecarsPos[i].x < 0) continue;
+        playerNum++;
         avgPos.x += racecarsPos[i].x;
         avgPos.y += racecarsPos[i].y;
       }
-      avgPos.x /= NUM_PLAYERS;
-      avgPos.y /= NUM_PLAYERS;
+      avgPos.x /= playerNum;
+      avgPos.y /= playerNum;
 
       window.scrollTo(
         avgPos.x - window.innerWidth / 2,
@@ -643,13 +647,13 @@ function replay() {
       );
 
       frames++;
-    }, 1000 / ANIMATION_FRAMES);
+    }, 500 / ANIMATION_FRAMES);
 
     f++;
     if (f === replayFrames) {
       clearInterval(replayInterval);
     }
-  }, 1000);
+  }, 500);
 }
 
 function drawRacecars(skipIndex = -1) {
@@ -710,9 +714,6 @@ function animateExplosion(racecarIndex) {
 
     function updateExplosion() {
       console.log('EXPLO INTERVAL');
-      ctx.setTransform(1, 0, 0, 1, 0, 0);
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
       drawTrack();
       drawRacecarsHistory();
       drawRacecars(racecarIndex);
@@ -1103,11 +1104,11 @@ function calculateMousePosTouch(evt, onCanvas = true) {
 function drawRacecarsHistory(upTo = -1) {
   for (let i = 0; i < NUM_PLAYERS; i++) {
     if (!racecarsStopsArray[i]) continue;
-    let max = upTo > -1 ? upTo : racecarsStopsArray[i].length - 1;
-    console.log(max);
+    let max = upTo > -1 ? upTo - 1 : racecarsStopsArray[i].length - 1;
     ctx.beginPath();
     ctx.moveTo(racecarsStopsArray[i][0].x, racecarsStopsArray[i][0].y);
     for (let j = 1; j < max; j++) {
+      if (!racecarsStopsArray[i][j]) break;
       ctx.lineTo(racecarsStopsArray[i][j].x, racecarsStopsArray[i][j].y);
     }
     // Do not draw line to nirvana
@@ -1125,6 +1126,8 @@ function drawRacecarsHistory(upTo = -1) {
 }
 
 function drawTrack(drawEndLine = true) {
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.beginPath();
   ctx.moveTo(rightTrackPoints[0].x, rightTrackPoints[0].y);
   for (let i = 1; i < rightTrackPoints.length; i++) {
