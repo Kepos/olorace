@@ -1,5 +1,5 @@
 let enteredPlayerName = '';
-let selectedCar = '';
+let selectedCarIndex;
 let selectedTrack = '';
 let cars = ['green', 'blue', 'yellow', 'red'];
 let tracks = ['NBG', 'Raincastle', 'Monaco', 'Custom'];
@@ -14,9 +14,12 @@ const onPlayButtonClicked = (sock) => () => {
   let gameSettings = document.getElementsByClassName(
     'game-settings-container'
   )[0];
-  io.gameSettings.style.display = 'none';
+  gameSettings.style.display = 'none';
 
-  sock.emit('message', 'lets play!');
+  // sock.emit('message', 'lets play!');
+  sock.emit('signup', { name: enteredPlayerName, color: selectedCarIndex });
+
+  initGame();
 };
 
 (() => {
@@ -28,7 +31,16 @@ const onPlayButtonClicked = (sock) => () => {
     // sock.emit('message', response);
   });
 
+  sock.on('admin', () => {
+    console.log('You are the admin!');
+    document.getElementById('select-racetrack').style.display = 'inline';
+  });
+
   console.log('welcome');
+
+  document
+    .getElementsByClassName('play-button')[0]
+    .addEventListener('click', onPlayButtonClicked(sock));
 })();
 
 function onNameChanged() {
@@ -50,7 +62,7 @@ function onSelectRacecar(index) {
   cards[index].style.border = '3px solid green';
   // cards[index].style.transform = 'translateY(-10px)';
 
-  selectedCar = cars[index];
+  selectedCarIndex = index;
 
   checkForCompleteData();
 }
@@ -75,7 +87,7 @@ function checkForCompleteData() {
   let playButton = document.getElementsByClassName('play-button')[0];
 
   if (
-    selectedCar &&
+    selectedCarIndex &&
     selectedTrack &&
     enteredPlayerName &&
     enteredPlayerName.length > 1

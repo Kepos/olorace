@@ -65,11 +65,12 @@ var trackDrawingActive = false;
 let lastMouseMoveEvt;
 
 // drawing / choosing / driving
-const GAME_STATE_DRAWING = 0;
-const GAME_STATE_PICKING = 1;
-const GAME_STATE_RACING = 2;
-const GAME_STATE_END = 3;
-var gameState = GAME_STATE_DRAWING;
+const GAME_STATE_SETTINGS = 0;
+const GAME_STATE_DRAWING = 1;
+const GAME_STATE_PICKING = 2;
+const GAME_STATE_RACING = 3;
+const GAME_STATE_END = 4;
+var gameState = GAME_STATE_SETTINGS;
 
 let infoPanelTempl;
 
@@ -196,6 +197,7 @@ window.onload = function () {
   }
 
   window.addEventListener('keydown', (evt) => {
+    if (gameState === GAME_STATE_SETTINGS) return;
     let key = evt.key.toLowerCase();
     console.log('KEY PRESSED: ', key);
     switch (key) {
@@ -251,6 +253,11 @@ window.onload = function () {
     }
   });
 };
+
+function initGame() {
+  console.log('init Game!');
+  gameState = GAME_STATE_DRAWING;
+}
 
 function getNextAvailablePlayer() {
   let nextP = currentPlayer + 1;
