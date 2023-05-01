@@ -52,10 +52,10 @@ const onPlayButtonClicked = (sock) => () => {
     currentPlayer = index;
   });
 
-  sock.on('newPlayer', (player) => {
-    popup(`New Player: ${player.name}`);
-    players[player.index] = player;
-    addPlayersPanelTag(player.index);
+  sock.on('newPlayer', (newplayers) => {
+    popup(`New Player: ${newplayers[newplayers.length - 1].name}`);
+    players = newplayers;
+    setPlayersPanelTags();
   });
 
   sock.on('playerLeft', (index) => {

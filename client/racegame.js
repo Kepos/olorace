@@ -25,7 +25,7 @@ const GRID_OFFSET = CANVAS_MARGIN + CANVAS_PADDING;
 
 var TRACK_WIDTH = 200;
 
-const DRAW_INTERVAL = 10;
+const DRAW_INTERVAL = 50;
 
 var NUM_PLAYERS = 4;
 var playersState = [];
@@ -432,10 +432,13 @@ function popup(text) {
   }, 2000);
 }
 
-function addPlayersPanelTag(index) {
-  playersPanel.innerHTML += `<span id="player-tag-${index}" style="border-bottom: 3px solid ${
-    carColors[players[index].car]
-  }">${players[index].name}${index === currentPlayer ? ' (Du)' : ''}</span>`;
+function setPlayersPanelTags() {
+  playersPanel.innerHTML = '';
+  for (let i = 0; i < players.length; i++) {
+    playersPanel.innerHTML += `<span id="player-tag-${i}" style="border-bottom: 3px solid ${
+      carColors[players[i].car]
+    }">${players[i].name}${i === currentPlayer ? ' (Du)' : ''}</span>`;
+  }
 }
 
 function crossOutPlayersPanelTag(index) {
@@ -743,26 +746,30 @@ function animateRacecars() {
       ctx.rotate(degrees_to_radians(-carVectAngles[i]));
     }
 
-    // Calculate Center Position of all the racecars for camera
-    let avgPos = { x: 0, y: 0 };
-    // number of active players
-    let playerNum = 0;
-    for (let i = 0; i < NUM_PLAYERS; i++) {
-      if (playersState[i] === 0) continue;
-      avgPos.x += racecarsPos[i].x;
-      avgPos.y += racecarsPos[i].y;
-      playerNum++;
-    }
-    avgPos.x /= playerNum;
-    avgPos.y /= playerNum;
-
-    window.scrollTo(
-      avgPos.x - window.innerWidth / 2,
-      avgPos.y - window.innerHeight / 2
-    );
+    cameraToAvgPos();
 
     frames++;
   }, 1000 / ANIMATION_FRAMES);
+}
+
+function cameraToAvgPos() {
+  // Calculate Center Position of all the racecars for camera
+  let avgPos = { x: 0, y: 0 };
+  // number of active players
+  let playerNum = 0;
+  for (let i = 0; i < NUM_PLAYERS; i++) {
+    if (playersState[i] === 0) continue;
+    avgPos.x += racecarsPos[i].x;
+    avgPos.y += racecarsPos[i].y;
+    playerNum++;
+  }
+  avgPos.x /= playerNum;
+  avgPos.y /= playerNum;
+
+  window.scrollTo(
+    avgPos.x - window.innerWidth / 2,
+    avgPos.y - window.innerHeight / 2
+  );
 }
 
 // needs to be refactored: use animateRacecars instead of duplicate code!!
@@ -1102,6 +1109,7 @@ function initRacecars() {
 
   setTimeout(() => {
     ctx.setTransform(1, 0, 0, 1, 0, 0);
+    cameraToAvgPos();
   }, 1000);
 }
 

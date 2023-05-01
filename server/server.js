@@ -14,6 +14,7 @@ const { addPlayer, addMove, getMoves, setTrack, getTrack, restart } =
 
 let admin;
 let players = [];
+let playerObjs = [];
 let deadPlayers = [];
 let playersMoves = [];
 
@@ -63,9 +64,10 @@ io.on('connection', (sock) => {
     console.log(`new player: ${player.name} ${player.car}`);
     playerIndex = players.length;
     players.push(playerID);
+    playerObjs[playerIndex] = player;
     sock.emit('playerindex', playerIndex);
     player.index = playerIndex;
-    io.emit('newPlayer', player);
+    io.emit('newPlayer', playerObjs);
   });
 
   sock.on('track', (track) => {
@@ -130,6 +132,7 @@ io.on('connection', (sock) => {
     if (players.length === 0) {
       admin = null;
       players = [];
+      playerObjs = [];
       deadPlayers = [];
       playersMoves = [];
       acceptNewPlayers = true;
@@ -139,6 +142,7 @@ io.on('connection', (sock) => {
   sock.on('restart', () => {
     admin = null;
     players = [];
+    playerObjs = [];
     deadPlayers = [];
     playersMoves = [];
     acceptNewPlayers = true;
