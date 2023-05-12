@@ -25,7 +25,7 @@ const GRID_OFFSET = CANVAS_MARGIN + CANVAS_PADDING;
 
 var TRACK_WIDTH = 200;
 
-const DRAW_INTERVAL = 50;
+const DRAW_INTERVAL = 15;
 
 var NUM_PLAYERS = 4;
 var playersState = [];
