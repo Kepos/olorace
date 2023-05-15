@@ -33,7 +33,7 @@ function allPlayersSelectedNextMove() {
   console.log('all playes selected?');
   console.log('playersmoveslength', playersMoves.filter((v) => v).length);
   console.log('players', players.length);
-  console.log('dead players', deadPlayers.length);
+  console.log('dead players', deadPlayers);
   return (
     playersMoves.filter((v) => v).length >= players.length - deadPlayers.length
   );
@@ -94,6 +94,7 @@ io.on('connection', (sock) => {
   });
 
   sock.on('death', (index) => {
+    console.log('player died: ', index, players[index]);
     if (!deadPlayers.includes(players[index])) {
       deadPlayers.push(players[index]);
     }

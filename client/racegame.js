@@ -703,7 +703,7 @@ function animateRacecars() {
         case 2:
           setWinner(i);
           if (i === currentPlayer) {
-            uploadDeath();
+            uploadDeath(i);
           }
           break;
         case 3:
@@ -718,7 +718,7 @@ function animateRacecars() {
           };
           playersState[i] = 0;
           if (i === currentPlayer) {
-            uploadDeath();
+            uploadDeath(i);
           }
           crossOutPlayersPanelTag(i);
           continue;
