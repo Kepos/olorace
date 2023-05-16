@@ -18,6 +18,8 @@ let playerObjs = [];
 let deadPlayers = [];
 let playersMoves = [];
 
+// block setting new admin for game restart
+let blockNewAdmin = false;
 let acceptNewPlayers = true;
 
 function getNextFreeIndex() {
@@ -49,7 +51,7 @@ io.on('connection', (sock) => {
   console.log('someone connected:', playerID);
   sock.emit('message', 'You are connected!!');
 
-  if (!admin) {
+  if (!admin && !blockNewAdmin) {
     admin = playerID;
     sock.emit('admin');
   }
@@ -61,6 +63,10 @@ io.on('connection', (sock) => {
   sock.on('message', (text) => console.log(`got text: ${text}`));
 
   sock.on('signup', (player) => {
+    if (!acceptNewPlayers) {
+      sock.emit('nosignup');
+      return;
+    }
     console.log(`new player: ${player.name} ${player.car}`);
     playerIndex = players.length;
     players.push(playerID);
@@ -141,6 +147,9 @@ io.on('connection', (sock) => {
   });
 
   sock.on('restart', () => {
+    if (blockNewAdmin) {
+      return;
+    }
     admin = null;
     players = [];
     playerObjs = [];
@@ -148,7 +157,14 @@ io.on('connection', (sock) => {
     playersMoves = [];
     acceptNewPlayers = true;
 
-    io.emit('restart');
+    blockNewAdmin = true;
+    sock.broadcast.emit('restart');
+
+    // Sender shall be new admin, therefore timeout
+    setTimeout(() => {
+      blockNewAdmin = false;
+      sock.emit('restart');
+    }, 2000);
   });
 });
 

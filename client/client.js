@@ -45,7 +45,13 @@ const onPlayButtonClicked = (sock) => () => {
   sock.on('nosignup', () => {
     console.log('no signup!');
     let sic = document.getElementsByClassName('settings-input-container')[0];
-    sic.innerHTML = 'Spiel ist im Gange. Gerade kein Zutritt möglich';
+    sic.innerHTML = `
+    <span>Spiel ist im Gange. Gerade kein Zutritt möglich</span>
+    `;
+
+    let visitorPanel = document.getElementById('visitor-panel');
+    console.log(visitorPanel);
+    visitorPanel.style.display = 'flex';
   });
 
   sock.on('playerindex', (index) => {
@@ -108,6 +114,8 @@ const onPlayButtonClicked = (sock) => () => {
   };
 
   restartGame = () => {
+    let rp = document.getElementById('restart-panel');
+    rp.style.display = 'flex';
     sock.emit('restart');
   };
 })();
