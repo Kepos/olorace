@@ -1,4 +1,5 @@
 let isAdmin = false;
+let playerName = '';
 
 let uploadNextTrackPoint;
 
@@ -13,8 +14,27 @@ const onBuzzerClicked = (sock) => () => {
   sock.emit('Buzzer', name);
 };
 
+const onLoginButtonClicked = (sock) => () => {
+  // sock.emit('message', 'lets play!');
+  let name = document.getElementById('player-name-input').value.trim();
+  let team = document.getElementById('team-selection').value;
+  if (name.length < 2) {
+    alert('Bitte Namen eingeben');
+    return;
+  }
+  console.log({ name: name, team: team });
+  sock.emit('Login', { name: name, team: team });
+};
+
 (() => {
   const sock = io();
+
+  document
+    .getElementsByClassName('play-button')[0]
+    .addEventListener('click', onBuzzerClicked(sock));
+  document
+    .getElementById('login-button')
+    .addEventListener('click', onLoginButtonClicked(sock));
 
   sock.on('message', (text) => {});
 
@@ -29,10 +49,6 @@ const onBuzzerClicked = (sock) => () => {
   });
 
   console.log('welcome');
-
-  document
-    .getElementsByClassName('play-button')[0]
-    .addEventListener('click', onBuzzerClicked(sock));
 
   uploadNextTrackPoint = (mousePos) => {
     sock.emit('nextTrackPoint', mousePos);

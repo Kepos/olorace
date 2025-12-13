@@ -44,6 +44,15 @@ h2 {
   margin: 0px -7px 60px;
 }
 
+h3 {
+  font-family: 'Monotalic';
+  color: white;
+  text-align: center;
+  line-height: 0.9;
+  font-size: 30px;
+  margin: 0px -7px 30px;
+}
+
 .game-container {
   background-image: url('./assets/winternight.jpg');
   background-blend-mode: overlay;

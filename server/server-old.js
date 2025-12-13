@@ -9,7 +9,8 @@ app.use(express.static(`${__dirname}/../client`, { index: 'player.html' }));
 
 const server = http.createServer(app);
 const io = socketio(server);
-// const { addPlayer, addMove, getMoves, setTrack, getTrack, restart } = createGame();
+const { addPlayer, addMove, getMoves, setTrack, getTrack, restart } =
+  createGame();
 
 let admin;
 let players = [];

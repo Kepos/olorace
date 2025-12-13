@@ -49,6 +49,29 @@
         Please wait...
       </div>
 
+      <!-- Login Screen -->
+      <div id="login-screen" class="hidden mt-3 text-3xl">
+        <h3>Wer bist du?</h3>
+        <input
+          id="player-name-input"
+          type="text"
+          maxlength="10"
+          class="bg-white text-black"
+        />
+        <select id="team-selection" class="bg-white text-black mt-5">
+          <option value="1">Team 1</option>
+          <option value="2">Team 2</option>
+          <option value="3">Team 3</option>
+          <option value="4">Team 4</option>
+        </select>
+        <button
+          id="login-button"
+          class="w-full text-2xl text-black p-3 rounded-2xl bg-[#ce5bd3] mt-10 mb-10"
+        >
+          Einloggen
+        </button>
+      </div>
+
       <!-- Game #2 Umfragewerte -->
       <div id="game-umfragewerte" class="hidden font-[Monotalic]">
         <span class="text-3xl mb-12 mt-20 inline-block">Bist du ein Affe?</span>
@@ -64,7 +87,90 @@
         </button>
       </div>
 
-      <!-- Game #9 MapFinder -->
+      <!-- Game #11 Creative Writing -->
+      <div id="game-creative-writing" class="hidden font-[Monotalic] w-full">
+        <div class="flex flex-col space-y-2 w-full">
+          <label class="cursor-pointer">
+            <input type="radio" name="word" class="hidden peer" />
+            <span
+              class="block px-4 py-2 border rounded-md peer-checked:ring-2 peer-checked:ring-yellow-400 hover:ring-2 hover:ring-yellow-200"
+            >
+              Deine Mudder wird niemals verstehen was das Problem dabei ist
+              alter
+            </span>
+          </label>
+
+          <label class="cursor-pointer">
+            <input type="radio" name="word" class="hidden peer" />
+            <span
+              class="block px-4 py-2 border rounded-md peer-checked:ring-2 peer-checked:ring-yellow-400 hover:ring-2 hover:ring-yellow-200"
+            >
+              Banane
+            </span>
+          </label>
+
+          <label class="cursor-pointer">
+            <input type="radio" name="word" class="hidden peer" />
+            <span
+              class="block px-4 py-2 border rounded-md peer-checked:ring-2 peer-checked:ring-yellow-400 hover:ring-2 hover:ring-yellow-200"
+            >
+              Kirsche
+            </span>
+          </label>
+
+          <label class="cursor-pointer">
+            <input type="radio" name="word" class="hidden peer" />
+            <span
+              class="block px-4 py-2 border rounded-md peer-checked:ring-2 peer-checked:ring-yellow-400 hover:ring-2 hover:ring-yellow-200"
+            >
+              Orange
+            </span>
+          </label>
+
+          <label class="cursor-pointer">
+            <input type="radio" name="word" class="hidden peer" />
+            <span
+              class="block px-4 py-2 border rounded-md peer-checked:ring-2 peer-checked:ring-yellow-400 hover:ring-2 hover:ring-yellow-200"
+            >
+              Melone
+            </span>
+          </label>
+
+          <label class="cursor-pointer">
+            <input type="radio" name="word" class="hidden peer" />
+            <span
+              class="block px-4 py-2 border rounded-md peer-checked:ring-2 peer-checked:ring-yellow-400 hover:ring-2 hover:ring-yellow-200"
+            >
+              Traube
+            </span>
+          </label>
+
+          <label class="cursor-pointer">
+            <input type="radio" name="word" class="hidden peer" />
+            <span
+              class="block px-4 py-2 border rounded-md peer-checked:ring-2 peer-checked:ring-yellow-400 hover:ring-2 hover:ring-yellow-200"
+            >
+              Pfirsich
+            </span>
+          </label>
+
+          <label class="cursor-pointer">
+            <input type="radio" name="word" class="hidden peer" />
+            <span
+              class="block px-4 py-2 border rounded-md peer-checked:ring-2 peer-checked:ring-yellow-400 hover:ring-2 hover:ring-yellow-200"
+            >
+              Birne
+            </span>
+          </label>
+        </div>
+        <button
+          class="w-full text-2xl text-black p-3 rounded-2xl bg-[#ce5bd3] mt-10 mb-10"
+        >
+          Absenden
+        </button>
+      </div>
+
+      <!-- Game #6 MapFinder -->
       <div id="game-mapfinder" class="hidden font-[Monotalic] w-full">
         <span class="text-3xl mb-8 inline-block">MapFinder</span>
         <div id="map"></div>
@@ -72,6 +178,47 @@
           class="w-full text-2xl text-black p-3 rounded-2xl bg-[#ce5bd3] mt-10 mb-10"
         >
           Absenden
+        </button>
+      </div>
+
+      <!-- Game #9 TeamGuessing -->
+      <div id="game-teamguessing" class="hidden font-[Monotalic] w-full">
+        <span class="text-3xl mb-8 inline-block"
+          >Wieviel wiegt ein Elefant?</span
+        >
+        <input
+          type="number"
+          class="bg-white rounded-2xl text-black text-5xl text-center w-full"
+        />
+        <button
+          class="w-full text-2xl text-black p-3 rounded-2xl bg-[#ce5bd3] mt-10 mb-10"
+        >
+          Absenden
+        </button>
+      </div>
+
+      <!-- Game #10 Multiple Choice -->
+      <div id="game-multiple-choice" class="hidden">
+        <span class="text-3xl mb-12 inline-block">WER IST DER KING?</span>
+        <button
+          class="w-full text-left text-2xl p-5 border-3 rounded-2xl text-black bg-yellow-300 border-yellow-100 mb-4"
+        >
+          A: Niemand
+        </button>
+        <button
+          class="w-full text-left text-2xl p-5 border-3 rounded-2xl text-black bg-yellow-300 border-yellow-100 mb-4"
+        >
+          B: Du
+        </button>
+        <button
+          class="w-full text-left text-2xl p-5 border-3 rounded-2xl text-black bg-yellow-300 border-yellow-100 mb-4"
+        >
+          C: Ich
+        </button>
+        <button
+          class="w-full text-left text-2xl p-5 border-3 rounded-2xl text-black bg-yellow-300 border-yellow-100 mb-4"
+        >
+          D: Deine Mudder
         </button>
       </div>
     </div>
@@ -88,9 +235,11 @@
     }
   </style>
   <script>
+    var map;
+
     function setMap() {
       // Map init
-      var map = L.map('map').setView([49.49, 11.11], 3);
+      map = L.map('map').setView([49.49, 11.11], 3);
       //   L.tileLayer(
       //     'https://tiles.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png',
       //     {
@@ -144,7 +293,7 @@
           currentViewID = 'buzzer';
           break;
         case -2:
-          currentViewID = 'leaderboard';
+          currentViewID = 'login-screen';
           break;
         case -1:
           currentViewID = 'points-panel';
@@ -202,7 +351,7 @@
       map.invalidateSize();
     }
 
-    CURRENT_VIEW = -3;
+    CURRENT_VIEW = -2;
     changeView(CURRENT_VIEW);
   </script>
 </html>
