@@ -23,15 +23,16 @@
     <div
       class="flex flex-col items-center justify-start h-full pt-56 game-container"
     >
-      <h1 class="absolute top-20" onclick="changeView(0)">
+      <h1 class="absolute top-20" onclick="onBackToPanelButtonClicked()">
         o holy<br />
         <span class="text-[#d5d514]"
           >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gamenight!</span
-        >
+        ><br />
+        <span class="text-white">admin</span>
       </h1>
 
       <!-- Table + Current Game Container -->
-      <div id="games-panel" class="flex flex-row w-full p-10">
+      <div id="host-view" class="flex flex-row w-full p-10">
         <!-- Player Table -->
         <div id="player-table" class="flex-1 text-center hiddden">
           <!-- Tabelle: 16 Reihen x 3 Spalten (kein Header) -->
@@ -136,184 +137,219 @@
                 src="./assets/CueCard.png"
                 alt="Bild 1"
                 class="rounded-lg w-[350px] bg-blue-700"
-                onclick="changeView(1)"
+                onclick="onGameCardClicked(1)"
               />
               <img
                 src="./assets/CueCard.png"
                 alt="Bild 2"
                 class="rounded-lg w-[350px] bg-blue-700"
+                onclick="onGameCardClicked(2)"
               />
               <img
                 src="./assets/CueCard.png"
                 alt="Bild 3"
                 class="rounded-lg w-[350px] bg-blue-700"
+                onclick="onGameCardClicked(3)"
               />
               <img
                 src="./assets/CueCard.png"
                 alt="Bild 4"
                 class="rounded-lg w-[350px] bg-blue-700"
+                onclick="onGameCardClicked(4)"
               />
 
               <img
                 src="./assets/CueCard.png"
                 alt="Bild 5"
                 class="rounded-lg w-[350px] bg-blue-700"
-                onclick="changeView(2)"
+                onclick="onGameCardClicked(5)"
               />
               <img
                 src="./assets/CueCard.png"
                 alt="Bild 6"
                 class="rounded-lg w-[350px] bg-blue-700"
-                onclick="changeView(3)"
+                onclick="onGameCardClicked(6)"
               />
               <img
                 src="./assets/CueCard.png"
                 alt="Bild 7"
                 class="rounded-lg w-[350px] bg-blue-700"
-                onclick="changeView(4)"
+                onclick="onGameCardClicked(7)"
               />
               <img
                 src="./assets/CueCard.png"
                 alt="Bild 8"
                 class="rounded-lg w-[350px] bg-blue-700"
-                onclick="changeView(5)"
+                onclick="onGameCardClicked(8)"
               />
 
               <img
                 src="./assets/CueCard.png"
                 alt="Bild 9"
                 class="rounded-lg w-[350px] bg-blue-700"
-                onclick="changeView(6)"
+                onclick="onGameCardClicked(9)"
               />
               <img
                 src="./assets/CueCard.png"
                 alt="Bild 10"
                 class="rounded-lg w-[350px] bg-blue-700"
-                onclick="changeView(7)"
+                onclick="onGameCardClicked(10)"
               />
               <img
                 src="./assets/CueCard.png"
                 alt="Bild 11"
                 class="rounded-lg w-[350px] bg-blue-700"
-                onclick="changeView(8)"
+                onclick="onGameCardClicked(11)"
               />
               <img
                 src="./assets/CueCard.png"
                 alt="Bild 12"
                 class="rounded-lg w-[350px] bg-blue-700"
-                onclick="changeView(9)"
+                onclick="onGameCardClicked(12)"
               />
 
               <img
                 src="./assets/CueCard.png"
                 alt="Bild 13"
                 class="rounded-lg w-[350px] bg-blue-700"
-                onclick="changeView(10)"
+                onclick="onGameCardClicked(13)"
               />
               <img
                 src="./assets/CueCard.png"
                 alt="Bild 14"
                 class="rounded-lg w-[350px] bg-blue-700"
-                onclick="changeView(11)"
+                onclick="onGameCardClicked(14)"
               />
               <img
                 src="./assets/CueCard.png"
                 alt="Bild 15"
                 class="rounded-lg w-[350px] bg-blue-700"
-                onclick="changeView(12)"
+                onclick="onGameCardClicked(15)"
               />
               <img
                 src="./assets/CueCard.png"
                 alt="Bild 16"
                 class="rounded-lg w-[350px] bg-blue-700"
-                onclick="changeView(13)"
+                onclick="onGameCardClicked(16)"
               />
             </div>
             <div class="flex flex-row justify-between mt-12 space-x-5">
               <div class="flex-1 text-center">
                 <span class="team-name-label">Team 1</span><br />
                 <input
+                  id="team-score-input-1"
                   type="number"
                   class="py-4 text-xl text-center text-black bg-white w-28 rounded-2xl"
                   value="0"
                 />
                 <div class="flex flex-row w-full mt-3 space-x-2">
-                  <button class="flex-1 bg-green-700 cursor-pointer">
+                  <button
+                    class="flex-1 bg-green-700 cursor-pointer"
+                    onclick="incrementScore('team-score-input-1', 100)"
+                  >
                     +50
                   </button>
-                  <button class="flex-1 bg-green-700 cursor-pointer">
-                    +50
+                  <button
+                    class="flex-1 bg-green-700 cursor-pointer"
+                    onclick="incrementScore('team-score-input-1', 50)"
+                  >
+                    +100
                   </button>
                 </div>
                 <button
                   id="login-button1"
                   class="cursor-pointer text-xl text-black px-10 py-1 rounded-2xl bg-[#ce5bd3] mt-10 mb-10"
+                  onclick="onScoreSendButtonClicked(1)"
                 >
                   Senden
                 </button>
               </div>
               <div class="flex-1 text-center">
-                <span class="team-name-label">Team 1</span><br />
+                <span class="team-name-label">Team 2</span><br />
                 <input
+                  id="team-score-input-2"
                   type="number"
                   class="py-4 text-xl text-center text-black bg-white w-28 rounded-2xl"
                   value="0"
                 />
                 <div class="flex flex-row w-full mt-3 space-x-2">
-                  <button class="flex-1 bg-green-700 cursor-pointer">
+                  <button
+                    class="flex-1 bg-green-700 cursor-pointer"
+                    onclick="incrementScore('team-score-input-2', 50)"
+                  >
                     +50
                   </button>
-                  <button class="flex-1 bg-green-700 cursor-pointer">
-                    +50
+                  <button
+                    class="flex-1 bg-green-700 cursor-pointer"
+                    onclick="incrementScore('team-score-input-2', 100)"
+                  >
+                    +100
                   </button>
                 </div>
                 <button
                   id="login-button1"
                   class="cursor-pointer text-xl text-black px-10 py-1 rounded-2xl bg-[#ce5bd3] mt-10 mb-10"
+                  onclick="onScoreSendButtonClicked(2)"
                 >
                   Senden
                 </button>
               </div>
               <div class="flex-1 text-center">
-                <span class="team-name-label">Team 1</span><br />
+                <span class="team-name-label">Team 3</span><br />
                 <input
+                  id="team-score-input-3"
                   type="number"
                   class="py-4 text-xl text-center text-black bg-white w-28 rounded-2xl"
                   value="0"
                 />
                 <div class="flex flex-row w-full mt-3 space-x-2">
-                  <button class="flex-1 bg-green-700 cursor-pointer">
+                  <button
+                    class="flex-1 bg-green-700 cursor-pointer"
+                    onclick="incrementScore('team-score-input-3', 50)"
+                  >
                     +50
                   </button>
-                  <button class="flex-1 bg-green-700 cursor-pointer">
-                    +50
+                  <button
+                    class="flex-1 bg-green-700 cursor-pointer"
+                    onclick="incrementScore('team-score-input-3', 100)"
+                  >
+                    +100
                   </button>
                 </div>
                 <button
                   id="login-button1"
                   class="cursor-pointer text-xl text-black px-10 py-1 rounded-2xl bg-[#ce5bd3] mt-10 mb-10"
+                  onclick="onScoreSendButtonClicked(3)"
                 >
                   Senden
                 </button>
               </div>
               <div class="flex-1 text-center">
-                <span class="team-name-label">Team 1</span><br />
+                <span class="team-name-label">Team 4</span><br />
                 <input
+                  id="team-score-input-4"
                   type="number"
                   class="py-4 text-xl text-center text-black bg-white w-28 rounded-2xl"
                   value="0"
                 />
                 <div class="flex flex-row w-full mt-3 space-x-2">
-                  <button class="flex-1 bg-green-700 cursor-pointer">
+                  <button
+                    class="flex-1 bg-green-700 cursor-pointer"
+                    onclick="incrementScore('team-score-input-4', 50)"
+                  >
                     +50
                   </button>
-                  <button class="flex-1 bg-green-700 cursor-pointer">
-                    +50
+                  <button
+                    class="flex-1 bg-green-700 cursor-pointer"
+                    onclick="incrementScore('team-score-input-4', 100)"
+                  >
+                    +100
                   </button>
                 </div>
                 <button
                   id="login-button1"
                   class="cursor-pointer text-xl text-black px-10 py-1 rounded-2xl bg-[#ce5bd3] mt-10 mb-10"
+                  onclick="onScoreSendButtonClicked(4)"
                 >
                   Senden
                 </button>
@@ -468,6 +504,11 @@
     }
   </style>
   <script>
+    function incrementScore(inputId, amount) {
+      const input = document.getElementById(inputId);
+      input.value = Number(input.value) + amount;
+    }
+
     let CURRENT_VIEW = 0;
     let currentViewID = '';
 
@@ -483,7 +524,7 @@
           currentViewID = 'points-panel';
           break;
         case 0:
-          currentViewID = 'player-table';
+          currentViewID = 'games-panel';
           break;
         case 1:
           currentViewID = 'game-quiz-question';
@@ -534,7 +575,7 @@
       document.getElementById(currentViewID).classList.remove('hidden');
     }
 
-    CURRENT_VIEW = 1;
+    CURRENT_VIEW = 0;
     changeView(CURRENT_VIEW);
   </script>
 </html>

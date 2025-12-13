@@ -75,6 +75,23 @@ io.on('connection', (sock) => {
     });
   });
 
+  sock.on('new-game', (number, callback) => {
+    console.log(`start new Game, no: ${number}`);
+    io.emit('new-game', number);
+    callback({
+      status: 'ok',
+    });
+  });
+
+  sock.on('new-score', (teamNo, score) => {
+    io.emit('new-score', teamNo, score);
+  });
+
+  sock.on('back-to-panel', (callback) => {
+    io.emit('back-to-panel');
+    callback({ status: 'ok' });
+  });
+
   sock.on('signup', (player) => {
     if (!acceptNewPlayers) {
       sock.emit('nosignup');

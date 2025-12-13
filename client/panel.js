@@ -27,15 +27,27 @@ const onPlayButtonClicked = (sock) => () => {
     document.getElementById('namelabel').innerHTML = name + ' buzzered!';
   });
 
+  sock.on('new-game', (number) => {
+    startGameAnimation(number);
+  });
+
+  sock.on('new-score', (teamNo, score) => {
+    animateCounter('score-' + teamNo, score, 2000); // id, Zielwert, Dauer in ms
+  });
+
+  sock.on('back-to-panel', () => {
+    changeView(0); // id, Zielwert, Dauer in ms
+  });
+
   sock.on('restart', () => {
     location.reload();
   });
 
   console.log('welcome');
 
-  document
-    .getElementsByClassName('play-button')[0]
-    .addEventListener('click', onPlayButtonClicked(sock));
+  //   document
+  //     .getElementsByClassName('play-button')[0]
+  //     .addEventListener('click', onPlayButtonClicked(sock));
 
   uploadNextTrackPoint = (mousePos) => {
     sock.emit('nextTrackPoint', mousePos);

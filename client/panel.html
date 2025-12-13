@@ -33,7 +33,7 @@
         id="game-name"
         class="flex flex-col items-center hidden w-full mt-40"
       >
-        <div class="wave-container">
+        <div id="wave-container-1" class="wave-container">
           <svg class="wave" viewBox="0 0 1200 100" preserveAspectRatio="none">
             <path
               class="wave-path-2"
@@ -47,14 +47,14 @@
             />
           </svg>
         </div>
-        <h3
-          id="animated-header"
+        <span
+          id="animated-game-name"
           class="text-[100px] -rotate-3 transform rotat font-[Monotalic]"
         >
           Team&nbsp;Guessing!
-        </h3>
+        </span>
 
-        <div class="wave-container">
+        <div id="wave-container-2" class="wave-container">
           <svg class="wave" viewBox="0 0 1200 100" preserveAspectRatio="none">
             <path
               class="wave-path"
@@ -194,15 +194,15 @@
           </div>
           <div class="flex-1 text-center">
             <span class="team-name-label">Team Suff000</span><br />
-            <span class="team-score-label">0</span>
+            <span id="score-2" class="team-score-label">0</span>
           </div>
           <div class="flex-1 text-center">
             <span class="team-name-label">Team 1</span><br />
-            <span class="team-score-label">0</span>
+            <span id="score-3" class="team-score-label">0</span>
           </div>
           <div class="flex-1 text-center">
             <span class="team-name-label">Team 1</span><br />
-            <span class="team-score-label">0</span>
+            <span id="score-4" class="team-score-label">0</span>
           </div>
         </div>
       </div>
@@ -610,15 +610,15 @@
 
     .wave-path {
       stroke: #f5ff34;
-      stroke-width: 20;
+      stroke-width: 15px;
       fill: none;
-      animation: waveMove 0.8s linear infinite;
+      animation: waveMorve 0.8s linear infinite;
     }
     .wave-path-2 {
       stroke: #f5ff34;
-      stroke-width: 20;
+      stroke-width: 15px;
       fill: none;
-      animation: waveMove 0.8s -0.5s linear infinite;
+      animation: waveMorve 0.8s -0.5s linear infinite;
     }
 
     @keyframes waveMove {
@@ -630,9 +630,77 @@
       }
     }
 
+    .wave-path-move {
+      transform: translateY(100px) scaleY(1.5);
+      animation: waveMoveUp 3s cubic-bezier(1, 0, 0, 1) forwards;
+    }
+
+    .wave-path-2-move {
+      transform: translateY(-100px) scaleY(1.5);
+      animation: waveMoveDown 3s cubic-bezier(1, 0, 0, 1) forwards;
+    }
+
+    @keyframes waveMoveUp {
+      0% {
+        transform: translateY(100px) scaleY(1.5);
+      }
+      100% {
+        transform: translateY(0px) scaleY(1.5);
+      }
+    }
+
+    @keyframes waveMoveDown {
+      0% {
+        transform: translateY(-100px) scaleY(1.5);
+      }
+      100% {
+        transform: translateY(0px) scaleY(1.5);
+      }
+    }
+
     #map {
       height: 680px;
       width: 1200px;
+    }
+
+    @keyframes blink {
+      0%,
+      50%,
+      100% {
+        opacity: 1;
+      }
+      25%,
+      75% {
+        opacity: 0;
+      }
+    }
+
+    .blink {
+      animation: blink 2s;
+    }
+
+    .grayscale {
+      filter: grayscale(100%);
+      transition: filter 0.3s;
+    }
+
+    @keyframes growShrinkFade {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.1);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(0.9);
+        opacity: 0;
+      }
+    }
+
+    .grid-grow-shrink {
+      animation: growShrinkFade 1s forwards ease-out;
     }
   </style>
   <script>
@@ -657,8 +725,6 @@
 
       requestAnimationFrame(update);
     }
-    // Beispiel:
-    animateCounter('score-1', 1033, 2000); // id, Zielwert, Dauer in ms
 
     // Map init
     var map = L.map('map').setView([49.49, 11.11], 3);
@@ -704,6 +770,39 @@
       map.invalidateSize();
     }, 200);
 
+    function startGameAnimation(index) {
+      const grid = document.querySelector('#games-panel .grid');
+      const images = grid.querySelectorAll('img');
+      const img = images[index - 1];
+
+      // Bild blinkt zweimal
+      img.classList.add('blink');
+
+      img.addEventListener('animationend', function handleBlink() {
+        const panel = document.getElementById('games-panel');
+        img.classList.remove('blink');
+        img.removeEventListener('animationend', handleBlink);
+
+        // Grid Animation
+        panel.classList.add('grid-grow-shrink');
+
+        panel.addEventListener('animationend', function handleGrid(e) {
+          console.log(e.animationName);
+          if (e.animationName !== 'growShrinkFade') return;
+          panel.classList.remove('grid-grow-shrink');
+          panel.classList.add('hidden'); // Grid verstecken
+          img.classList.add('grayscale');
+          panel.removeEventListener('animationend', handleGrid);
+          setTimeout(() => {
+            document.getElementById('animated-game-name').innerHTML =
+              'No. ' + index + ' Game!';
+            changeView(-3);
+            animateGameName();
+          }, 1000);
+        });
+      });
+    }
+
     //Fade in Images
     const images = document.querySelectorAll(
       '#games-panel img, #game-quiz-question img'
@@ -714,20 +813,29 @@
       }, (i % 16) * 200); // jedes Bild 200ms später
     });
 
-    // ANimate Game Name
-    const header = document.getElementById('animated-header');
-    const text = header.textContent;
-    header.textContent = ''; // Ursprünglichen Text löschen
+    function animateGameName() {
+      // ANimate Game Name
+      const header = document.getElementById('animated-game-name');
+      const text = header.textContent;
+      header.textContent = ''; // Ursprünglichen Text löschen
 
-    text.split('').forEach((char, index) => {
-      const span = document.createElement('span');
-      span.textContent = char;
-      let letter = index % 2 == 0 ? 'letter' : 'letter text-[#d5d514]';
-      span.className = letter;
-      // Verzögerung für jeden Buchstaben
-      span.style.animationDelay = `${index * 0.1}s`;
-      header.appendChild(span);
-    });
+      text.split('').forEach((char, index) => {
+        const span = document.createElement('span');
+        span.textContent = char;
+        let letter = index % 2 == 0 ? 'letter' : 'letter text-[#d5d514]';
+        span.className = letter;
+        // Verzögerung für jeden Buchstaben
+        span.style.animationDelay = `${2 + index * 0.1}s`;
+        header.appendChild(span);
+      });
+
+      document
+        .getElementById('wave-container-1')
+        .classList.add('wave-path-move');
+      document
+        .getElementById('wave-container-2')
+        .classList.add('wave-path-2-move');
+    }
 
     let CURRENT_VIEW = 0;
     let currentViewID = '';
@@ -796,7 +904,7 @@
       map.invalidateSize();
     }
 
-    CURRENT_VIEW = 11;
+    CURRENT_VIEW = 0;
     changeView(CURRENT_VIEW);
   </script>
 </html>

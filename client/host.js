@@ -15,8 +15,23 @@ const onPlayButtonClicked = (sock) => () => {
 };
 
 function onGameCardClicked(number) {
-  sock.emit('new-game', number, () => {
-    changeView(number);
+  sock.emit('new-game', number, (response) => {
+    if (response.status == 'ok') {
+      changeView(number);
+    }
+  });
+}
+
+function onScoreSendButtonClicked(teamNo) {
+  let score = document.getElementById(`team-score-input-${teamNo}`).value;
+  sock.emit('new-score', teamNo, score);
+}
+
+function onBackToPanelButtonClicked() {
+  sock.emit('back-to-panel', (response) => {
+    if (response.status == 'ok') {
+      changeView(0);
+    }
   });
 }
 
