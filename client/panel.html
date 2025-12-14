@@ -29,46 +29,6 @@
           >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gamenight!</span
         >
       </h1>
-      <div
-        id="game-name"
-        class="flex flex-col items-center hidden w-full mt-40"
-      >
-        <div id="wave-container-1" class="wave-container">
-          <svg class="wave" viewBox="0 0 1200 100" preserveAspectRatio="none">
-            <path
-              class="wave-path-2"
-              d="M0 50 C 100 0 200 100 300 50 
-                               C 400 0 500 100 600 50 
-                               C 700 0 800 100 900 50 
-                               C 1000 0 1100 100 1200 50"
-              stroke="#ff6f61"
-              stroke-width="6"
-              fill="none"
-            />
-          </svg>
-        </div>
-        <span
-          id="animated-game-name"
-          class="text-[100px] -rotate-3 transform rotat font-[Monotalic]"
-        >
-          Team&nbsp;Guessing!
-        </span>
-
-        <div id="wave-container-2" class="wave-container">
-          <svg class="wave" viewBox="0 0 1200 100" preserveAspectRatio="none">
-            <path
-              class="wave-path"
-              d="M0 50 C 100 0 200 100 300 50 
-                               C 400 0 500 100 600 50 
-                               C 700 0 800 100 900 50 
-                               C 1000 0 1100 100 1200 50"
-              stroke="#ff6f61"
-              stroke-width="6"
-              fill="none"
-            />
-          </svg>
-        </div>
-      </div>
 
       <div id="buzzer" class="absolute hidden top-64 left-64">
         <div class="relative w-76 h-76">
@@ -87,470 +47,526 @@
         </div>
       </div>
 
-      <!-- Games Panel -->
-      <div id="games-panel" class="hidden">
-        <div class="grid grid-cols-4 gap-4">
-          <img
-            src="./assets/CueCard.png"
-            alt="Bild 1"
-            class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
-            onclick="changeView(1)"
-          />
-          <img
-            src="./assets/CueCard.png"
-            alt="Bild 2"
-            class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
-          />
-          <img
-            src="./assets/CueCard.png"
-            alt="Bild 3"
-            class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
-          />
-          <img
-            src="./assets/CueCard.png"
-            alt="Bild 4"
-            class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
-          />
-
-          <img
-            src="./assets/CueCard.png"
-            alt="Bild 5"
-            class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
-            onclick="changeView(2)"
-          />
-          <img
-            src="./assets/CueCard.png"
-            alt="Bild 6"
-            class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
-            onclick="changeView(3)"
-          />
-          <img
-            src="./assets/CueCard.png"
-            alt="Bild 7"
-            class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
-            onclick="changeView(4)"
-          />
-          <img
-            src="./assets/CueCard.png"
-            alt="Bild 8"
-            class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
-            onclick="changeView(5)"
-          />
-
-          <img
-            src="./assets/CueCard.png"
-            alt="Bild 9"
-            class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
-            onclick="changeView(6)"
-          />
-          <img
-            src="./assets/CueCard.png"
-            alt="Bild 10"
-            class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
-            onclick="changeView(7)"
-          />
-          <img
-            src="./assets/CueCard.png"
-            alt="Bild 11"
-            class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
-            onclick="changeView(8)"
-          />
-          <img
-            src="./assets/CueCard.png"
-            alt="Bild 12"
-            class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
-            onclick="changeView(9)"
-          />
-
-          <img
-            src="./assets/CueCard.png"
-            alt="Bild 13"
-            class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
-            onclick="changeView(10)"
-          />
-          <img
-            src="./assets/CueCard.png"
-            alt="Bild 14"
-            class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
-            onclick="changeView(11)"
-          />
-          <img
-            src="./assets/CueCard.png"
-            alt="Bild 15"
-            class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
-            onclick="changeView(12)"
-          />
-          <img
-            src="./assets/CueCard.png"
-            alt="Bild 16"
-            class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
-            onclick="changeView(13)"
-          />
-        </div>
-        <div class="flex flex-row justify-between mt-12">
-          <div class="flex-1 text-center">
-            <span class="team-name-label">Team 1</span><br />
-            <span id="score-1" class="team-score-label">0</span>
-          </div>
-          <div class="flex-1 text-center">
-            <span class="team-name-label">Team Suff000</span><br />
-            <span id="score-2" class="team-score-label">0</span>
-          </div>
-          <div class="flex-1 text-center">
-            <span class="team-name-label">Team 1</span><br />
-            <span id="score-3" class="team-score-label">0</span>
-          </div>
-          <div class="flex-1 text-center">
-            <span class="team-name-label">Team 1</span><br />
-            <span id="score-4" class="team-score-label">0</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Points Panel -->
       <div
-        id="points-panel"
-        class="flex flex-row items-center justify-center hidden mt-72"
+        id="game-container"
+        class="flex flex-col items-center justify-start w-full h-full"
       >
-        <div class="flex flex-row justify-between space-x-8">
-          <div class="text-center w-60">
-            <span class="team-score-label text-8xl!">0</span><br />
-            <span class="team-name-label wrap-break-word block text-4xl!"
-              >Team 1</span
-            >
-          </div>
-          <div class="text-center w-60">
-            <span class="team-score-label text-8xl!">0</span><br />
-            <span class="team-name-label wrap-break-word block text-4xl!"
-              >Team 2 & LEckmirdieeirerudberjhsdiofsdf sdjfksdf</span
-            >
-          </div>
-          <div class="text-center w-60">
-            <span class="team-score-label text-8xl!">0</span><br />
-            <span class="team-name-label wrap-break-word block text-4xl!"
-              >Team 3</span
-            >
-          </div>
-          <div class="text-center w-60">
-            <span class="team-score-label text-8xl!">0</span><br />
-            <span class="team-name-label wrap-break-word block text-4xl!"
-              >Team 4</span
-            >
-          </div>
-        </div>
-      </div>
-
-      <!-- Leaderboard -->
-      <div id="leaderboard" class="hidden text-center">
-        <!-- Tabelle: 16 Reihen x 3 Spalten (kein Header) -->
-        <div class="overflow-x-auto">
-          <table class="min-w-full text-sm table-fixed">
-            <tbody class="text-2xl divide-y divide-gray-200">
-              <tr class="odd:bg-transparent even:bg-transparent">
-                <td class="px-4 py-2 break-words">Name 1</td>
-                <td class="px-4 py-2 text-center">0</td>
-                <td class="px-4 py-2 text-center">Team Aejreklrwerjewklr</td>
-              </tr>
-              <tr class="odd:bg-transparent even:bg-transparent">
-                <td class="px-4 py-2 break-words">Name 2</td>
-                <td class="px-4 py-2 text-center">0</td>
-                <td class="px-4 py-2 text-center">Team B</td>
-              </tr>
-              <tr class="odd:bg-transparent even:bg-transparent">
-                <td class="px-4 py-2 break-words">Name 3</td>
-                <td class="px-4 py-2 text-center">0</td>
-                <td class="px-4 py-2 text-center">Team C</td>
-              </tr>
-              <tr class="odd:bg-transparent even:bg-transparent">
-                <td class="px-4 py-2 break-words">Name 4</td>
-                <td class="px-4 py-2 text-center">0</td>
-                <td class="px-4 py-2 text-center">Team D</td>
-              </tr>
-              <tr class="odd:bg-transparent even:bg-transparent">
-                <td class="px-4 py-2 break-words">Name 5</td>
-                <td class="px-4 py-2 text-center">0</td>
-                <td class="px-4 py-2 text-center">Team E</td>
-              </tr>
-              <tr class="odd:bg-transparent even:bg-transparent">
-                <td class="px-4 py-2 break-words">Name 6</td>
-                <td class="px-4 py-2 text-center">0</td>
-                <td class="px-4 py-2 text-center">Team F</td>
-              </tr>
-              <tr class="odd:bg-transparent even:bg-transparent">
-                <td class="px-4 py-2 break-words">Name 7</td>
-                <td class="px-4 py-2 text-center">0</td>
-                <td class="px-4 py-2 text-center">Team G</td>
-              </tr>
-              <tr class="odd:bg-transparent even:bg-transparent">
-                <td class="px-4 py-2 break-words">Name 8</td>
-                <td class="px-4 py-2 text-center">0</td>
-                <td class="px-4 py-2 text-center">Team H</td>
-              </tr>
-              <tr class="odd:bg-transparent even:bg-transparent">
-                <td class="px-4 py-2 break-words">Name 9</td>
-                <td class="px-4 py-2 text-center">0</td>
-                <td class="px-4 py-2 text-center">Team I</td>
-              </tr>
-              <tr class="odd:bg-transparent even:bg-transparent">
-                <td class="px-4 py-2 break-words">Name 10</td>
-                <td class="px-4 py-2 text-center">0</td>
-                <td class="px-4 py-2 text-center">Team J</td>
-              </tr>
-              <tr class="odd:bg-transparent even:bg-transparent">
-                <td class="px-4 py-2 break-words">Name 11</td>
-                <td class="px-4 py-2 text-center">0</td>
-                <td class="px-4 py-2 text-center">Team K</td>
-              </tr>
-              <tr class="odd:bg-transparent even:bg-transparent">
-                <td class="px-4 py-2 break-words">Name 12</td>
-                <td class="px-4 py-2 text-center">0</td>
-                <td class="px-4 py-2 text-center">Team L</td>
-              </tr>
-              <tr class="odd:bg-transparent even:bg-transparent">
-                <td class="px-4 py-2 break-words">Name 13</td>
-                <td class="px-4 py-2 text-center">0</td>
-                <td class="px-4 py-2 text-center">Team M</td>
-              </tr>
-              <tr class="odd:bg-transparent even:bg-transparent">
-                <td class="px-4 py-2 break-words">Name 14</td>
-                <td class="px-4 py-2 text-center">0</td>
-                <td class="px-4 py-2 text-center">Team N</td>
-              </tr>
-              <tr class="odd:bg-transparent even:bg-transparent">
-                <td class="px-4 py-2 break-words">Name 15</td>
-                <td class="px-4 py-2 text-center">0</td>
-                <td class="px-4 py-2 text-center">Team O</td>
-              </tr>
-              <tr class="odd:bg-transparent even:bg-transparent">
-                <td class="px-4 py-2 break-words">Name 16</td>
-                <td class="px-4 py-2 text-center">0</td>
-                <td class="px-4 py-2 text-center">Team P</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Game #1 Quiz Questions -->
-      <div id="game-quiz-question" class="hidden">
-        <h2>Q1</h2>
-        <div class="grid hidden grid-cols-2 gap-4">
-          <img
-            src="./assets/CueCard.png"
-            alt="Bild 1"
-            class="rounded-lg h-[300px] w-[700px] bg-blue-700 opacity-0"
-          />
-          <img
-            src="./assets/CueCard.png"
-            alt="Bild 1"
-            class="rounded-lg h-[300px] w-[700px] bg-blue-700 opacity-0"
-          />
-          <img
-            src="./assets/CueCard.png"
-            alt="Bild 2"
-            class="rounded-lg h-[300px] w-[700px] bg-blue-700 opacity-0"
-          />
-          <img
-            src="./assets/CueCard.png"
-            alt="Bild 3"
-            class="rounded-lg h-[300px] w-[700px] bg-blue-700 opacity-0"
-          />
-        </div>
-        <h2 class="mt-72! text-[60px]!">Wer ist der reichste Europäer?</h2>
-      </div>
-
-      <!-- Game #10 Multiple Choice / Game #2 Umfragewerte -->
-      <div id="game-multiple-choice" class="hidden">
-        <h2>Multiple Choice</h2>
-        <h2 class="mt-72! text-[60px]!">Wer ist der reichste Europäer?</h2>
-        <div class="grid grid-cols-2 gap-8">
-          <span class="text-4xl text-center">A: Castrop-Rauxel</span>
-          <span class="text-4xl text-center">B: Castrop-Rauxel</span>
-          <span class="text-4xl text-center">C: Castrop-Rauxel</span>
-          <span class="text-4xl text-center">D: Castrop-Rauxel</span>
-        </div>
-      </div>
-
-      <!-- Game #3 Einsortieren  -->
-      <div id="game-einsortieren" class="hidden">
-        <h2>Einsortieren</h2>
-        <div class="flex flex-row w-[50vw] h-[60vh]">
-          <div class="flex flex-col items-center justify-center flex-1">
-            <span class="mb-10 text-3xl">früh</span>
-            <span>1</span>
-            <div class="px-5 py-1 text-3xl text-black bg-yellow-300 rounded">
-              Hallo Test
-            </div>
-            <span>2</span>
-            <div class="px-5 py-1 text-3xl text-black bg-yellow-300 rounded">
-              Hallo Test
-            </div>
-            <span>3</span>
-            <span class="mt-10 text-3xl">spät</span>
-          </div>
-          <div class="flex flex-col items-end justify-center flex-3">
-            <div class="grid grid-cols-3 gap-4">
-              <div class="px-5 py-1 text-3xl text-black bg-gray-200 rounded">
-                Hallo Test
-              </div>
-              <div class="px-5 py-1 text-3xl text-black bg-gray-200 rounded">
-                Hallo Test
-              </div>
-              <div class="px-5 py-1 text-3xl text-black bg-gray-200 rounded">
-                Hallo Test
-              </div>
-              <div class="px-5 py-1 text-3xl text-black bg-gray-200 rounded">
-                Hallo Test
-              </div>
-              <div class="px-5 py-1 text-3xl text-black bg-gray-200 rounded">
-                Hallo Test
-              </div>
-              <div class="px-5 py-1 text-3xl text-black bg-gray-200 rounded">
-                Hallo Test
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Game #4 / 5 Pantomime / Kategorie  -->
-      <div id="game-pantomime" class="flex flex-col items-center hidden">
-        <h2>Pantomime</h2>
-        <span id="timer" class="mt-30 text-[200px] font-[Monotalic]">0:41</span>
-      </div>
-
-      <!-- Game #6 MapFinder  -->
-      <div id="game-mapfinder" class="hidden">
-        <h2>MapFinder</h2>
-        <div id="map"></div>
-      </div>
-
-      <!-- Game #7 Who is this  -->
-      <div id="game-whoisthis" class="hidden">
-        <h2>Who is this?</h2>
-        <div class="flex flex-col items-center justify-center">
-          <img
-            src="./assets/Tim_Allen.webp"
-            alt="Bild 1"
-            class="rounded-lg w-[700px] max-h-[720px] object-cover bg-blue-700 opacity-1sd"
-          />
-        </div>
-      </div>
-
-      <!-- Game #8 Guess the Song -->
-      <div id="game-songs" class="flex flex-row hidden">
-        <span class="mt-[250px] text-[80px] font-[Monotalic]"
-          >Song erraten!</span
-        >
-      </div>
-
-      <!-- Game #9 TeamGuessing-->
-      <div id="game-teamguessing" class="hidden">
-        <h2>Team Guessing</h2>
-        <div class="grid grid-cols-3 w-[1200px] text-3xl">
-          <div class="flex flex-col">
-            <table class="min-w-fulds w-[400px] table-fixed text-sm">
-              <tbody class="text-3xl divide-y divide-gray-200">
-                <tr class="odd:bg-transparent even:bg-transparent">
-                  <td class="px-4 py-2 break-words">Kim</td>
-                  <td class="px-4 py-2 text-end">1234</td>
-                </tr>
-                <tr class="odd:bg-transparent even:bg-transparent">
-                  <td class="px-4 py-2 break-words">Pechi</td>
-                  <td class="px-4 py-2 text-end">3498</td>
-                </tr>
-                <tr class="odd:bg-transparent even:bg-transparent">
-                  <td class="px-4 py-2 break-words">Thommen</td>
-                  <td class="px-4 py-2 text-end">399</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="min-h-[150px]"></div>
-          <div>
-            <table class="min-w-fulds w-[400px] table-fixed text-sm">
-              <tbody class="text-3xl divide-y divide-gray-200">
-                <tr class="odd:bg-transparent even:bg-transparent">
-                  <td class="px-4 py-2 break-words">Kim</td>
-                  <td class="px-4 py-2 text-end">44</td>
-                </tr>
-                <tr class="odd:bg-transparent even:bg-transparent">
-                  <td class="px-4 py-2 break-words">Pechi</td>
-                  <td class="px-4 py-2 text-end">3498</td>
-                </tr>
-                <tr class="odd:bg-transparent even:bg-transparent">
-                  <td class="px-4 py-2 break-words">Thommen</td>
-                  <td class="px-4 py-2 text-end">399</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div></div>
-          <div
-            class="text-center flex flex-col justify-center h-[150px] text-5xl"
-          ></div>
-          <div></div>
-          <div class="flex flex-col">
-            <table class="min-w-fulds w-[400px] table-fixed text-sm">
-              <tbody class="text-3xl divide-y divide-gray-200">
-                <tr class="odd:bg-transparent even:bg-transparent">
-                  <td class="px-4 py-2 break-words">Kim</td>
-                  <td class="px-4 py-2 text-end">44</td>
-                </tr>
-                <tr class="odd:bg-transparent even:bg-transparent">
-                  <td class="px-4 py-2 break-words">Pechi</td>
-                  <td class="px-4 py-2 text-end">3498</td>
-                </tr>
-                <tr class="odd:bg-transparent even:bg-transparent">
-                  <td class="px-4 py-2 break-words">Thommen</td>
-                  <td class="px-4 py-2 text-end">399</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div></div>
-          <div>
-            <table class="min-w-fulds w-[400px] table-fixed text-sm">
-              <tbody class="text-3xl divide-y divide-gray-200">
-                <tr class="odd:bg-transparent even:bg-transparent">
-                  <td class="px-4 py-2 break-words">Kim</td>
-                  <td class="px-4 py-2 text-end">44</td>
-                </tr>
-                <tr class="odd:bg-transparent even:bg-transparent">
-                  <td class="px-4 py-2 break-words">Pechi</td>
-                  <td class="px-4 py-2 text-end">3498</td>
-                </tr>
-                <tr class="odd:bg-transparent even:bg-transparent">
-                  <td class="px-4 py-2 break-words">Thommen</td>
-                  <td class="px-4 py-2 text-end">399</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- Game #11 Creative Writing -->
-      <div id="game-creative-writing" class="hidden">
-        <h2>Creative Writing</h2>
+        <!-- Animated Game Name  -->
         <div
-          class="grid grid-cols-4 gap-4 mt-56 font-sans text-black max-w-7xl grid-x hidsden"
+          id="game-name"
+          class="flex flex-col items-center hidden w-full mt-40"
         >
-          <div class="p-3 text-3xl rounded-lg bg-gray-50">Der Bieromat</div>
-          <div class="pl-1 text-3xl bg-gray-50">Säufers Paradise</div>
-          <div class="pl-1 text-3xl bg-gray-50">S' Schlückla</div>
-          <div class="pl-1 text-3xl bg-gray-50">Hier wird gesoffen</div>
-          <div class="text-xl text-red-600">Kim --- 3</div>
-          <div class="text-xl text-blue-600">Kim --- 3</div>
-          <div class="text-xl text-yellow-600">Kim --- 3</div>
-          <div class="text-xl text-green-600">Kim --- 3</div>
-          <div class="pl-1 text-3xl bg-gray-50">Park's Diner Coffee</div>
-          <div class="pl-1 text-3xl bg-gray-50">
-            Well behaved women never made history
+          <div id="wave-container-1" class="wave-container">
+            <svg class="wave" viewBox="0 0 1200 100" preserveAspectRatio="none">
+              <path
+                class="wave-path-2"
+                d="M0 50 C 100 0 200 100 300 50 
+                               C 400 0 500 100 600 50 
+                               C 700 0 800 100 900 50 
+                               C 1000 0 1100 100 1200 50"
+                stroke="#ff6f61"
+                stroke-width="6"
+                fill="none"
+              />
+            </svg>
           </div>
-          <div class="pl-1 text-3xl bg-gray-50">Dürers Schluck</div>
-          <div class="pl-1 text-3xl bg-gray-50">Markus Bierkönig</div>
-          <!-- <div class="pl-1 text-3xl bg-gray-50">#Södertrinkt</div>
+          <span
+            id="animated-game-name"
+            class="text-[100px] -rotate-3 transform rotat font-[Monotalic]"
+          >
+            Team&nbsp;Guessing!
+          </span>
+
+          <div id="wave-container-2" class="wave-container">
+            <svg class="wave" viewBox="0 0 1200 100" preserveAspectRatio="none">
+              <path
+                class="wave-path"
+                d="M0 50 C 100 0 200 100 300 50 
+                               C 400 0 500 100 600 50 
+                               C 700 0 800 100 900 50 
+                               C 1000 0 1100 100 1200 50"
+                stroke="#ff6f61"
+                stroke-width="6"
+                fill="none"
+              />
+            </svg>
+          </div>
+        </div>
+
+        <!-- Games Panel -->
+        <div id="games-panel" class="hidden">
+          <div class="grid grid-cols-4 gap-4">
+            <img
+              src="./assets/CueCard.png"
+              alt="Bild 1"
+              class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
+              onclick="changeView(1)"
+            />
+            <img
+              src="./assets/CueCard.png"
+              alt="Bild 2"
+              class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
+            />
+            <img
+              src="./assets/CueCard.png"
+              alt="Bild 3"
+              class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
+            />
+            <img
+              src="./assets/CueCard.png"
+              alt="Bild 4"
+              class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
+            />
+
+            <img
+              src="./assets/CueCard.png"
+              alt="Bild 5"
+              class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
+              onclick="changeView(2)"
+            />
+            <img
+              src="./assets/CueCard.png"
+              alt="Bild 6"
+              class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
+              onclick="changeView(3)"
+            />
+            <img
+              src="./assets/CueCard.png"
+              alt="Bild 7"
+              class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
+              onclick="changeView(4)"
+            />
+            <img
+              src="./assets/CueCard.png"
+              alt="Bild 8"
+              class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
+              onclick="changeView(5)"
+            />
+
+            <img
+              src="./assets/CueCard.png"
+              alt="Bild 9"
+              class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
+              onclick="changeView(6)"
+            />
+            <img
+              src="./assets/CueCard.png"
+              alt="Bild 10"
+              class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
+              onclick="changeView(7)"
+            />
+            <img
+              src="./assets/CueCard.png"
+              alt="Bild 11"
+              class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
+              onclick="changeView(8)"
+            />
+            <img
+              src="./assets/CueCard.png"
+              alt="Bild 12"
+              class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
+              onclick="changeView(9)"
+            />
+
+            <img
+              src="./assets/CueCard.png"
+              alt="Bild 13"
+              class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
+              onclick="changeView(10)"
+            />
+            <img
+              src="./assets/CueCard.png"
+              alt="Bild 14"
+              class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
+              onclick="changeView(11)"
+            />
+            <img
+              src="./assets/CueCard.png"
+              alt="Bild 15"
+              class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
+              onclick="changeView(12)"
+            />
+            <img
+              src="./assets/CueCard.png"
+              alt="Bild 16"
+              class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
+              onclick="changeView(13)"
+            />
+          </div>
+          <div class="flex flex-row justify-between mt-12">
+            <div class="flex-1 text-center">
+              <span class="team-name-label">Team 1</span><br />
+              <span id="score-1" class="team-score-label">0</span>
+            </div>
+            <div class="flex-1 text-center">
+              <span class="team-name-label">Team Suff000</span><br />
+              <span id="score-2" class="team-score-label">0</span>
+            </div>
+            <div class="flex-1 text-center">
+              <span class="team-name-label">Team 1</span><br />
+              <span id="score-3" class="team-score-label">0</span>
+            </div>
+            <div class="flex-1 text-center">
+              <span class="team-name-label">Team 1</span><br />
+              <span id="score-4" class="team-score-label">0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Points Panel -->
+        <div
+          id="points-panel"
+          class="flex flex-row items-center justify-center hidden mt-72"
+        >
+          <div class="flex flex-row justify-between space-x-8">
+            <div class="text-center w-60">
+              <span class="team-score-label text-8xl!">0</span><br />
+              <span class="team-name-label wrap-break-word block text-4xl!"
+                >Team 1</span
+              >
+            </div>
+            <div class="text-center w-60">
+              <span class="team-score-label text-8xl!">0</span><br />
+              <span class="team-name-label wrap-break-word block text-4xl!"
+                >Team 2 & LEckmirdieeirerudberjhsdiofsdf sdjfksdf</span
+              >
+            </div>
+            <div class="text-center w-60">
+              <span class="team-score-label text-8xl!">0</span><br />
+              <span class="team-name-label wrap-break-word block text-4xl!"
+                >Team 3</span
+              >
+            </div>
+            <div class="text-center w-60">
+              <span class="team-score-label text-8xl!">0</span><br />
+              <span class="team-name-label wrap-break-word block text-4xl!"
+                >Team 4</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Leaderboard -->
+        <div id="leaderboard" class="hidden text-center">
+          <!-- Tabelle: 16 Reihen x 3 Spalten (kein Header) -->
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-sm table-fixed">
+              <tbody class="text-2xl divide-y divide-gray-200">
+                <tr class="odd:bg-transparent even:bg-transparent">
+                  <td class="px-4 py-2 break-words">Name 1</td>
+                  <td class="px-4 py-2 text-center">0</td>
+                  <td class="px-4 py-2 text-center">Team Aejreklrwerjewklr</td>
+                </tr>
+                <tr class="odd:bg-transparent even:bg-transparent">
+                  <td class="px-4 py-2 break-words">Name 2</td>
+                  <td class="px-4 py-2 text-center">0</td>
+                  <td class="px-4 py-2 text-center">Team B</td>
+                </tr>
+                <tr class="odd:bg-transparent even:bg-transparent">
+                  <td class="px-4 py-2 break-words">Name 3</td>
+                  <td class="px-4 py-2 text-center">0</td>
+                  <td class="px-4 py-2 text-center">Team C</td>
+                </tr>
+                <tr class="odd:bg-transparent even:bg-transparent">
+                  <td class="px-4 py-2 break-words">Name 4</td>
+                  <td class="px-4 py-2 text-center">0</td>
+                  <td class="px-4 py-2 text-center">Team D</td>
+                </tr>
+                <tr class="odd:bg-transparent even:bg-transparent">
+                  <td class="px-4 py-2 break-words">Name 5</td>
+                  <td class="px-4 py-2 text-center">0</td>
+                  <td class="px-4 py-2 text-center">Team E</td>
+                </tr>
+                <tr class="odd:bg-transparent even:bg-transparent">
+                  <td class="px-4 py-2 break-words">Name 6</td>
+                  <td class="px-4 py-2 text-center">0</td>
+                  <td class="px-4 py-2 text-center">Team F</td>
+                </tr>
+                <tr class="odd:bg-transparent even:bg-transparent">
+                  <td class="px-4 py-2 break-words">Name 7</td>
+                  <td class="px-4 py-2 text-center">0</td>
+                  <td class="px-4 py-2 text-center">Team G</td>
+                </tr>
+                <tr class="odd:bg-transparent even:bg-transparent">
+                  <td class="px-4 py-2 break-words">Name 8</td>
+                  <td class="px-4 py-2 text-center">0</td>
+                  <td class="px-4 py-2 text-center">Team H</td>
+                </tr>
+                <tr class="odd:bg-transparent even:bg-transparent">
+                  <td class="px-4 py-2 break-words">Name 9</td>
+                  <td class="px-4 py-2 text-center">0</td>
+                  <td class="px-4 py-2 text-center">Team I</td>
+                </tr>
+                <tr class="odd:bg-transparent even:bg-transparent">
+                  <td class="px-4 py-2 break-words">Name 10</td>
+                  <td class="px-4 py-2 text-center">0</td>
+                  <td class="px-4 py-2 text-center">Team J</td>
+                </tr>
+                <tr class="odd:bg-transparent even:bg-transparent">
+                  <td class="px-4 py-2 break-words">Name 11</td>
+                  <td class="px-4 py-2 text-center">0</td>
+                  <td class="px-4 py-2 text-center">Team K</td>
+                </tr>
+                <tr class="odd:bg-transparent even:bg-transparent">
+                  <td class="px-4 py-2 break-words">Name 12</td>
+                  <td class="px-4 py-2 text-center">0</td>
+                  <td class="px-4 py-2 text-center">Team L</td>
+                </tr>
+                <tr class="odd:bg-transparent even:bg-transparent">
+                  <td class="px-4 py-2 break-words">Name 13</td>
+                  <td class="px-4 py-2 text-center">0</td>
+                  <td class="px-4 py-2 text-center">Team M</td>
+                </tr>
+                <tr class="odd:bg-transparent even:bg-transparent">
+                  <td class="px-4 py-2 break-words">Name 14</td>
+                  <td class="px-4 py-2 text-center">0</td>
+                  <td class="px-4 py-2 text-center">Team N</td>
+                </tr>
+                <tr class="odd:bg-transparent even:bg-transparent">
+                  <td class="px-4 py-2 break-words">Name 15</td>
+                  <td class="px-4 py-2 text-center">0</td>
+                  <td class="px-4 py-2 text-center">Team O</td>
+                </tr>
+                <tr class="odd:bg-transparent even:bg-transparent">
+                  <td class="px-4 py-2 break-words">Name 16</td>
+                  <td class="px-4 py-2 text-center">0</td>
+                  <td class="px-4 py-2 text-center">Team P</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Game #1 Quiz Questions -->
+        <div id="game-quiz-question" class="hidden">
+          <h2>Q1</h2>
+          <div
+            id="game-quiz-question-options"
+            class="grid hidden grid-cols-2 gap-4"
+          >
+            <img
+              src="./assets/CueCard.png"
+              alt="Bild 1"
+              class="rounded-lg h-[300px] w-[700px] bg-blue-700 opacity-0"
+            />
+            <img
+              src="./assets/CueCard.png"
+              alt="Bild 1"
+              class="rounded-lg h-[300px] w-[700px] bg-blue-700 opacity-0"
+            />
+            <img
+              src="./assets/CueCard.png"
+              alt="Bild 2"
+              class="rounded-lg h-[300px] w-[700px] bg-blue-700 opacity-0"
+            />
+            <img
+              src="./assets/CueCard.png"
+              alt="Bild 3"
+              class="rounded-lg h-[300px] w-[700px] bg-blue-700 opacity-0"
+            />
+          </div>
+          <h2
+            id="game-quiz-question-question"
+            class="mt-72! text-[60px]! hidden"
+          >
+            Wer ist der reichste Europäer?
+          </h2>
+        </div>
+
+        <!-- Game #10 Multiple Choice / Game #2 Umfragewerte -->
+        <div id="game-multiple-choice" class="hidden">
+          <h2>Multiple Choice</h2>
+          <h2 class="mt-72! text-[60px]!">Wer ist der reichste Europäer?</h2>
+          <div class="grid grid-cols-2 gap-8">
+            <span class="text-4xl text-center">A: Castrop-Rauxel</span>
+            <span class="text-4xl text-center">B: Castrop-Rauxel</span>
+            <span class="text-4xl text-center">C: Castrop-Rauxel</span>
+            <span class="text-4xl text-center">D: Castrop-Rauxel</span>
+          </div>
+        </div>
+
+        <!-- Game #3 Einsortieren  -->
+        <div id="game-einsortieren" class="hidden">
+          <h2>Einsortieren</h2>
+          <div class="flex flex-row w-[50vw] h-[60vh]">
+            <div class="flex flex-col items-center justify-center flex-1">
+              <span class="mb-10 text-3xl">früh</span>
+              <span>1</span>
+              <div class="px-5 py-1 text-3xl text-black bg-yellow-300 rounded">
+                Hallo Test
+              </div>
+              <span>2</span>
+              <div class="px-5 py-1 text-3xl text-black bg-yellow-300 rounded">
+                Hallo Test
+              </div>
+              <span>3</span>
+              <span class="mt-10 text-3xl">spät</span>
+            </div>
+            <div class="flex flex-col items-end justify-center flex-3">
+              <div class="grid grid-cols-3 gap-4">
+                <div class="px-5 py-1 text-3xl text-black bg-gray-200 rounded">
+                  Hallo Test
+                </div>
+                <div class="px-5 py-1 text-3xl text-black bg-gray-200 rounded">
+                  Hallo Test
+                </div>
+                <div class="px-5 py-1 text-3xl text-black bg-gray-200 rounded">
+                  Hallo Test
+                </div>
+                <div class="px-5 py-1 text-3xl text-black bg-gray-200 rounded">
+                  Hallo Test
+                </div>
+                <div class="px-5 py-1 text-3xl text-black bg-gray-200 rounded">
+                  Hallo Test
+                </div>
+                <div class="px-5 py-1 text-3xl text-black bg-gray-200 rounded">
+                  Hallo Test
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Game #4 / 5 Pantomime / Kategorie  -->
+        <div id="game-pantomime" class="flex flex-col items-center hidden">
+          <h2>Pantomime</h2>
+          <span id="timer" class="mt-30 text-[200px] font-[Monotalic]"
+            >0:41</span
+          >
+        </div>
+
+        <!-- Game #6 MapFinder  -->
+        <div id="game-mapfinder" class="hidden">
+          <h2>MapFinder</h2>
+          <div id="map"></div>
+        </div>
+
+        <!-- Game #7 Who is this  -->
+        <div id="game-whoisthis" class="hidden">
+          <h2>Who is this?</h2>
+          <div class="flex flex-col items-center justify-center">
+            <img
+              src="./assets/Tim_Allen.webp"
+              alt="Bild 1"
+              class="rounded-lg w-[700px] max-h-[720px] object-cover bg-blue-700 opacity-1sd"
+            />
+          </div>
+        </div>
+
+        <!-- Game #8 Guess the Song -->
+        <div id="game-songs" class="flex flex-row hidden">
+          <span class="mt-[250px] text-[80px] font-[Monotalic]"
+            >Song erraten!</span
+          >
+        </div>
+
+        <!-- Game #9 TeamGuessing-->
+        <div id="game-teamguessing" class="hidden">
+          <h2>Team Guessing</h2>
+          <div class="grid grid-cols-3 w-[1200px] text-3xl">
+            <div class="flex flex-col">
+              <table class="min-w-fulds w-[400px] table-fixed text-sm">
+                <tbody class="text-3xl divide-y divide-gray-200">
+                  <tr class="odd:bg-transparent even:bg-transparent">
+                    <td class="px-4 py-2 break-words">Kim</td>
+                    <td class="px-4 py-2 text-end">1234</td>
+                  </tr>
+                  <tr class="odd:bg-transparent even:bg-transparent">
+                    <td class="px-4 py-2 break-words">Pechi</td>
+                    <td class="px-4 py-2 text-end">3498</td>
+                  </tr>
+                  <tr class="odd:bg-transparent even:bg-transparent">
+                    <td class="px-4 py-2 break-words">Thommen</td>
+                    <td class="px-4 py-2 text-end">399</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="min-h-[150px]"></div>
+            <div>
+              <table class="min-w-fulds w-[400px] table-fixed text-sm">
+                <tbody class="text-3xl divide-y divide-gray-200">
+                  <tr class="odd:bg-transparent even:bg-transparent">
+                    <td class="px-4 py-2 break-words">Kim</td>
+                    <td class="px-4 py-2 text-end">44</td>
+                  </tr>
+                  <tr class="odd:bg-transparent even:bg-transparent">
+                    <td class="px-4 py-2 break-words">Pechi</td>
+                    <td class="px-4 py-2 text-end">3498</td>
+                  </tr>
+                  <tr class="odd:bg-transparent even:bg-transparent">
+                    <td class="px-4 py-2 break-words">Thommen</td>
+                    <td class="px-4 py-2 text-end">399</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div></div>
+            <div
+              class="text-center flex flex-col justify-center h-[150px] text-5xl"
+            ></div>
+            <div></div>
+            <div class="flex flex-col">
+              <table class="min-w-fulds w-[400px] table-fixed text-sm">
+                <tbody class="text-3xl divide-y divide-gray-200">
+                  <tr class="odd:bg-transparent even:bg-transparent">
+                    <td class="px-4 py-2 break-words">Kim</td>
+                    <td class="px-4 py-2 text-end">44</td>
+                  </tr>
+                  <tr class="odd:bg-transparent even:bg-transparent">
+                    <td class="px-4 py-2 break-words">Pechi</td>
+                    <td class="px-4 py-2 text-end">3498</td>
+                  </tr>
+                  <tr class="odd:bg-transparent even:bg-transparent">
+                    <td class="px-4 py-2 break-words">Thommen</td>
+                    <td class="px-4 py-2 text-end">399</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div></div>
+            <div>
+              <table class="min-w-fulds w-[400px] table-fixed text-sm">
+                <tbody class="text-3xl divide-y divide-gray-200">
+                  <tr class="odd:bg-transparent even:bg-transparent">
+                    <td class="px-4 py-2 break-words">Kim</td>
+                    <td class="px-4 py-2 text-end">44</td>
+                  </tr>
+                  <tr class="odd:bg-transparent even:bg-transparent">
+                    <td class="px-4 py-2 break-words">Pechi</td>
+                    <td class="px-4 py-2 text-end">3498</td>
+                  </tr>
+                  <tr class="odd:bg-transparent even:bg-transparent">
+                    <td class="px-4 py-2 break-words">Thommen</td>
+                    <td class="px-4 py-2 text-end">399</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Game #11 Creative Writing -->
+        <div id="game-creative-writing" class="hidden">
+          <h2>Creative Writing</h2>
+          <div
+            class="grid grid-cols-4 gap-4 mt-56 font-sans text-black max-w-7xl grid-x hidsden"
+          >
+            <div class="p-3 text-3xl rounded-lg bg-gray-50">Der Bieromat</div>
+            <div class="pl-1 text-3xl bg-gray-50">Säufers Paradise</div>
+            <div class="pl-1 text-3xl bg-gray-50">S' Schlückla</div>
+            <div class="pl-1 text-3xl bg-gray-50">Hier wird gesoffen</div>
+            <div class="text-xl text-red-600">Kim --- 3</div>
+            <div class="text-xl text-blue-600">Kim --- 3</div>
+            <div class="text-xl text-yellow-600">Kim --- 3</div>
+            <div class="text-xl text-green-600">Kim --- 3</div>
+            <div class="pl-1 text-3xl bg-gray-50">Park's Diner Coffee</div>
+            <div class="pl-1 text-3xl bg-gray-50">
+              Well behaved women never made history
+            </div>
+            <div class="pl-1 text-3xl bg-gray-50">Dürers Schluck</div>
+            <div class="pl-1 text-3xl bg-gray-50">Markus Bierkönig</div>
+            <!-- <div class="pl-1 text-3xl bg-gray-50">#Södertrinkt</div>
           <div class="pl-1 text-3xl bg-gray-50">GlubbGneibe</div>
           <div class="pl-1 text-3xl bg-gray-50">Alrightybar</div>
           <div class="pl-1 text-3xl bg-gray-50">Untrinkbar</div>
@@ -558,12 +574,13 @@
           <div class="pl-1 text-3xl bg-gray-50">Mach 5</div>
           <div class="pl-1 text-3xl bg-gray-50">Frankenschluck</div>
           <div class="pl-1 text-3xl bg-gray-50">Max Morlock's Einöd</div> -->
+          </div>
         </div>
-      </div>
 
-      <!-- Game #12 Blamieren oder Kassieren  -->
-      <div id="game-blamieren-kassieren" class="hidden mt-64">
-        <h2 class="text-7xl!">Blamieren oder Kassieren</h2>
+        <!-- Game #12 Blamieren oder Kassieren  -->
+        <div id="game-blamieren-kassieren" class="hidden mt-64">
+          <h2 class="text-7xl!">Blamieren oder Kassieren</h2>
+        </div>
       </div>
     </div>
 
@@ -703,17 +720,17 @@
       animation: growShrinkFade 0.7s 0.5s forwards ease-out;
     }
 
-    .game-container {
+    #game-container {
       transition: opacity 250ms ease, transform 250ms ease;
       transform-origin: center;
     }
 
-    .game-container.is-fading-out {
+    #game-container.is-fading-out {
       opacity: 0;
       transform: scale(0.95);
     }
 
-    .game-container.is-fading-in {
+    #game-container.is-fading-in {
       opacity: 1;
       transform: scale(1);
     }
@@ -816,11 +833,10 @@
     function gameStartAnimation() {
       document.getElementById('animated-game-name').textContent = currentGame;
       setTimeout(() => {
-        changeView(-3);
         animateGameName();
         setTimeout(() => {
-          changeView(5);
-        }, 1000);
+          changeView(games.indexOf(currentGame) + 1);
+        }, 6000);
       }, 1000);
     }
 
@@ -831,10 +847,11 @@
     images.forEach((img, i) => {
       setTimeout(() => {
         img.classList.add('transition', 'duration-1500', 'opacity-100');
-      }, (i % 16) * 200); // jedes Bild 200ms später
+      }, 1000 + (i % 16) * 200); // jedes Bild 200ms später
     });
 
     function animateGameName() {
+      changeView(-3);
       // ANimate Game Name
       const header = document.getElementById('animated-game-name');
       const text = header.textContent;
@@ -861,7 +878,7 @@
     let CURRENT_VIEW = 0;
     let currentViewID = '';
 
-    function changeView(num) {
+    function changeView(num = undefined) {
       switch (num) {
         case -3:
           currentViewID = 'game-name';
@@ -918,11 +935,10 @@
           currentViewID = 'game-teamguessing';
           break;
         default:
-          currentViewID = 'games-panel';
           break;
       }
 
-      let gameContainer = document.getElementsByClassName('game-container')[0];
+      let gameContainer = document.getElementById('game-container');
 
       // 1️⃣ Fade + Shrink raus
       gameContainer.classList.add('is-fading-out');
@@ -930,18 +946,22 @@
 
       // 2️⃣ Nach der Animation View wechseln
       setTimeout(() => {
-        document
-          .querySelectorAll('.game-container > div')
-          .forEach((el) => el.classList.add('hidden'));
+        if (num !== undefined) {
+          document
+            .querySelectorAll('#game-container > div')
+            .forEach((el) => el.classList.add('hidden'));
 
-        document.getElementById(currentViewID).classList.remove('hidden');
+          document.getElementById(currentViewID).classList.remove('hidden');
+        } else {
+          setCurrentGameView();
+        }
 
         map.invalidateSize();
 
         // 3️⃣ Fade + Grow rein
         gameContainer.classList.remove('is-fading-out');
         gameContainer.classList.add('is-fading-in');
-      }, 250); // muss zur CSS-Duration passen
+      }, 800); // muss zur CSS-Duration passen
 
       //   document
       //     .querySelectorAll('.game-container > div')

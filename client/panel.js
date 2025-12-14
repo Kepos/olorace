@@ -47,6 +47,7 @@ const onPlayButtonClicked = (sock) => () => {
   });
 
   sock.on('new-game', (number) => {
+    currentGame = games[number - 1];
     gameSelectionAnimation(number);
   });
 
@@ -55,6 +56,8 @@ const onPlayButtonClicked = (sock) => () => {
   });
 
   sock.on('back-to-panel', () => {
+    currentGame = 'games-panel';
+    currentGameState = 0;
     changeView(0); // id, Zielwert, Dauer in ms
   });
 
@@ -73,6 +76,10 @@ const onPlayButtonClicked = (sock) => () => {
     rp.style.display = 'flex';
     sock.emit('restart');
   };
+
+  sock.on('next', (index) => {
+    changeView();
+  });
 })();
 
 function onNameChanged() {
@@ -80,4 +87,134 @@ function onNameChanged() {
   enteredPlayerName = playerName.value;
 
   checkForCompleteData();
+}
+
+function setCurrentGameView(index) {
+  console.log('setCurrentGameView!');
+  switch (currentGame) {
+    // Game No. 1
+    case 'game-quiz-question':
+      switch (currentGameState) {
+        case 0:
+          document
+            .getElementById('game-quiz-question-options')
+            .classList.remove('hidden');
+          document
+            .getElementById('game-quiz-question-question')
+            .classList.add('hidden');
+          currentGameState++;
+          break;
+        case 1:
+          document
+            .getElementById('game-quiz-question-options')
+            .classList.add('hidden');
+          document
+            .getElementById('game-quiz-question-question')
+            .classList.remove('hidden');
+
+          currentGameState--;
+          break;
+      }
+      break;
+
+    // Game No 5
+    case 'game-umfragewerte':
+      switch (currentGameState) {
+        case 0:
+          break;
+      }
+      break;
+
+    // Game No 6
+    case 'game-einsortieren':
+      switch (currentGameState) {
+        case 0:
+          break;
+      }
+      break;
+
+    // Game no 7
+    case 'game-pantomime':
+      switch (currentGameState) {
+        case 0:
+          break;
+      }
+      break;
+
+    // Game no 8
+    case 'game-kategorie':
+      switch (currentGameState) {
+        case 0:
+          break;
+      }
+      break;
+
+    // Game no 9
+    case 'game-mapfinder':
+      switch (currentGameState) {
+        case 0:
+          break;
+      }
+      break;
+
+    // Game no 10
+    case 'game-whoisthis':
+      switch (currentGameState) {
+        case 0:
+          break;
+      }
+      break;
+
+    // Game no 11
+    case 'game-songs':
+      switch (currentGameState) {
+        case 0:
+          break;
+      }
+      break;
+
+    // Game no 12
+    case 'game-teamguessing':
+      switch (currentGameState) {
+        case 0:
+          break;
+      }
+      break;
+
+    // Game no 13
+    case 'game-multiple-choice':
+      switch (currentGameState) {
+        case 0:
+          break;
+      }
+      break;
+
+    // Game no 14
+    case 'game-creative-writing':
+      switch (currentGameState) {
+        case 0:
+          break;
+      }
+      break;
+
+    // Game no 15
+    case 'game-blamieren-kassieren':
+      switch (currentGameState) {
+        case 0:
+          break;
+      }
+      break;
+
+    // Game no 16
+    case 'game-mitspieler':
+      switch (currentGameState) {
+        case 0:
+          break;
+      }
+      break;
+
+    // BIG DEFAULT
+    default:
+      break;
+  }
 }

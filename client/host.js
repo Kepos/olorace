@@ -47,8 +47,8 @@ function onGameCardClicked(number) {
 function onNextButtonClicked(index = 0) {
   sock.emit('next', index, (response) => {
     if (response.status == 'ok') {
-      document.getElementById('nextButton').textContent = response.nextUp;
       setCurrentGameView();
+      document.getElementById('nextButton').textContent = response.nextUp;
     }
   });
 }

@@ -467,6 +467,7 @@ io.on('connection', (sock) => {
       default:
         break;
     }
+    io.emit('next', index);
   });
 });
 
