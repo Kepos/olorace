@@ -21,6 +21,19 @@ const games = [
   'game-mitspieler', // case 16
 ];
 
+let game_payload;
+
+let quizData;
+
+async function loadQuizData() {
+  const response = await fetch('questions/questions.json');
+  const data = await response.json();
+
+  quizData = data.gameQuestions;
+}
+
+loadQuizData();
+
 // unused
 const onChatSubmitted = (sock) => (e) => {
   e.preventDefault();
@@ -77,7 +90,8 @@ const onPlayButtonClicked = (sock) => () => {
     sock.emit('restart');
   };
 
-  sock.on('next', (index) => {
+  sock.on('next', (payload) => {
+    game_payload = payload;
     changeView();
   });
 })();
@@ -96,6 +110,7 @@ function setCurrentGameView(index) {
     case 'game-quiz-question':
       switch (currentGameState) {
         case 0:
+          // Show Quiz Card Options
           document
             .getElementById('game-quiz-question-options')
             .classList.remove('hidden');
@@ -105,12 +120,14 @@ function setCurrentGameView(index) {
           currentGameState++;
           break;
         case 1:
+          // Show Quiz Question
           document
             .getElementById('game-quiz-question-options')
             .classList.add('hidden');
-          document
-            .getElementById('game-quiz-question-question')
-            .classList.remove('hidden');
+          let question = document.getElementById('game-quiz-question-question');
+          question.textContent =
+            quizData[0].questions[game_payload - 1].question;
+          question.classList.remove('hidden');
 
           currentGameState--;
           break;
@@ -121,6 +138,22 @@ function setCurrentGameView(index) {
     case 'game-umfragewerte':
       switch (currentGameState) {
         case 0:
+          let elem = document.getElementById('game-multiple-choice-question');
+          elem.textContent = quizData[4].questions[0].question;
+          elem.classList.remove('hidden');
+          currentGameState++;
+          break;
+        case 1:
+          document
+            .getElementById('game-multiple-choice-answers')
+            .classList.remove('hidden');
+          currentGameState++;
+          break;
+        case 2:
+          document.getElementById(
+            'game-multiple-choice-question'
+          ).textContent += 'Show Votes!';
+          currentGameState = 0;
           break;
       }
       break;
@@ -129,6 +162,16 @@ function setCurrentGameView(index) {
     case 'game-einsortieren':
       switch (currentGameState) {
         case 0:
+          document
+            .getElementById('game-einsortieren-game')
+            .classList.remove('hidden');
+          currentGameState++;
+          break;
+        case 1:
+          document
+            .getElementById('game-einsortieren-game')
+            .classList.remove('hidden');
+          // Next List !!
           break;
       }
       break;
@@ -137,6 +180,7 @@ function setCurrentGameView(index) {
     case 'game-pantomime':
       switch (currentGameState) {
         case 0:
+          startTimer(60);
           break;
       }
       break;
@@ -145,6 +189,7 @@ function setCurrentGameView(index) {
     case 'game-kategorie':
       switch (currentGameState) {
         case 0:
+          startTimer(60);
           break;
       }
       break;
@@ -153,6 +198,25 @@ function setCurrentGameView(index) {
     case 'game-mapfinder':
       switch (currentGameState) {
         case 0:
+          // Show Question / Map
+          document.getElementById('map').classList.remove('hidden');
+          currentGameState++;
+          break;
+        case 1:
+          // Show Markers
+          currentGameState++;
+          break;
+        case 2:
+          // Show Correct Marker
+          currentGameState++;
+          break;
+        case 3:
+          // Show Leaderboard
+          currentGameState++;
+          break;
+        case 4:
+          // Show Team Average
+          currentGameState = 0;
           break;
       }
       break;
@@ -161,6 +225,10 @@ function setCurrentGameView(index) {
     case 'game-whoisthis':
       switch (currentGameState) {
         case 0:
+          document
+            .getElementById('game-whoisthis-game')
+            .classList.remove('hidden');
+          // Show next picture
           break;
       }
       break;
@@ -177,6 +245,16 @@ function setCurrentGameView(index) {
     case 'game-teamguessing':
       switch (currentGameState) {
         case 0:
+          document
+            .getElementById('game-teamguessing-question')
+            .classList.remove('opacity-0');
+          currentGameState++;
+          break;
+        case 1:
+          document
+            .querySelectorAll('.game-teamguessing-answers-table')
+            .forEach((elem) => elem.classList.remove('opacity-0'));
+          currentGameState++;
           break;
       }
       break;
@@ -185,6 +263,22 @@ function setCurrentGameView(index) {
     case 'game-multiple-choice':
       switch (currentGameState) {
         case 0:
+          document
+            .getElementById('game-multiple-choice-question')
+            .classList.remove('hidden');
+          currentGameState++;
+          break;
+        case 1:
+          document
+            .getElementById('game-multiple-choice-answers')
+            .classList.remove('hidden');
+          currentGameState++;
+          break;
+        case 2:
+          document.getElementById(
+            'game-multiple-choice-question'
+          ).textContent += 'Show Votes!';
+          currentGameState = 0;
           break;
       }
       break;
@@ -193,6 +287,26 @@ function setCurrentGameView(index) {
     case 'game-creative-writing':
       switch (currentGameState) {
         case 0:
+          document
+            .getElementById('game-creative-writing-prompt')
+            .classList.remove('hidden');
+          document
+            .getElementById('game-creative-writing-game')
+            .classList.add('hidden');
+          currentGameState++;
+          break;
+        case 1:
+          document
+            .getElementById('game-creative-writing-prompt')
+            .classList.add('hidden');
+          document
+            .getElementById('game-creative-writing-game')
+            .classList.remove('hidden');
+          currentGameState++;
+          break;
+        case 2:
+          // Show Votes
+          currentGameState = 0;
           break;
       }
       break;
@@ -209,6 +323,16 @@ function setCurrentGameView(index) {
     case 'game-mitspieler':
       switch (currentGameState) {
         case 0:
+          document
+            .getElementById('game-teamguessing-question')
+            .classList.remove('opacity-0');
+          currentGameState++;
+          break;
+        case 1:
+          document
+            .querySelectorAll('.game-teamguessing-answers-table')
+            .forEach((elem) => elem.classList.remove('opacity-0'));
+          currentGameState++;
           break;
       }
       break;

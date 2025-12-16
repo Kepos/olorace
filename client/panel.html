@@ -373,22 +373,35 @@
           </h2>
         </div>
 
-        <!-- Game #10 Multiple Choice / Game #2 Umfragewerte -->
+        <!-- Game #5 Umfragewerte / Game #10 Multiple Choice /-->
         <div id="game-multiple-choice" class="hidden">
           <h2>Multiple Choice</h2>
-          <h2 class="mt-72! text-[60px]!">Wer ist der reichste Europäer?</h2>
-          <div class="grid grid-cols-2 gap-8">
-            <span class="text-4xl text-center">A: Castrop-Rauxel</span>
-            <span class="text-4xl text-center">B: Castrop-Rauxel</span>
-            <span class="text-4xl text-center">C: Castrop-Rauxel</span>
-            <span class="text-4xl text-center">D: Castrop-Rauxel</span>
+          <div>
+            <h2
+              id="game-multiple-choice-question"
+              class="mt-72! text-[60px]! hidden"
+            >
+              Wer ist der reichste Europäer?
+            </h2>
+            <div
+              id="game-multiple-choice-answers"
+              class="grid hidden grid-cols-2 gap-8"
+            >
+              <span class="text-4xl text-center">A: Castrop-Rauxel</span>
+              <span class="text-4xl text-center">B: Castrop-Rauxel</span>
+              <span class="text-4xl text-center">C: Castrop-Rauxel</span>
+              <span class="text-4xl text-center">D: Castrop-Rauxel</span>
+            </div>
           </div>
         </div>
 
-        <!-- Game #3 Einsortieren  -->
+        <!-- Game #6 Einsortieren  -->
         <div id="game-einsortieren" class="hidden">
           <h2>Einsortieren</h2>
-          <div class="flex flex-row w-[50vw] h-[60vh]">
+          <div
+            id="game-einsortieren-game"
+            class="flex flex-row w-[50vw] h-[60vh] hidden"
+          >
             <div class="flex flex-col items-center justify-center flex-1">
               <span class="mb-10 text-3xl">früh</span>
               <span>1</span>
@@ -427,7 +440,7 @@
           </div>
         </div>
 
-        <!-- Game #4 / 5 Pantomime / Kategorie  -->
+        <!-- Game #7/8 Pantomime / Kategorie  -->
         <div id="game-pantomime" class="flex flex-col items-center hidden">
           <h2>Pantomime</h2>
           <span id="timer" class="mt-30 text-[200px] font-[Monotalic]"
@@ -435,16 +448,19 @@
           >
         </div>
 
-        <!-- Game #6 MapFinder  -->
+        <!-- Game #9 MapFinder  -->
         <div id="game-mapfinder" class="hidden">
           <h2>MapFinder</h2>
-          <div id="map"></div>
+          <div id="map" class="hidden"></div>
         </div>
 
-        <!-- Game #7 Who is this  -->
+        <!-- Game #10 Who is this  -->
         <div id="game-whoisthis" class="hidden">
           <h2>Who is this?</h2>
-          <div class="flex flex-col items-center justify-center">
+          <div
+            id="game-whoisthis-game"
+            class="flex flex-col items-center justify-center hidden"
+          >
             <img
               src="./assets/Tim_Allen.webp"
               alt="Bild 1"
@@ -453,19 +469,21 @@
           </div>
         </div>
 
-        <!-- Game #8 Guess the Song -->
+        <!-- Game #11 Guess the Song -->
         <div id="game-songs" class="flex flex-row hidden">
           <span class="mt-[250px] text-[80px] font-[Monotalic]"
             >Song erraten!</span
           >
         </div>
 
-        <!-- Game #9 TeamGuessing-->
+        <!-- Game #12 TeamGuessing / Game #16 Mitspieler-->
         <div id="game-teamguessing" class="hidden">
           <h2>Team Guessing</h2>
           <div class="grid grid-cols-3 w-[1200px] text-3xl">
             <div class="flex flex-col">
-              <table class="min-w-fulds w-[400px] table-fixed text-sm">
+              <table
+                class="game-teamguessing-answers-table min-w-fulds w-[400px] table-fixed text-sm opacity-0"
+              >
                 <tbody class="text-3xl divide-y divide-gray-200">
                   <tr class="odd:bg-transparent even:bg-transparent">
                     <td class="px-4 py-2 break-words">Kim</td>
@@ -484,7 +502,9 @@
             </div>
             <div class="min-h-[150px]"></div>
             <div>
-              <table class="min-w-fulds w-[400px] table-fixed text-sm">
+              <table
+                class="game-teamguessing-answers-table min-w-fulds w-[400px] table-fixed text-sm opacity-0"
+              >
                 <tbody class="text-3xl divide-y divide-gray-200">
                   <tr class="odd:bg-transparent even:bg-transparent">
                     <td class="px-4 py-2 break-words">Kim</td>
@@ -503,11 +523,16 @@
             </div>
             <div></div>
             <div
-              class="text-center flex flex-col justify-center h-[150px] text-5xl"
-            ></div>
+              id="game-teamguessing-question"
+              class="text-center flex flex-col justify-center h-[150px] text-5xl opacity-0"
+            >
+              Wie hoch ist der höchste Berg in Europa?
+            </div>
             <div></div>
             <div class="flex flex-col">
-              <table class="min-w-fulds w-[400px] table-fixed text-sm">
+              <table
+                class="game-teamguessing-answers-table min-w-fulds w-[400px] table-fixed text-sm opacity-0"
+              >
                 <tbody class="text-3xl divide-y divide-gray-200">
                   <tr class="odd:bg-transparent even:bg-transparent">
                     <td class="px-4 py-2 break-words">Kim</td>
@@ -526,7 +551,9 @@
             </div>
             <div></div>
             <div>
-              <table class="min-w-fulds w-[400px] table-fixed text-sm">
+              <table
+                class="game-teamguessing-answers-table min-w-fulds w-[400px] table-fixed text-sm opacity-0"
+              >
                 <tbody class="text-3xl divide-y divide-gray-200">
                   <tr class="odd:bg-transparent even:bg-transparent">
                     <td class="px-4 py-2 break-words">Kim</td>
@@ -546,11 +573,18 @@
           </div>
         </div>
 
-        <!-- Game #11 Creative Writing -->
-        <div id="game-creative-writing" class="hidden">
+        <!-- Game #14 Creative Writing -->
+        <div id="game-creative-writing" class="flex flex-col hidden">
           <h2>Creative Writing</h2>
+          <h2
+            id="game-creative-writing-prompt"
+            class="mt-[250px]! text-[70px]! max-w-5xl font-[Monotalic] hidden"
+          >
+            Wie soll eine neue Bar in Nürnberg heißen?
+          </h2>
           <div
-            class="grid grid-cols-4 gap-4 mt-56 font-sans text-black max-w-7xl grid-x hidsden"
+            id="game-creative-writing-game"
+            class="grid hidden grid-cols-4 gap-4 mt-56 font-sans text-black max-w-7xl grid-x"
           >
             <div class="p-3 text-3xl rounded-lg bg-gray-50">Der Bieromat</div>
             <div class="pl-1 text-3xl bg-gray-50">Säufers Paradise</div>
@@ -577,7 +611,7 @@
           </div>
         </div>
 
-        <!-- Game #12 Blamieren oder Kassieren  -->
+        <!-- Game #15 Blamieren oder Kassieren  -->
         <div id="game-blamieren-kassieren" class="hidden mt-64">
           <h2 class="text-7xl!">Blamieren oder Kassieren</h2>
         </div>
@@ -693,7 +727,7 @@
     }
 
     .blink {
-      animation: blink 1s 2s;
+      animation: blink 1s;
     }
 
     .grayscale {
@@ -831,6 +865,8 @@
     }
 
     function gameStartAnimation() {
+      changeView(games.indexOf(currentGame) + 1);
+      return;
       document.getElementById('animated-game-name').textContent = currentGame;
       setTimeout(() => {
         animateGameName();
@@ -873,6 +909,30 @@
       //   document
       //     .getElementById('wave-container-2')
       //     .classList.add('wave-path-2-move');
+    }
+
+    let interval;
+
+    function startTimer(durationInSeconds, spanId = 'timer') {
+      if (interval) clearInterval(interval);
+      let remaining = durationInSeconds;
+      const span = document.getElementById(spanId);
+
+      function updateTimer() {
+        const minutes = Math.floor(remaining / 60);
+        const seconds = remaining % 60;
+
+        span.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+        if (remaining <= 0) {
+          clearInterval(interval);
+        }
+
+        remaining--;
+      }
+
+      updateTimer(); // sofort anzeigen
+      interval = setInterval(updateTimer, 1000);
     }
 
     let CURRENT_VIEW = 0;

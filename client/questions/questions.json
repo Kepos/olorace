@@ -1,0 +1,205 @@
+{
+  "gameQuestions": [
+    {
+      "title": "Game #1 Quiz Questions",
+      "questions": [
+        {
+          "question": "Nenne einen römischen Kaiser nach dem Jahr 0",
+          "image": ""
+        },
+        {
+          "question": "Wie heißt Obama mit zweitem Vornamen?",
+          "image": ""
+        },
+        {
+          "question": "Mit welchem Gemüse experimentierte Mendel?",
+          "image": ""
+        },
+        {
+          "question": "Wer ist der reichste Europäaer",
+          "image": ""
+        }
+      ]
+    },
+    {
+      "title": "Game #2 Quiz Questions",
+      "questions": [
+        {
+          "question": "Nenne einen römischen Kaiser nach dem Jahr 0",
+          "image": ""
+        },
+        {
+          "question": "Wie heißt Obama mit zweitem Vornamen?",
+          "image": ""
+        },
+        {
+          "question": "Mit welchem Gemüse experimentierte Mendel?",
+          "image": ""
+        },
+        {
+          "question": "Wer ist der reichste Europäaer",
+          "image": ""
+        }
+      ]
+    },
+    {
+      "title": "Game #3 Quiz Questions",
+      "questions": [
+        {
+          "question": "Nenne einen römischen Kaiser nach dem Jahr 0",
+          "image": ""
+        },
+        {
+          "question": "Wie heißt Obama mit zweitem Vornamen?",
+          "image": ""
+        },
+        {
+          "question": "Mit welchem Gemüse experimentierte Mendel?",
+          "image": ""
+        },
+        {
+          "question": "Wer ist der reichste Europäaer",
+          "image": ""
+        }
+      ]
+    },
+    {
+      "title": "Game #4 Quiz Questions",
+      "questions": [
+        {
+          "question": "Nenne einen römischen Kaiser nach dem Jahr 0",
+          "image": ""
+        },
+        {
+          "question": "Wie heißt Obama mit zweitem Vornamen?",
+          "image": ""
+        },
+        {
+          "question": "Mit welchem Gemüse experimentierte Mendel?",
+          "image": ""
+        },
+        {
+          "question": "Wer ist der reichste Europäaer",
+          "image": ""
+        }
+      ]
+    },
+    {
+      "title": "Game #5 Umfragewerte",
+      "questions": [
+        {
+          "question": "Wer hatte schonmal nen Plug im Ass?",
+          "image": ""
+        },
+        {
+          "question": "Wer war schonmal im Fernsehen?",
+          "image": ""
+        },
+        {
+          "question": "Bodycount über 15? / Fallschirmspringen / Letzen Monat im Kino / Im Gym /",
+          "image": ""
+        },
+        {
+          "question": "Wurde schonmal bei einer sexuellen Aktivität erwischt",
+          "image": ""
+        }
+      ]
+    },
+    {
+      "title": "Game #6 Einsortieren",
+      "lists": [
+        "Gesuchtes Wort",
+        "1",
+        "2",
+        "3",
+        "Gesuchtes Wort",
+        "4",
+        "5",
+        "6",
+        "7"
+      ]
+    },
+    {
+      "title": "Game #7 Pantomime"
+    },
+    {
+      "title": "Game #8 Kategorie"
+    },
+    {
+      "title": "Game #9 MapFinder",
+      "questions": [
+        {
+          "question": "Wo steht die größte Statue der Welt?",
+          "answer": { "lat": 49.49, "lng": 11.11 }
+        },
+        {
+          "question": "Wo steht die größte Statue der Welt?",
+          "answer": { "lat": 49.49, "lng": 11.11 }
+        }
+      ]
+    },
+    {
+      "title": "Game #10 Who is this",
+      "questions": [
+        {
+          "image": "StephCurry"
+        },
+        {
+          "image": "BillMurray"
+        }
+      ]
+    },
+    {
+      "title": "Game #11 Songs"
+    },
+    {
+      "title": "Game #12 TeamGuessing",
+      "questions": [
+        {
+          "question": "Wieviel Geld hat Elon Musk in $",
+          "answer": 500000000000
+        },
+        {
+          "question": "Wie weit ist die Luftlinie zwischen XY und Z?",
+          "answer": { "lat": 49.49, "lng": 11.11 }
+        }
+      ]
+    },
+    {
+      "title": "Game #13 Multiple Choice",
+      "questions": [
+        {
+          "question": "Wie heißt die Mutter von Niki Lauda?",
+          "answers": ["Astrid", "Berta", "Kunigunde", "Andrea"],
+          "correct": 0
+        },
+        {
+          "question": "Welches Land grenzt an ein Superbinnenstaat?",
+          "answers": ["Österreich", "Pakistan", "DR Kongo", "Bolivien"],
+          "correct": 0
+        }
+      ]
+    },
+    {
+      "title": "Game #14 Creative Writing",
+      "questions": [
+        {
+          "question": "Wie sollte eine Bar in Nürnberg heißen?"
+        },
+        {
+          "question": "Wie heißt ein neuer HP-Charakter?"
+        }
+      ]
+    },
+    {
+      "title": "#15 Blamieren kassieren"
+    },
+    {
+      "title": "Game #16 Mitspieler",
+      "questions": [
+        "Was isst du am liebsten: Kartoffeln, Reis oder Nudeln?",
+        "Nennt beide ein Land in Europa"
+      ]
+    }
+  ]
+}

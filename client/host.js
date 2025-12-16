@@ -44,8 +44,8 @@ function onGameCardClicked(number) {
   });
 }
 
-function onNextButtonClicked(index = 0) {
-  sock.emit('next', index, (response) => {
+function onNextButtonClicked(payload) {
+  sock.emit('next', payload, (response) => {
     if (response.status == 'ok') {
       setCurrentGameView();
       document.getElementById('nextButton').textContent = response.nextUp;
@@ -106,6 +106,8 @@ function setCurrentGameView() {
   let nextButton = document.getElementById('nextButton');
   let gameNameLabel = document.getElementById('game-name-label');
 
+  nextButton.onclick = onNextButtonClicked;
+
   if (currentGameState == 0) {
     gameNameLabel.textContent = currentGame;
   }
@@ -116,6 +118,13 @@ function setCurrentGameView() {
       switch (currentGameState) {
         case 0:
           nextButton.textContent = 'Show Question Cards';
+          nextButton.onclick = () => {
+            console.log('Test');
+            let selectedQuestion =
+              document.getElementById('question-selection').value;
+            console.log(selectedQuestion);
+            onNextButtonClicked(parseInt(selectedQuestion));
+          };
           break;
       }
       break;
@@ -169,7 +178,7 @@ function setCurrentGameView() {
     case 'game-whoisthis':
       switch (currentGameState) {
         case 0:
-          nextButton.textContent = 'Show Question Cards';
+          nextButton.textContent = 'Show First Picture';
           break;
       }
       break;

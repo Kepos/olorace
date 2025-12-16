@@ -100,6 +100,7 @@ io.on('connection', (sock) => {
   sock.on('new-game', (number, callback) => {
     console.log(`start new Game, no: ${number}`);
     currentGame = games[number - 1];
+    currentGameState = 0;
     io.emit('new-game', number);
     callback({
       status: 'ok',
@@ -112,6 +113,8 @@ io.on('connection', (sock) => {
 
   sock.on('back-to-panel', (callback) => {
     io.emit('back-to-panel');
+    currentGame = 'games-panel';
+    currentGameState = 0;
     callback({ status: 'ok' });
   });
 
@@ -190,13 +193,15 @@ io.on('connection', (sock) => {
     }, 2000);
   });
 
-  sock.on('next', (index, callback) => {
+  sock.on('next', (payload, callback) => {
+    console.log(payload);
+
     switch (currentGame) {
       // Game No. 1
       case 'game-quiz-question':
         switch (currentGameState) {
           case 0:
-            //
+            // Show Questions
             callback({
               status: 'ok',
               nextUp: '# Open Question Card',
@@ -214,33 +219,41 @@ io.on('connection', (sock) => {
         }
         break;
 
-      // Game No 2
+      // Game No 5
       case 'game-umfragewerte':
         switch (currentGameState) {
           case 0:
-            //
+            // Show Question
             callback({
               status: 'ok',
-              nextUp: 'Show Results',
+              nextUp: 'Show Answers',
             });
             currentGameState++;
             break;
           case 1:
-            //
+            // Show Answers
+            callback({
+              status: 'ok',
+              nextUp: 'Show Votes',
+            });
+            currentGameState++;
+            break;
+          case 2:
+            //Show Votes
             callback({
               status: 'ok',
               nextUp: 'Next Question',
             });
-            currentGameState--;
+            currentGameState = 0;
             break;
         }
         break;
 
-      // Game No 3
+      // Game No 6
       case 'game-einsortieren':
         switch (currentGameState) {
           case 0:
-            //
+            // Fade in Game
             callback({
               status: 'ok',
               nextUp: 'Next List',
@@ -248,17 +261,16 @@ io.on('connection', (sock) => {
             currentGameState++;
             break;
           case 1:
-            //
+            // Next List
             callback({
               status: 'ok',
-              nextUp: 'Next Question',
+              nextUp: 'Next List?',
             });
-            currentGameState--;
             break;
         }
         break;
 
-      // Game no 4
+      // Game no 7
       case 'game-pantomime':
         switch (currentGameState) {
           case 0:
@@ -271,7 +283,7 @@ io.on('connection', (sock) => {
         }
         break;
 
-      // Game no 5
+      // Game no 8
       case 'game-kategorie':
         switch (currentGameState) {
           case 0:
@@ -284,7 +296,7 @@ io.on('connection', (sock) => {
         }
         break;
 
-      // Game no 6
+      // Game no 9
       case 'game-mapfinder':
         switch (currentGameState) {
           case 0:
@@ -330,7 +342,7 @@ io.on('connection', (sock) => {
         }
         break;
 
-      // Game no 7
+      // Game no 10
       case 'game-whoisthis':
         switch (currentGameState) {
           case 0:
@@ -343,11 +355,11 @@ io.on('connection', (sock) => {
         }
         break;
 
-      // Game no 8
+      // Game no 11
       case 'game-songs':
         break;
 
-      // Game no 9
+      // Game no 12
       case 'game-teamguessing':
         switch (currentGameState) {
           case 0:
@@ -385,9 +397,9 @@ io.on('connection', (sock) => {
         }
         break;
 
-      // Game no 10
+      // Game no 13
       case 'game-multiple-choice':
-        if (index == 1) currentGameState = 1;
+        if (payload == 1) currentGameState = 1;
         switch (currentGameState) {
           case 0:
             // Show Question
@@ -407,7 +419,7 @@ io.on('connection', (sock) => {
         }
         break;
 
-      // Game no 11
+      // Game no 14
       case 'game-creative-writing':
         switch (currentGameState) {
           case 0:
@@ -437,11 +449,11 @@ io.on('connection', (sock) => {
         }
         break;
 
-      // Game no 12
+      // Game no 15
       case 'game-blamieren-kassieren':
         break;
 
-      // Game no 13
+      // Game no 16
       case 'game-mitspieler':
         switch (currentGameState) {
           case 0:
@@ -467,7 +479,7 @@ io.on('connection', (sock) => {
       default:
         break;
     }
-    io.emit('next', index);
+    io.emit('next', payload);
   });
 });
 
