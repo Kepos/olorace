@@ -101,21 +101,25 @@
               alt="Bild 1"
               class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
               onclick="changeView(1)"
+              data-game="game-quiz-question-1"
             />
             <img
               src="./assets/CueCard.png"
               alt="Bild 2"
               class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
+              data-game="game-quiz-question-2"
             />
             <img
               src="./assets/CueCard.png"
               alt="Bild 3"
               class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
+              data-game="game-quiz-question-3"
             />
             <img
               src="./assets/CueCard.png"
               alt="Bild 4"
               class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
+              data-game="game-quiz-question-4"
             />
 
             <img
@@ -123,24 +127,28 @@
               alt="Bild 5"
               class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
               onclick="changeView(2)"
+              data-game="game-umfragewerte"
             />
             <img
               src="./assets/CueCard.png"
               alt="Bild 6"
               class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
               onclick="changeView(3)"
+              data-game="game-einsortieren"
             />
             <img
               src="./assets/CueCard.png"
               alt="Bild 7"
               class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
               onclick="changeView(4)"
+              data-game="game-pantomime"
             />
             <img
               src="./assets/CueCard.png"
               alt="Bild 8"
               class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
               onclick="changeView(5)"
+              data-game="game-kategorie"
             />
 
             <img
@@ -148,24 +156,28 @@
               alt="Bild 9"
               class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
               onclick="changeView(6)"
+              data-game="game-mapfinder"
             />
             <img
               src="./assets/CueCard.png"
               alt="Bild 10"
               class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
               onclick="changeView(7)"
+              data-game="game-whoisthis"
             />
             <img
               src="./assets/CueCard.png"
               alt="Bild 11"
               class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
               onclick="changeView(8)"
+              data-game="game-songs"
             />
             <img
               src="./assets/CueCard.png"
               alt="Bild 12"
               class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
               onclick="changeView(9)"
+              data-game="game-teamguessing"
             />
 
             <img
@@ -173,24 +185,28 @@
               alt="Bild 13"
               class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
               onclick="changeView(10)"
+              data-game="game-multiple-choice"
             />
             <img
               src="./assets/CueCard.png"
               alt="Bild 14"
               class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
               onclick="changeView(11)"
+              data-game="game-creative-writing"
             />
             <img
               src="./assets/CueCard.png"
               alt="Bild 15"
               class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
               onclick="changeView(12)"
+              data-game="game-blamieren-kassieren"
             />
             <img
               src="./assets/CueCard.png"
               alt="Bild 16"
               class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
               onclick="changeView(13)"
+              data-game="game-mitspieler"
             />
           </div>
           <div class="flex flex-row justify-between mt-12">
@@ -839,7 +855,10 @@
     function gameSelectionAnimation(index) {
       const grid = document.querySelector('#games-panel .grid');
       const images = grid.querySelectorAll('img');
-      const img = images[index - 1];
+      // const img = images[index - 1];
+
+      // Karte für das aktuelle Spiel finden
+      const img = grid.querySelector(`img[data-game="${currentGame}"]`);
 
       // Bild blinkt zweimal
       img.classList.add('blink');
@@ -1013,6 +1032,7 @@
 
           document.getElementById(currentViewID).classList.remove('hidden');
         } else {
+          // Change the view in the current game & count up currentGameState
           setCurrentGameView();
         }
 

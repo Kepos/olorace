@@ -3,10 +3,10 @@ let isAdmin = true;
 let currentGame = 'games-panel';
 let currentGameState = 0;
 const games = [
-  'game-quiz-question', // case 1
-  'game-quiz-question', // case 1
-  'game-quiz-question', // case 1
-  'game-quiz-question', // case 1
+  'game-quiz-question-1', // case 1
+  'game-quiz-question-2', // case 1
+  'game-quiz-question-3', // case 1
+  'game-quiz-question-4', // case 1
   'game-umfragewerte', // case 5
   'game-einsortieren', // case 6
   'game-pantomime', // case 7
@@ -103,11 +103,14 @@ function onNameChanged() {
   checkForCompleteData();
 }
 
-function setCurrentGameView(index) {
+function setCurrentGameView() {
   console.log('setCurrentGameView!');
   switch (currentGame) {
     // Game No. 1
-    case 'game-quiz-question':
+    case 'game-quiz-question-1':
+    case 'game-quiz-question-2':
+    case 'game-quiz-question-3':
+    case 'game-quiz-question-4':
       switch (currentGameState) {
         case 0:
           // Show Quiz Card Options
@@ -126,7 +129,9 @@ function setCurrentGameView(index) {
             .classList.add('hidden');
           let question = document.getElementById('game-quiz-question-question');
           question.textContent =
-            quizData[0].questions[game_payload - 1].question;
+            quizData[`game-quiz-question-1`].questions[
+              game_payload - 1
+            ].question;
           question.classList.remove('hidden');
 
           currentGameState--;
@@ -139,7 +144,7 @@ function setCurrentGameView(index) {
       switch (currentGameState) {
         case 0:
           let elem = document.getElementById('game-multiple-choice-question');
-          elem.textContent = quizData[4].questions[0].question;
+          elem.textContent = quizData[currentGame].questions[0].question;
           elem.classList.remove('hidden');
           currentGameState++;
           break;

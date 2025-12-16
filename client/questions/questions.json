@@ -1,6 +1,6 @@
 {
-  "gameQuestions": [
-    {
+  "gameQuestions": {
+    "game-quiz-question-1": {
       "title": "Game #1 Quiz Questions",
       "questions": [
         {
@@ -21,7 +21,7 @@
         }
       ]
     },
-    {
+    "game-quiz-question-2": {
       "title": "Game #2 Quiz Questions",
       "questions": [
         {
@@ -42,7 +42,7 @@
         }
       ]
     },
-    {
+    "game-quiz-questio-3": {
       "title": "Game #3 Quiz Questions",
       "questions": [
         {
@@ -63,7 +63,7 @@
         }
       ]
     },
-    {
+    "game-quiz-question-4": {
       "title": "Game #4 Quiz Questions",
       "questions": [
         {
@@ -84,7 +84,7 @@
         }
       ]
     },
-    {
+    "game-umfragewerte": {
       "title": "Game #5 Umfragewerte",
       "questions": [
         {
@@ -105,7 +105,7 @@
         }
       ]
     },
-    {
+    "game-einsortieren": {
       "title": "Game #6 Einsortieren",
       "lists": [
         "Gesuchtes Wort",
@@ -119,13 +119,13 @@
         "7"
       ]
     },
-    {
+    "game-pantomime": {
       "title": "Game #7 Pantomime"
     },
-    {
+    "game-kategorie": {
       "title": "Game #8 Kategorie"
     },
-    {
+    "game-mapfinder": {
       "title": "Game #9 MapFinder",
       "questions": [
         {
@@ -138,7 +138,7 @@
         }
       ]
     },
-    {
+    "game-whoisthis": {
       "title": "Game #10 Who is this",
       "questions": [
         {
@@ -149,10 +149,10 @@
         }
       ]
     },
-    {
+    "game-songs": {
       "title": "Game #11 Songs"
     },
-    {
+    "game-teamguessing": {
       "title": "Game #12 TeamGuessing",
       "questions": [
         {
@@ -165,7 +165,7 @@
         }
       ]
     },
-    {
+    "game-multiple-choice": {
       "title": "Game #13 Multiple Choice",
       "questions": [
         {
@@ -180,7 +180,7 @@
         }
       ]
     },
-    {
+    "game-creative-writing": {
       "title": "Game #14 Creative Writing",
       "questions": [
         {
@@ -191,15 +191,15 @@
         }
       ]
     },
-    {
+    "game-blamieren-kassieren": {
       "title": "#15 Blamieren kassieren"
     },
-    {
+    "game-mitspieler": {
       "title": "Game #16 Mitspieler",
       "questions": [
         "Was isst du am liebsten: Kartoffeln, Reis oder Nudeln?",
         "Nennt beide ein Land in Europa"
       ]
     }
-  ]
+  }
 }
