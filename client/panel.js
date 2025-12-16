@@ -59,9 +59,9 @@ const onPlayButtonClicked = (sock) => () => {
     document.getElementById('namelabel').innerHTML = name + ' buzzered!';
   });
 
-  sock.on('new-game', (number) => {
-    currentGame = games[number - 1];
-    gameSelectionAnimation(number);
+  sock.on('new-game', (newGame) => {
+    currentGame = newGame;
+    gameSelectionAnimation();
   });
 
   sock.on('new-score', (teamNo, score) => {
@@ -71,7 +71,7 @@ const onPlayButtonClicked = (sock) => () => {
   sock.on('back-to-panel', () => {
     currentGame = 'games-panel';
     currentGameState = 0;
-    changeView(0); // id, Zielwert, Dauer in ms
+    changeView(true); // id, Zielwert, Dauer in ms
   });
 
   sock.on('restart', () => {
@@ -104,7 +104,7 @@ function onNameChanged() {
 }
 
 function setCurrentGameView() {
-  console.log('setCurrentGameView!');
+  console.log('setCurrentGameView!', currentGame);
   switch (currentGame) {
     // Game No. 1
     case 'game-quiz-question-1':
@@ -143,21 +143,29 @@ function setCurrentGameView() {
     case 'game-umfragewerte':
       switch (currentGameState) {
         case 0:
+          // SHow Question
           let elem = document.getElementById('game-multiple-choice-question');
           elem.textContent = quizData[currentGame].questions[0].question;
           elem.classList.remove('hidden');
+          document
+            .getElementById('game-multiple-choice-chart')
+            .classList.add('hidden');
           currentGameState++;
+          updateChart(0, 0);
           break;
         case 1:
+          // Show Answers Chart
           document
-            .getElementById('game-multiple-choice-answers')
+            .getElementById('game-multiple-choice-chart')
             .classList.remove('hidden');
-          currentGameState++;
-          break;
-        case 2:
-          document.getElementById(
-            'game-multiple-choice-question'
-          ).textContent += 'Show Votes!';
+          document
+            .getElementById('game-multiple-choice-question')
+            .classList.add('hidden');
+          setTimeout(() => {
+            let rand = Math.floor(Math.random() * 16);
+            let rand2 = Math.floor(Math.random() * 16);
+            updateChart(rand, rand2);
+          }, 1000);
           currentGameState = 0;
           break;
       }
@@ -233,7 +241,16 @@ function setCurrentGameView() {
           document
             .getElementById('game-whoisthis-game')
             .classList.remove('hidden');
-          // Show next picture
+        // Show next picture
+        default:
+          let arr = quizData[currentGame].questions;
+          if (arr.length > currentGameState) {
+            document.getElementById('game-whoisthis-img').src =
+              './assets/' +
+              quizData[currentGame].questions[currentGameState].image +
+              '.png';
+            currentGameState++;
+          }
           break;
       }
       break;

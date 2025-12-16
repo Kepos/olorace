@@ -333,6 +333,15 @@
   .h-\[300px\] {
     height: 300px;
   }
+  .h-\[500px\] {
+    height: 500px;
+  }
+  .h-\[600px\] {
+    height: 600px;
+  }
+  .h-\[800px\] {
+    height: 800px;
+  }
   .h-fit {
     height: fit-content;
   }
@@ -374,6 +383,9 @@
   }
   .w-\[700px\] {
     width: 700px;
+  }
+  .w-\[1000px\] {
+    width: 1000px;
   }
   .w-\[1200px\] {
     width: 1200px;

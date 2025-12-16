@@ -18,12 +18,16 @@
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
       crossorigin=""
     ></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body class="h-screen bg-[#380448]">
     <div
       class="flex flex-col items-center justify-start h-full pt-56 game-container"
     >
-      <h1 class="absolute top-20" onclick="changeView(0)">
+      <h1
+        class="absolute top-20"
+        onclick="currentGame = 'games-panel'; changeView()"
+      >
         o holy<br />
         <span class="text-[#d5d514]"
           >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gamenight!</span
@@ -100,7 +104,7 @@
               src="./assets/CueCard.png"
               alt="Bild 1"
               class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
-              onclick="changeView(1)"
+              onclick="currentGame = 'game-quiz-question-1'; changeView()"
               data-game="game-quiz-question-1"
             />
             <img
@@ -126,21 +130,21 @@
               src="./assets/CueCard.png"
               alt="Bild 5"
               class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
-              onclick="changeView(2)"
+              onclick="changeView()"
               data-game="game-umfragewerte"
             />
             <img
               src="./assets/CueCard.png"
               alt="Bild 6"
               class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
-              onclick="changeView(3)"
+              onclick="changeView()"
               data-game="game-einsortieren"
             />
             <img
               src="./assets/CueCard.png"
               alt="Bild 7"
               class="rounded-lg h-[150px] w-[350px] bg-blue-700 opacity-0"
-              onclick="changeView(4)"
+              onclick="changeView()"
               data-game="game-pantomime"
             />
             <img
@@ -408,6 +412,12 @@
               <span class="text-4xl text-center">C: Castrop-Rauxel</span>
               <span class="text-4xl text-center">D: Castrop-Rauxel</span>
             </div>
+            <div
+              id="game-multiple-choice-chart"
+              class="hidden mt-20 h-[600px] w-[1000px]"
+            >
+              <canvas id="myChart"></canvas>
+            </div>
           </div>
         </div>
 
@@ -478,6 +488,7 @@
             class="flex flex-col items-center justify-center hidden"
           >
             <img
+              id="game-whoisthis-img"
               src="./assets/Tim_Allen.webp"
               alt="Bild 1"
               class="rounded-lg w-[700px] max-h-[720px] object-cover bg-blue-700 opacity-1sd"
@@ -728,6 +739,13 @@
     #map {
       height: 680px;
       width: 1200px;
+      font-family: 'Monotalic';
+    }
+
+    #myChart {
+      max-width: 1200px;
+      height: 800px;
+      background-color: white;
     }
 
     @keyframes blink {
@@ -852,7 +870,63 @@
       map.invalidateSize();
     }, 200);
 
-    function gameSelectionAnimation(index) {
+    // Chart Init
+    // Initiale Werte
+    const data = {
+      labels: ['Ja', 'Nein'],
+      datasets: [
+        {
+          label: 'Antworten',
+          data: [0, 0], // Startwerte
+          backgroundColor: ['#4CAF50', '#F44336'],
+          borderRadius: 5,
+          barPercentage: 0.5,
+        },
+      ],
+    };
+    // Chart erstellen
+    const config = {
+      type: 'bar',
+      data: data,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: {
+          duration: 800,
+          easing: 'easeOut',
+        },
+        plugins: {
+          legend: {
+            display: false,
+          },
+          datalabels: {
+            font: {
+              size: 40,
+              weight: '700',
+            },
+          },
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              stepSize: 1,
+            },
+          },
+        },
+      },
+    };
+
+    Chart.defaults.font.family = 'Monotalic, system-ui, sans-serif';
+    const myChart = new Chart(document.getElementById('myChart'), config);
+
+    // Funktion, um Werte zu ändern und animiert zu aktualisieren
+    function updateChart(jaValue, neinValue) {
+      myChart.data.datasets[0].data = [jaValue, neinValue];
+      myChart.update(); // animiert
+    }
+
+    function gameSelectionAnimation() {
       const grid = document.querySelector('#games-panel .grid');
       const images = grid.querySelectorAll('img');
       // const img = images[index - 1];
@@ -884,13 +958,13 @@
     }
 
     function gameStartAnimation() {
-      changeView(games.indexOf(currentGame) + 1);
+      changeView(true);
       return;
       document.getElementById('animated-game-name').textContent = currentGame;
       setTimeout(() => {
         animateGameName();
         setTimeout(() => {
-          changeView(games.indexOf(currentGame) + 1);
+          changeView();
         }, 6000);
       }, 1000);
     }
@@ -954,68 +1028,82 @@
       interval = setInterval(updateTimer, 1000);
     }
 
-    let CURRENT_VIEW = 0;
-    let currentViewID = '';
-
-    function changeView(num = undefined) {
-      switch (num) {
-        case -3:
-          currentViewID = 'game-name';
+    function changeView(changeGame = false) {
+      let view = currentGame;
+      switch (currentGame) {
+        case 'game-quiz-question-1':
+        case 'game-quiz-question-2':
+        case 'game-quiz-question-3':
+        case 'game-quiz-question-4':
+          view = 'game-quiz-question';
           break;
-        case -2:
-          currentViewID = 'leaderboard';
+        case 'game-umfragewerte':
+          view = 'game-multiple-choice';
           break;
-        case -1:
-          currentViewID = 'points-panel';
-          break;
-        case 0:
-          currentViewID = 'games-panel';
-          break;
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-          currentViewID = 'game-quiz-question';
-          break;
-        case 5:
-          currentViewID = 'game-multiple-choice';
-          break;
-        case 6:
-          currentViewID = 'game-einsortieren';
-          break;
-        case 7:
-          currentViewID = 'game-pantomime';
-          break;
-        case 8:
-          currentViewID = 'game-kategorie';
-          break;
-        case 9:
-          currentViewID = 'game-mapfinder';
-          break;
-        case 10:
-          currentViewID = 'game-whoisthis';
-          break;
-        case 11:
-          currentViewID = 'game-songs';
-          break;
-        case 12:
-          currentViewID = 'game-teamguessing';
-          break;
-        case 13:
-          currentViewID = 'game-multiple-choice';
-          break;
-        case 14:
-          currentViewID = 'game-creative-writing';
-          break;
-        case 15:
-          currentViewID = 'game-blamieren-kassieren';
-          break;
-        case 16:
-          currentViewID = 'game-teamguessing';
+        case 'game-mitspieler':
+          view = 'game-teamguessing';
           break;
         default:
           break;
       }
+      // switch (num) {
+      //   case -3:
+      //     currentViewID = 'game-name';
+      //     break;
+      //   case -2:
+      //     currentViewID = 'leaderboard';
+      //     break;
+      //   case -1:
+      //     currentViewID = 'points-panel';
+      //     break;
+      //   case 0:
+      //     currentViewID = 'games-panel';
+      //     break;
+      //   case 1:
+      //   case 2:
+      //   case 3:
+      //   case 4:
+      //     currentViewID = 'game-quiz-question';
+      //     break;
+      //   case 5:
+      //     currentViewID = 'game-multiple-choice';
+      //     break;
+      //   case 6:
+      //     currentViewID = 'game-einsortieren';
+      //     break;
+      //   case 7:
+      //     currentViewID = 'game-pantomime';
+      //     break;
+      //   case 8:
+      //     currentViewID = 'game-kategorie';
+      //     break;
+      //   case 9:
+      //     currentViewID = 'game-mapfinder';
+      //     break;
+      //   case 10:
+      //     currentViewID = 'game-whoisthis';
+      //     break;
+      //   case 11:
+      //     currentViewID = 'game-songs';
+      //     break;
+      //   case 12:
+      //     currentViewID = 'game-teamguessing';
+      //     break;
+      //   case 13:
+      //     currentViewID = 'game-multiple-choice';
+      //     break;
+      //   case 14:
+      //     currentViewID = 'game-creative-writing';
+      //     break;
+      //   case 15:
+      //     currentViewID = 'game-blamieren-kassieren';
+      //     break;
+      //   case 16:
+      //     currentViewID = 'game-teamguessing';
+      //     break;
+      //   default:
+      //     break;
+      // }
 
       let gameContainer = document.getElementById('game-container');
 
@@ -1025,12 +1113,12 @@
 
       // 2️⃣ Nach der Animation View wechseln
       setTimeout(() => {
-        if (num !== undefined) {
+        if (changeGame) {
           document
             .querySelectorAll('#game-container > div')
             .forEach((el) => el.classList.add('hidden'));
 
-          document.getElementById(currentViewID).classList.remove('hidden');
+          document.getElementById(view).classList.remove('hidden');
         } else {
           // Change the view in the current game & count up currentGameState
           setCurrentGameView();
@@ -1050,7 +1138,7 @@
       //   map.invalidateSize();
     }
 
-    CURRENT_VIEW = 0;
-    changeView(CURRENT_VIEW);
+    currentGame = games[4];
+    changeView(true);
   </script>
 </html>

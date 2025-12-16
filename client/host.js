@@ -34,12 +34,13 @@ const onPlayButtonClicked = (sock) => () => {
   sock.emit('signup', { name: enteredPlayerName, car: selectedCarIndex });
 };
 
-function onGameCardClicked(number) {
-  sock.emit('new-game', number, (response) => {
+function onGameCardClicked(emitter) {
+  let newGame = emitter.getAttribute('data-game');
+  sock.emit('new-game', newGame, (response) => {
     if (response.status == 'ok') {
-      currentGame = games[number - 1];
+      currentGame = newGame;
       setCurrentGameView();
-      changeView(number);
+      changeView();
     }
   });
 }
@@ -63,7 +64,7 @@ function onBackToPanelButtonClicked() {
     if (response.status == 'ok') {
       currentGame = 'games-panel';
       currentGameState = 0;
-      changeView(0);
+      changeView();
     }
   });
 }
@@ -114,12 +115,14 @@ function setCurrentGameView() {
 
   switch (currentGame) {
     // Game No. 1
-    case 'game-quiz-question':
+    case 'game-quiz-question-1':
+    case 'game-quiz-question-2':
+    case 'game-quiz-question-3':
+    case 'game-quiz-question-4':
       switch (currentGameState) {
         case 0:
           nextButton.textContent = 'Show Question Cards';
           nextButton.onclick = () => {
-            console.log('Test');
             let selectedQuestion =
               document.getElementById('question-selection').value;
             console.log(selectedQuestion);

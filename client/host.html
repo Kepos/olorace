@@ -150,100 +150,116 @@
                 src="./assets/CueCard.png"
                 alt="Bild 1"
                 class="rounded-lg w-[350px] bg-blue-700"
-                onclick="onGameCardClicked(1)"
+                onclick="onGameCardClicked(this)"
+                data-game="game-quiz-question-1"
               />
               <img
                 src="./assets/CueCard.png"
                 alt="Bild 2"
                 class="rounded-lg w-[350px] bg-blue-700"
-                onclick="onGameCardClicked(2)"
+                onclick="onGameCardClicked(this)"
+                data-game="game-quiz-question-2"
               />
               <img
                 src="./assets/CueCard.png"
                 alt="Bild 3"
                 class="rounded-lg w-[350px] bg-blue-700"
-                onclick="onGameCardClicked(3)"
+                onclick="onGameCardClicked(this)"
+                data-game="game-quiz-question-3"
               />
               <img
                 src="./assets/CueCard.png"
                 alt="Bild 4"
                 class="rounded-lg w-[350px] bg-blue-700"
-                onclick="onGameCardClicked(4)"
+                onclick="onGameCardClicked(this)"
+                data-game="game-quiz-question-4"
               />
 
               <img
                 src="./assets/CueCard.png"
                 alt="Bild 5"
                 class="rounded-lg w-[350px] bg-blue-700"
-                onclick="onGameCardClicked(5)"
+                onclick="onGameCardClicked(this)"
+                data-game="game-umfragewerte"
               />
               <img
                 src="./assets/CueCard.png"
                 alt="Bild 6"
                 class="rounded-lg w-[350px] bg-blue-700"
-                onclick="onGameCardClicked(6)"
+                onclick="onGameCardClicked(this)"
+                data-game="game-einsortieren"
               />
               <img
                 src="./assets/CueCard.png"
                 alt="Bild 7"
                 class="rounded-lg w-[350px] bg-blue-700"
-                onclick="onGameCardClicked(7)"
+                onclick="onGameCardClicked(this)"
+                data-game="game-pantomime"
               />
               <img
                 src="./assets/CueCard.png"
                 alt="Bild 8"
                 class="rounded-lg w-[350px] bg-blue-700"
-                onclick="onGameCardClicked(8)"
+                onclick="onGameCardClicked(this)"
+                data-game="game-kategorie"
               />
 
               <img
                 src="./assets/CueCard.png"
                 alt="Bild 9"
                 class="rounded-lg w-[350px] bg-blue-700"
-                onclick="onGameCardClicked(9)"
+                onclick="onGameCardClicked(this)"
+                data-game="game-mapfinder"
               />
               <img
                 src="./assets/CueCard.png"
                 alt="Bild 10"
                 class="rounded-lg w-[350px] bg-blue-700"
-                onclick="onGameCardClicked(10)"
+                onclick="onGameCardClicked(this)"
+                data-game="game-whoisthis"
               />
               <img
                 src="./assets/CueCard.png"
                 alt="Bild 11"
                 class="rounded-lg w-[350px] bg-blue-700"
-                onclick="onGameCardClicked(11)"
+                onclick="onGameCardClicked(this)"
+                data-game="game-songs"
               />
               <img
                 src="./assets/CueCard.png"
                 alt="Bild 12"
                 class="rounded-lg w-[350px] bg-blue-700"
-                onclick="onGameCardClicked(12)"
+                onclick="onGameCardClicked(this)"
+                data-game="game-teamguessing"
               />
 
               <img
                 src="./assets/CueCard.png"
                 alt="Bild 13"
                 class="rounded-lg w-[350px] bg-blue-700"
-                onclick="onGameCardClicked(13)"
+                onclick="onGameCardClicked(this)"
+                data-game="game-multiple-choice"
               />
               <img
                 src="./assets/CueCard.png"
                 alt="Bild 14"
                 class="rounded-lg w-[350px] bg-blue-700"
-                onclick="onGameCardClicked(14)"
+                onclick="onGameCardClicked(this)"
+                data-game="game-creative-writing"
               />
               <img
                 src="./assets/CueCard.png"
                 alt="Bild 15"
                 class="rounded-lg w-[350px] bg-blue-700"
-                onclick="onGameCardClicked(15)"
+                onclick="onGameCardClicked(this)"
+                data-game="game-blamieren-kassieren"
               />
               <img
                 src="./assets/CueCard.png"
                 alt="Bild 16"
                 class="rounded-lg w-[350px] bg-blue-700"
-                onclick="onGameCardClicked(16)"
+                onclick="onGameCardClicked(this)"
+                data-game="game-mitspieler"
               />
             </div>
             <div class="flex flex-row justify-between mt-12 space-x-5">
@@ -382,9 +398,6 @@
                 <option value="3">Frage 3</option>
                 <option value="4">Frage 4</option>
               </select>
-              <button class="p-2 mt-4 border border-yellow-500 bg-amber-500">
-                Senden
-              </button>
             </div>
           </div>
 
@@ -512,78 +525,27 @@
       input.value = Number(input.value) + amount;
     }
 
-    let CURRENT_VIEW = 0;
-    let currentViewID = '';
-
-    function changeView(num) {
-      switch (num) {
-        case -3:
-          currentViewID = 'game-name';
-          break;
-        case -2:
-          currentViewID = 'leaderboard';
-          break;
-        case -1:
-          currentViewID = 'points-panel';
-          break;
-        case 0:
-          currentViewID = 'games-panel';
-          break;
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-          currentViewID = 'game-quiz-question';
-          break;
-        case 5:
-          currentViewID = 'game-umfragewerte';
-          break;
-        case 6:
-          currentViewID = 'game-einsortieren';
-          break;
-        case 7:
-          currentViewID = 'game-pantomime';
-          break;
-        case 8:
-          currentViewID = 'game-pantomime';
-          break;
-        case 9:
-          currentViewID = 'game-mapfinder';
-          break;
-        case 10:
-          currentViewID = 'game-whoisthis';
-          break;
-        case 11:
-          currentViewID = 'game-songs';
-          break;
-        case 12:
-          currentViewID = 'game-teamguessing';
-          break;
-        case 13:
-          currentViewID = 'game-multiple-choice';
-          break;
-        case 14:
-          currentViewID = 'game-creative-writing';
-          break;
-        case 15:
-          currentViewID = 'game-blamieren-kassieren';
-          break;
-        case 16:
-          currentViewID = 'game-teamguessing';
+    function changeView() {
+      let view = currentGame;
+      switch (currentGame) {
+        case 'game-quiz-question-1':
+        case 'game-quiz-question-2':
+        case 'game-quiz-question-3':
+        case 'game-quiz-question-4':
+          view = 'game-quiz-question';
           break;
         default:
-          currentViewID = 'games-panel';
           break;
       }
       document
         .querySelectorAll('#games-container > div')
         .forEach((elem) => elem.classList.add('hidden'));
-      document.getElementById(currentViewID).classList.remove('hidden');
-      if (currentViewID != 'games-panel')
+
+      document.getElementById(view).classList.remove('hidden');
+      if (currentGame != 'games-panel')
         document.getElementById('game-header').classList.remove('hidden');
     }
 
-    CURRENT_VIEW = 0;
-    changeView(CURRENT_VIEW);
+    changeView();
   </script>
 </html>

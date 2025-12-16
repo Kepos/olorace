@@ -97,11 +97,11 @@ io.on('connection', (sock) => {
     });
   });
 
-  sock.on('new-game', (number, callback) => {
-    console.log(`start new Game, no: ${number}`);
-    currentGame = games[number - 1];
+  sock.on('new-game', (newGame, callback) => {
+    console.log(`start new Game, ${newGame}`);
+    currentGame = newGame;
     currentGameState = 0;
-    io.emit('new-game', number);
+    io.emit('new-game', newGame);
     callback({
       status: 'ok',
     });
@@ -198,7 +198,10 @@ io.on('connection', (sock) => {
 
     switch (currentGame) {
       // Game No. 1
-      case 'game-quiz-question':
+      case 'game-quiz-question-1':
+      case 'game-quiz-question-2':
+      case 'game-quiz-question-3':
+      case 'game-quiz-question-4':
         switch (currentGameState) {
           case 0:
             // Show Questions
@@ -231,15 +234,7 @@ io.on('connection', (sock) => {
             currentGameState++;
             break;
           case 1:
-            // Show Answers
-            callback({
-              status: 'ok',
-              nextUp: 'Show Votes',
-            });
-            currentGameState++;
-            break;
-          case 2:
-            //Show Votes
+            //Show Answers
             callback({
               status: 'ok',
               nextUp: 'Next Question',
