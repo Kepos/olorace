@@ -217,11 +217,16 @@ function setCurrentGameView() {
 
     // Game No 5
     case 'game-umfragewerte':
-      switch (currentGameState) {
+      switch (currentGameState % 2) {
         case 0:
           // SHow Question
           let elem = document.getElementById('game-multiple-choice-question');
-          elem.textContent = quizData[currentGame].questions[0].question;
+          let question =
+            quizData[currentGame].questions[Math.floor(currentGameState / 2)]
+              ?.question;
+          if (question) {
+            elem.textContent = question;
+          }
           elem.classList.remove('hidden');
           document
             .getElementById('game-multiple-choice-chart')
@@ -243,7 +248,7 @@ function setCurrentGameView() {
           setTimeout(() => {
             updateChart(game_payload?.yes, game_payload?.no);
           }, 1000);
-          currentGameState = 0;
+          currentGameState++;
           break;
       }
       break;
@@ -292,8 +297,9 @@ function setCurrentGameView() {
           );
           questionField.classList.remove('hidden');
           const question =
-            quizData['game-mapfinder']?.questions?.[currentGameState / 5]
-              .question;
+            quizData['game-mapfinder']?.questions?.[
+              Math.floor(currentGameState / 5)
+            ]?.question;
           if (question) {
             questionField.innerHTML = question;
           }
@@ -407,8 +413,9 @@ function setCurrentGameView() {
         case 0:
           // Show Question
           let question =
-            quizData['game-teamguessing'].questions[currentGameState / 5]
-              ?.question;
+            quizData['game-teamguessing'].questions[
+              Math.floor(currentGameState / 5)
+            ]?.question;
 
           let questionField = document.getElementById(
             'game-teamguessing-question'
@@ -447,18 +454,31 @@ function setCurrentGameView() {
 
     // Game no 13
     case 'game-multiple-choice':
-      switch (currentGameState) {
+      switch (currentGameState % 4) {
         case 0:
           // Show Question
-          document
-            .getElementById('game-multiple-choice-question')
-            .classList.remove('hidden');
+          let questionField = document.getElementById(
+            'game-multiple-choice-question'
+          );
+          questionField.classList.remove('hidden');
           document
             .getElementById('game-multiple-choice-answers')
             .classList.add('hidden');
           document
             .querySelectorAll('.game-multiple-choice-votes')
             .forEach((elem) => elem.classList.add('hidden'));
+
+          let question =
+            quizData[currentGame].questions[Math.floor(currentGameState / 4)];
+          if (question) {
+            questionField.textContent = question.question;
+            document
+              .querySelectorAll('.game-multiple-choice-answer')
+              .forEach((answerField, index) => {
+                answerField.textContent =
+                  ['A', 'B', 'C', 'D'][index] + ': ' + question.answers[index];
+              });
+          }
           currentGameState++;
           break;
         case 1:
@@ -480,7 +500,7 @@ function setCurrentGameView() {
           document
             .querySelector('#game-multiple-choice-answers > div')
             .classList.add('text-green-400');
-          currentGameState = 0;
+          currentGameState++;
           break;
           break;
       }
@@ -488,14 +508,23 @@ function setCurrentGameView() {
 
     // Game no 14
     case 'game-creative-writing':
-      switch (currentGameState) {
+      switch (currentGameState % 3) {
         case 0:
-          document
-            .getElementById('game-creative-writing-prompt')
-            .classList.remove('hidden');
+          let promptField = document.getElementById(
+            'game-creative-writing-prompt'
+          );
+          promptField.classList.remove('hidden');
           document
             .getElementById('game-creative-writing-game')
             .classList.add('hidden');
+
+          let question =
+            quizData[currentGame].questions[Math.floor(currentGameState / 3)];
+
+          if (question) {
+            promptField.innerHTML = question.question;
+          }
+
           currentGameState++;
           break;
         case 1:
@@ -509,7 +538,7 @@ function setCurrentGameView() {
           break;
         case 2:
           // Show Votes
-          currentGameState = 0;
+          currentGameState++;
           break;
       }
       break;
@@ -524,11 +553,23 @@ function setCurrentGameView() {
 
     // Game no 16
     case 'game-mitspieler':
-      switch (currentGameState) {
+      switch (currentGameState % 2) {
         case 0:
+          let questionField = document.getElementById(
+            'game-teamguessing-question'
+          );
+          questionField.classList.remove('opacity-0');
           document
-            .getElementById('game-teamguessing-question')
-            .classList.remove('opacity-0');
+            .querySelectorAll('.game-teamguessing-answers-table')
+            .forEach((elem) => elem.classList.add('opacity-0'));
+
+          let question =
+            quizData[currentGame].questions[Math.floor(currentGameState / 2)];
+
+          if (question) {
+            questionField.textContent = question;
+          }
+
           currentGameState++;
           break;
         case 1:

@@ -80,7 +80,11 @@
 
       <!-- Game #5 Umfragewerte -->
       <div id="game-umfragewerte" class="hidden font-[Monotalic]">
-        <span class="inline-block mt-20 mb-12 text-3xl">Bist du ein Affe?</span>
+        <span
+          id="game-umfragewerte-text"
+          class="inline-block mt-20 mb-12 text-3xl"
+          >Bist du ein Affe?</span
+        >
         <button
           class="w-full p-5 mb-10 text-2xl bg-green-800 border-green-400 border-3 rounded-2xl"
           onclick="onAnswerButtonClicked(true)"
@@ -109,7 +113,7 @@
 
       <!-- Game #12 TeamGuessing -->
       <div id="game-teamguessing" class="hidden font-[Monotalic] w-full">
-        <span class="inline-block mb-8 text-3xl"
+        <span id="game-teamguessing-text" class="inline-block mb-8 text-3xl"
           >Wieviel wiegt ein Elefant?</span
         >
         <input
@@ -128,27 +132,29 @@
 
       <!-- Game #13 Multiple Choice -->
       <div id="game-multiple-choice" class="hidden">
-        <span class="inline-block mb-12 text-3xl">WER IST DER KING?</span>
+        <span id="game-multiple-choice-text" class="inline-block mb-12 text-3xl"
+          >WER IST DER KING?</span
+        >
         <button
-          class="w-full p-5 mb-4 text-2xl text-left text-black bg-yellow-300 border-yellow-100 border-3 rounded-2xl"
+          class="w-full p-5 mb-4 text-2xl text-left text-black bg-yellow-300 border-yellow-100 game-multiple-choice-answer border-3 rounded-2xl"
           onclick="onAnswerButtonClicked(0)"
         >
           A: Niemand
         </button>
         <button
-          class="w-full p-5 mb-4 text-2xl text-left text-black bg-yellow-300 border-yellow-100 border-3 rounded-2xl"
+          class="w-full p-5 mb-4 text-2xl text-left text-black bg-yellow-300 border-yellow-100 game-multiple-choice-answer border-3 rounded-2xl"
           onclick="onAnswerButtonClicked(1)"
         >
           B: Du
         </button>
         <button
-          class="w-full p-5 mb-4 text-2xl text-left text-black bg-yellow-300 border-yellow-100 border-3 rounded-2xl"
+          class="w-full p-5 mb-4 text-2xl text-left text-black bg-yellow-300 border-yellow-100 game-multiple-choice-answer border-3 rounded-2xl"
           onclick="onAnswerButtonClicked(2)"
         >
           C: Ich
         </button>
         <button
-          class="w-full p-5 mb-4 text-2xl text-left text-black bg-yellow-300 border-yellow-100 border-3 rounded-2xl"
+          class="w-full p-5 mb-4 text-2xl text-left text-black bg-yellow-300 border-yellow-100 game-multiple-choice-answer border-3 rounded-2xl"
           onclick="onAnswerButtonClicked(3)"
         >
           D: Deine Mudder
@@ -274,42 +280,102 @@
           view = 'buzzer';
           break;
         case 'game-umfragewerte':
-          switch (currentGameState) {
+          switch (currentGameState % 2) {
             case 1:
               view = currentGame;
+              const question =
+                quizData[currentGame].questions[
+                  Math.floor(currentGameState / 2)
+                ]?.question;
+              console.log(quizData[currentGame], currentGameState);
+              if (question) {
+                document.getElementById('game-umfragewerte-text').textContent =
+                  question;
+              }
               break;
           }
           break;
         case 'game-mapfinder':
-          switch (currentGameState) {
+          switch (currentGameState % 5) {
             case 1:
               view = currentGame;
               break;
           }
           break;
         case 'game-teamguessing':
-          document.getElementById('player-text-answer-input').type = 'number';
-          switch (currentGameState) {
+          let textInput1 = document.getElementById('player-text-answer-input');
+          textInput1.type = 'number';
+          let text = document.getElementById('game-teamguessing-text');
+          switch (currentGameState % 5) {
             case 1:
+              textInput1.value = '';
+              let question =
+                quizData[currentGame]?.questions[
+                  Math.floor(currentGameState / 5)
+                ]?.question;
+              if (question) {
+                text.innerHTML = question;
+              }
               view = currentGame;
               break;
           }
           break;
         case 'game-multiple-choice':
-          switch (currentGameState) {
+          switch (currentGameState % 4) {
             case 2:
+              let text = document.getElementById('game-multiple-choice-text');
+              let answers = document.querySelectorAll(
+                '.game-multiple-choice-answer'
+              );
+              let question =
+                quizData[currentGame]?.questions[
+                  Math.floor(currentGameState / 4)
+                ];
+              if (question) {
+                text.innerHTML = question.question;
+                answers.forEach((answerField, index) => {
+                  answerField.innerHTML = question.answers[index];
+                });
+              }
               view = currentGame;
               break;
           }
           break;
         case 'game-creative-writing':
           document.getElementById('player-text-answer-input').type = 'text';
-          switch (currentGameState) {
+          switch (currentGameState % 3) {
             case 1:
+              let question =
+                quizData[currentGame]?.questions[
+                  Math.floor(currentGameState / 3)
+                ];
+              if (question) {
+                document.getElementById('game-teamguessing-text').textContent =
+                  question.question;
+              }
               view = 'game-teamguessing';
               break;
             case 2:
+              // Show PLayers Answers
               view = 'game-creative-writing';
+              break;
+          }
+          break;
+        case 'game-mitspieler':
+          let textInput = document.getElementById('player-text-answer-input');
+          textInput.type = 'text';
+          let textHeader = document.getElementById('game-teamguessing-text');
+          switch (currentGameState % 2) {
+            case 1:
+              textInput.value = '';
+              let question =
+                quizData[currentGame]?.questions[
+                  Math.floor(currentGameState / 2)
+                ];
+              if (question) {
+                textHeader.innerHTML = question;
+              }
+              view = 'game-teamguessing';
               break;
           }
           break;

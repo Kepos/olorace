@@ -8,6 +8,16 @@ let uploadNextTrackPoint;
 let currentGame = 'login-screen';
 let currentGameState = 0;
 
+let quizData;
+
+async function loadQuizData() {
+  const response = await fetch('../questions/questions.json');
+  const data = await response.json();
+
+  quizData = data.gameQuestions;
+}
+loadQuizData();
+
 // unused
 const onChatSubmitted = (sock) => (e) => {
   e.preventDefault();
