@@ -21,6 +21,13 @@ const games = [
   'game-mitspieler', // case 16
 ];
 
+const teamColors = [
+  'bg-[#ce5bd3]',
+  'bg-[#5bd35b]',
+  'bg-[#c33838]',
+  'bg-[#d3cd5b]',
+];
+
 let game_payload;
 
 let quizData;
@@ -54,9 +61,15 @@ const onPlayButtonClicked = (sock) => () => {
     document.getElementById('select-racetrack').style.display = 'inline';
   });
 
-  sock.on('Buzzer', (name) => {
-    document.getElementById('buzzer-namelabel').innerHTML = name + ' buzzered!';
-    document.getElementById('buzzer').classList.remove('hidden');
+  sock.on('Buzzer', (member) => {
+    document.getElementById('buzzer-namelabel').innerHTML =
+      member.name + '<br/>buzzered!';
+    let buzzer = document.getElementById('buzzer');
+    buzzer.classList.remove('hidden');
+    document.getElementById('buzzer-star').src = `./assets/buzzer-star-${
+      member.team + 1
+    }.png`;
+
     setTimeout(() => {
       document.getElementById('buzzer').classList.add('hidden');
     }, 3000);
@@ -69,6 +82,15 @@ const onPlayButtonClicked = (sock) => () => {
 
   sock.on('new-score', (teamNo, score) => {
     animateCounter('score-' + teamNo, score, 2000); // id, Zielwert, Dauer in ms
+  });
+
+  sock.on('eval', (payload) => {
+    // animateCounter('score-' + teamNo, score, 2000); // id, Zielwert, Dauer in ms
+    currentGameState = 'eval';
+    switch (currentGame) {
+      case 'game-mapfinder':
+      // do next...
+    }
   });
 
   sock.on('back-to-panel', () => {
@@ -102,13 +124,6 @@ const onPlayButtonClicked = (sock) => () => {
     setSortingGame(elem);
   });
 })();
-
-function onNameChanged() {
-  let playerName = document.getElementsByClassName('name-input')[0];
-  enteredPlayerName = playerName.value;
-
-  checkForCompleteData();
-}
 
 let sortedOptions = [];
 function setSortingGame(newSortedWord = false) {
@@ -181,7 +196,7 @@ function setCurrentGameView() {
     case 'game-quiz-question-1':
     case 'game-quiz-question-2':
     case 'game-quiz-question-3':
-    case 'game-quiz-question-4':
+    case 'game-quiz-question-4': {
       switch (currentGameState) {
         case 0:
           // Show Quiz Card Options
@@ -214,9 +229,9 @@ function setCurrentGameView() {
           break;
       }
       break;
-
+    }
     // Game No 5
-    case 'game-umfragewerte':
+    case 'game-umfragewerte': {
       switch (currentGameState % 2) {
         case 0:
           // SHow Question
@@ -252,9 +267,9 @@ function setCurrentGameView() {
           break;
       }
       break;
-
+    }
     // Game No 6
-    case 'game-einsortieren':
+    case 'game-einsortieren': {
       switch (currentGameState) {
         default:
           // Show the first list
@@ -267,27 +282,27 @@ function setCurrentGameView() {
           break;
       }
       break;
-
+    }
     // Game no 7
-    case 'game-pantomime':
+    case 'game-pantomime': {
       switch (currentGameState) {
         case 0:
           startTimer(60);
           break;
       }
       break;
-
+    }
     // Game no 8
-    case 'game-kategorie':
+    case 'game-kategorie': {
       switch (currentGameState) {
         case 0:
           startTimer(60);
           break;
       }
       break;
-
+    }
     // Game no 9
-    case 'game-mapfinder':
+    case 'game-mapfinder': {
       switch (currentGameState % 5) {
         case 0:
           // Show Question / Map
@@ -313,7 +328,6 @@ function setCurrentGameView() {
           document.getElementById('map').classList.remove('hidden');
 
           game_payload.forEach((marker) => {
-            const teamColors = ['#ce5bd3', '#5bd35b', '#c33838', '#d3cd5b'];
             const teamHues = [
               'hue-rotate-15',
               'hue-rotate-90',
@@ -321,25 +335,25 @@ function setCurrentGameView() {
               'hue-rotate-270',
             ];
 
-            const markerHtmlStyles = `
-                background-color: ${teamColors[marker.team]};
-                width: 3rem;
-                height: 3rem;
-                display: block;
-                left: -1.5rem;
-                top: -1.5rem;
-                position: relative;
-                border-radius: 3rem 3rem 0;
-                transform: rotate(45deg);
-                border: 1px solid #FFFFFF`;
+            // const markerHtmlStyles = `
+            //     background-color: ${teamColors[marker.team]};
+            //     width: 3rem;
+            //     height: 3rem;
+            //     display: block;
+            //     left: -1.5rem;
+            //     top: -1.5rem;
+            //     position: relative;
+            //     border-radius: 3rem 3rem 0;
+            //     transform: rotate(45deg);
+            //     border: 1px solid #FFFFFF`;
 
-            const icon = L.divIcon({
-              className: 'my-custom-pin',
-              iconAnchor: [0, 24],
-              labelAnchor: [-6, 0],
-              popupAnchor: [0, -36],
-              html: `<span style="${markerHtmlStyles}" />`,
-            });
+            // const icon = L.divIcon({
+            //   className: 'my-custom-pin',
+            //   iconAnchor: [0, 24],
+            //   labelAnchor: [-6, 0],
+            //   popupAnchor: [0, -36],
+            //   html: `<span style="${markerHtmlStyles}" />`,
+            // });
 
             // let newMarker = L.marker(marker.latlng, {
             //   icon: icon,
@@ -377,9 +391,9 @@ function setCurrentGameView() {
           break;
       }
       break;
-
+    }
     // Game no 10
-    case 'game-whoisthis':
+    case 'game-whoisthis': {
       switch (currentGameState) {
         case 0:
           document
@@ -398,17 +412,17 @@ function setCurrentGameView() {
           break;
       }
       break;
-
+    }
     // Game no 11
-    case 'game-songs':
+    case 'game-songs': {
       switch (currentGameState) {
         case 0:
           break;
       }
       break;
-
+    }
     // Game no 12
-    case 'game-teamguessing':
+    case 'game-teamguessing': {
       switch (currentGameState % 5) {
         case 0:
           // Show Question
@@ -451,9 +465,9 @@ function setCurrentGameView() {
           break;
       }
       break;
-
+    }
     // Game no 13
-    case 'game-multiple-choice':
+    case 'game-multiple-choice': {
       switch (currentGameState % 4) {
         case 0:
           // Show Question
@@ -464,6 +478,10 @@ function setCurrentGameView() {
           document
             .getElementById('game-multiple-choice-answers')
             .classList.add('hidden');
+          document
+            .querySelectorAll('#game-multiple-choice-answers > div')
+            .forEach((div) => div.classList.remove('text-green-400'));
+
           document
             .querySelectorAll('.game-multiple-choice-votes')
             .forEach((elem) => elem.classList.add('hidden'));
@@ -490,6 +508,26 @@ function setCurrentGameView() {
           break;
         case 2:
           // Show Votes
+          const answerVoteFields = document.querySelectorAll(
+            '.game-multiple-choice-votes'
+          );
+          //   <span class="px-2 py-1 text-lg bg-red-600 rounded"
+          //             >Titus</span
+          //           >
+          answerVoteFields.forEach((field) => (field.innerHTML = ''));
+          console.log(game_payload);
+          if (Array.isArray(game_payload)) {
+            game_payload.forEach((team) => {
+              Object.values(team.members).forEach((member) => {
+                let span = document.createElement('span');
+                span.className = 'px-2 py-1 text-lg text-black rounded';
+                span.textContent = member.name;
+                span.classList.add(teamColors[team.index]);
+
+                answerVoteFields[member.answer].appendChild(span);
+              });
+            });
+          }
           document
             .querySelectorAll('.game-multiple-choice-votes')
             .forEach((elem) => elem.classList.remove('hidden'));
@@ -497,17 +535,22 @@ function setCurrentGameView() {
           break;
         case 3:
           // Show Correct Answer
-          document
-            .querySelector('#game-multiple-choice-answers > div')
-            .classList.add('text-green-400');
+          let correct =
+            quizData[currentGame].questions[Math.floor(currentGameState / 4)]
+              ?.correct;
+          if (correct != null) {
+            document
+              .querySelectorAll('#game-multiple-choice-answers > div')
+              [correct].classList.add('text-green-400');
+          }
           currentGameState++;
           break;
           break;
       }
       break;
-
+    }
     // Game no 14
-    case 'game-creative-writing':
+    case 'game-creative-writing': {
       switch (currentGameState % 3) {
         case 0:
           let promptField = document.getElementById(
@@ -542,17 +585,17 @@ function setCurrentGameView() {
           break;
       }
       break;
-
+    }
     // Game no 15
-    case 'game-blamieren-kassieren':
+    case 'game-blamieren-kassieren': {
       switch (currentGameState) {
         case 0:
           break;
       }
       break;
-
+    }
     // Game no 16
-    case 'game-mitspieler':
+    case 'game-mitspieler': {
       switch (currentGameState % 2) {
         case 0:
           let questionField = document.getElementById(
@@ -580,7 +623,7 @@ function setCurrentGameView() {
           break;
       }
       break;
-
+    }
     // BIG DEFAULT
     default:
       break;

@@ -42,14 +42,15 @@
         <div class="relative w-76 h-76">
           <!-- Rotierender Stern (PNG) -->
           <img
-            src="./assets/buzzer-star.png"
+            src="./assets/buzzer-star-1.png"
             class="absolute inset-0 w-full h-full object-contain animate-[spin_4s_linear_infinite]"
             alt="Stern"
+            id="buzzer-star"
           />
           <!-- Unbeweglicher Text -->
           <div
             id="buzzer-namelabel"
-            class="absolute font-bold -rotate-7 inset-0 flex items-center justify-center text-black font-[Monotalic] text-3xl text-center pointer-events-none"
+            class="absolute font-bold -rotate-7 inset-0 flex items-center justify-center text-black font-[Monotalic] text-4xl text-center pointer-events-none"
           >
             Titus<br />buzzered!
           </div>
@@ -253,25 +254,30 @@
         >
           <div class="flex flex-row justify-between space-x-8">
             <div class="text-center w-60">
-              <span class="team-score-label text-8xl!">0</span><br />
+              <span class="team-score-label text-8xl! text-[#ce5bd3]">0</span
+              ><br />
               <span class="team-name-label wrap-break-word block text-4xl!"
                 >Team 1</span
               >
             </div>
             <div class="text-center w-60">
-              <span class="team-score-label text-8xl!">0</span><br />
-              <span class="team-name-label wrap-break-word block text-4xl!"
-                >Team 2 & LEckmirdieeirerudberjhsdiofsdf sdjfksdf</span
+              <span class="team-score-label text-8xl! text-[#5bd35b]">0</span
+              ><br />
+              <span
+                class="team-name-label wrap-break-word block text-4xl! text-[#5bd35b]"
+                >Team 2</span
               >
             </div>
             <div class="text-center w-60">
-              <span class="team-score-label text-8xl!">0</span><br />
+              <span class="team-score-label text-8xl! text-[#c33838]">0</span
+              ><br />
               <span class="team-name-label wrap-break-word block text-4xl!"
                 >Team 3</span
               >
             </div>
             <div class="text-center w-60">
-              <span class="team-score-label text-8xl!">0</span><br />
+              <span class="team-score-label text-8xl! text-[#d3cd5b]">0</span
+              ><br />
               <span class="team-name-label wrap-break-word block text-4xl!"
                 >Team 4</span
               >
@@ -1214,7 +1220,7 @@
       //   map.invalidateSize();
     }
 
-    currentGame = 'games-panel';
+    currentGame = 'leaderboard';
     currentGameState = 0;
     changeView(true);
     // setTimeout(() => {

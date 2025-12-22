@@ -68,6 +68,7 @@ function onGameCardClicked(emitter) {
       currentGame = newGame;
       setCurrentGameView();
       changeView();
+      resetGamePoints();
     }
   });
 }
@@ -92,6 +93,10 @@ function onNextButtonClicked(payload) {
 function onScoreSendButtonClicked(teamNo) {
   let score = document.getElementById(`team-score-input-${teamNo}`).value;
   sock.emit('new-score', teamNo, score);
+}
+
+function onEvalButtonClicked() {
+  sock.emit('eval', null);
 }
 
 function onBackToPanelButtonClicked() {
@@ -158,10 +163,16 @@ function setSelectionOptions() {
     document.getElementById('select-racetrack').style.display = 'inline';
   });
 
-  sock.on('Buzzer', (name) => {
-    document.getElementById('buzzer-namelabel').innerHTML =
-      name + '<br/>buzzered!';
-    document.getElementById('buzzer').classList.remove('hidden');
+  sock.on('Buzzer', (member) => {
+    document.getElementById('buzzer-namelabel').innerHTML = `${member.name} [${
+      member.team + 1
+    }]<br/>buzzered!`;
+    let buzzer = document.getElementById('buzzer');
+    buzzer.classList.remove('hidden');
+    document.getElementById('buzzer-star').src = `./assets/buzzer-star-${
+      member.team + 1
+    }.png`;
+
     setTimeout(() => {
       document.getElementById('buzzer').classList.add('hidden');
     }, 3000);
@@ -172,7 +183,7 @@ function setSelectionOptions() {
     const table = document.getElementById('player-table');
     table.innerHTML = '';
 
-    allTeams.forEach((team, teamindex) => {
+    allTeams.forEach((team) => {
       Object.values(team.members).forEach((member) => {
         const tr = document.createElement('tr');
         tr.className = `bg-[${team.color}]`;
@@ -188,9 +199,10 @@ function setSelectionOptions() {
 
           if (index == 0) {
             td.classList.add('text-gray-700');
+            td.classList.add('font-sans');
             td.classList.remove('text-black');
             td.onclick = () => {
-              sock.emit('player-delete', teamindex, member.id, (response) => {
+              sock.emit('player-delete', team.index, member.id, (response) => {
                 if (response.status === 'ok') {
                   tr.remove();
                 }
@@ -201,7 +213,7 @@ function setSelectionOptions() {
             td.onclick = () => {
               sock.emit(
                 'player-answer-delete',
-                teamindex,
+                team.index,
                 member.id,
                 (response) => {
                   if (response.status === 'ok') {
@@ -386,11 +398,4 @@ function setCurrentGameView() {
     default:
       break;
   }
-}
-
-function onNameChanged() {
-  let playerName = document.getElementsByClassName('name-input')[0];
-  enteredPlayerName = playerName.value;
-
-  checkForCompleteData();
 }

@@ -38,14 +38,15 @@
         <div class="relative w-48 h-48">
           <!-- Rotierender Stern (PNG) -->
           <img
-            src="./assets/buzzer-star.png"
+            src="./assets/buzzer-star-1.png"
             class="absolute inset-0 w-full h-full object-contain animate-[spin_4s_linear_infinite]"
             alt="Stern"
+            id="buzzer-star"
           />
           <!-- Unbeweglicher Text -->
           <div
             id="buzzer-namelabel"
-            class="absolute font-bold -rotate-7 inset-0 flex items-center justify-center text-black font-[Monotalic] text-base text-center pointer-events-none"
+            class="absolute font-bold -rotate-7 inset-0 flex items-center justify-center text-black font-[Monotalic] text-xl text-center pointer-events-none"
           >
             Titus<br />buzzered!
           </div>
@@ -470,8 +471,9 @@
 
           <div
             id="game-points"
-            class="flex flex-row justify-between mt-10 space-x-28"
+            class="absolute flex flex-row justify-between mt-10 space-x-28 bottom-10 right-14"
           >
+            <div class="flex-1"></div>
             <div class="flex flex-row flex-1 space-x-2">
               <button
                 class="w-8 p-2 bg-red-700 cursor-pointer rounded-4xl"
@@ -552,6 +554,23 @@
                 +1
               </button>
             </div>
+            <div class="flex-1">
+              <button
+                class="px-5 py-3 border border-white cursor-pointer min-w-24"
+                onclick="resetGamePoints()"
+              >
+                Reset
+              </button>
+            </div>
+          </div>
+
+          <div id="eval-button" class="absolute bottom-52 right-14">
+            <button
+              class="px-5 py-3 text-black bg-green-500 border cursor-pointer min-w-24"
+              onclick=""
+            >
+              Eval
+            </button>
           </div>
         </div>
       </div>
@@ -631,6 +650,13 @@
       input.value = Number(input.value) + amount;
     }
 
+    function resetGamePoints() {
+      document.getElementById('team-points-input-1').value = 0;
+      document.getElementById('team-points-input-2').value = 0;
+      document.getElementById('team-points-input-3').value = 0;
+      document.getElementById('team-points-input-4').value = 0;
+    }
+
     function changeView() {
       let view = currentGame;
       switch (currentGame) {
@@ -651,6 +677,7 @@
       if (currentGame != 'games-panel')
         document.getElementById('game-header').classList.remove('hidden');
       document.getElementById('game-points').classList.remove('hidden');
+      document.getElementById('eval-button').classList.remove('hidden');
     }
 
     changeView();

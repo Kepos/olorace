@@ -45,6 +45,16 @@
         </button>
       </div>
 
+      <!-- Player Info  -->
+      <div
+        id="player-info"
+        class="absolute flex flex-col items-end justify-start text-xs opacity-50 top-3 right-3"
+      >
+        <!-- <input class="mb-5 bg-white" id="nameinput" type="text" /> -->
+        <span id="player-info-name"></span>
+        <span id="player-info-id" class="font-sans text-gray-600"></span>
+      </div>
+
       <!-- Waiting Screen -->
       <div id="waiting-screen" class="hidden mt-20 text-3xl font-[Monotalic]">
         Please wait...
@@ -390,6 +400,7 @@
         .querySelectorAll('.game-container > div')
         .forEach((elem) => elem.classList.add('hidden'));
       document.getElementById(view).classList.remove('hidden');
+      document.getElementById('player-info').classList.remove('hidden');
       map.invalidateSize();
     }
 

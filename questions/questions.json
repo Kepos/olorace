@@ -176,12 +176,12 @@
         {
           "question": "Wie heißt die Mutter von Niki Lauda?",
           "answers": ["Astrid", "Berta", "Kunigunde", "Andrea"],
-          "correct": 0
+          "correct": 2
         },
         {
           "question": "Welches Land grenzt an ein Superbinnenstaat?",
           "answers": ["Österreich", "Pakistan", "DR Kongo", "Bolivien"],
-          "correct": 0
+          "correct": 3
         }
       ]
     },

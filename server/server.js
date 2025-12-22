@@ -43,32 +43,11 @@ let currentGame = 'panel';
 let currentGameState = 0;
 
 let teams = [
-  { points: 0, members: new Map(), color: '#ce5bd3' },
-  { points: 0, members: new Map(), color: '#5bd35b' },
-  { points: 0, members: new Map(), color: '#c33838' },
-  { points: 0, members: new Map(), color: '#d3cd5b' },
+  { points: 0, members: new Map(), color: '#ce5bd3', index: 0 },
+  { points: 0, members: new Map(), color: '#5bd35b', index: 1 },
+  { points: 0, members: new Map(), color: '#c33838', index: 2 },
+  { points: 0, members: new Map(), color: '#d3cd5b', index: 3 },
 ];
-
-function getNextFreeIndex() {
-  for (let i = 0; i <= players.length; i++) {
-    if (!players.includes(i)) return i;
-  }
-
-  return players.length;
-}
-
-function allPlayersSelectedNextMove() {
-  return;
-  // check if all the not-undefined values from playersMoves add up to alive players Num
-  console.log('all playes selected?');
-  console.log('playersmoveslength', playersMoves.filter((v) => v).length);
-  return (
-    playersMoves.filter((v) => v).length >= players.length - deadPlayers.length
-  );
-  return (
-    playersMoves.length >= players.length && !playersMoves.includes(undefined)
-  );
-}
 
 io.on('connection', (sock) => {
   const playerID = sock.id;
@@ -89,9 +68,13 @@ io.on('connection', (sock) => {
 
   sock.on('message', (text) => console.log(`got text: ${text}`));
 
-  sock.on('Buzzer', (name) => {
-    console.log(`${name} buzzered ... emitting event!`);
-    io.emit('Buzzer', name);
+  sock.on('Buzzer', (playerID) => {
+    teams.forEach((team, index) => {
+      let member = team.members.get(playerID);
+      if (member) {
+        io.emit('Buzzer', { name: member.name, team: index });
+      }
+    });
   });
 
   sock.on('Login', (playerObj, callback) => {
@@ -116,12 +99,24 @@ io.on('connection', (sock) => {
     emitTeams();
   });
 
-  function emitTeams() {
-    const teamsForClient = teams.map((team) => ({
+  function getTeamsForClient() {
+    return teams.map((team) => ({
       ...team,
       members: Object.fromEntries(team.members), // Map -> Objekt
     }));
+  }
+
+  function emitTeams() {
+    const teamsForClient = getTeamsForClient();
     io.emit('Login', teamsForClient);
+  }
+
+  function deleteAllPlayerAnswers() {
+    teams.forEach((team) => {
+      team.members.forEach((member) => {
+        member.answer = '';
+      });
+    });
   }
 
   sock.on('player-answer', (payload, game, gamestate, callback) => {
@@ -138,10 +133,16 @@ io.on('connection', (sock) => {
     if (player && game == currentGame && gamestate == currentGameState) {
       switch (currentGame) {
         case 'game-multiple-choice':
-          if (!Array.isArray(player.answer)) {
-            player.answer = [];
+          if (
+            payload != null &&
+            payload ===
+              quizData[currentGame].questions[Math.floor(currentGameState / 4)]
+                ?.correct
+          ) {
+            player.points++;
           }
-          player.answer.push(payload);
+
+          player.answer = payload;
           break;
         case 'game-creative-writing':
           switch (currentGameState) {
@@ -210,11 +211,17 @@ io.on('connection', (sock) => {
     io.emit('new-score', teamNo, score);
   });
 
+  sock.on('eval', (payload) => {
+    io.emit('eval', payload);
+  });
+
   sock.on('back-to-panel', (callback) => {
     io.emit('back-to-panel');
     currentGame = 'games-panel';
     currentGameState = 0;
     callback({ status: 'ok' });
+    deleteAllPlayerAnswers();
+    emitTeams();
   });
 
   sock.on('sort-selection', (selection, callback) => {
@@ -241,6 +248,13 @@ io.on('connection', (sock) => {
   sock.on('disconnect', (reason) => {
     console.log('player disconnected: ', playerID);
     var index = players.indexOf(playerID);
+
+    let members = teams[playerTeam]?.members;
+    if (members?.has(playerID)) {
+      members.delete(playerID);
+    }
+
+    emitTeams();
     /*
     var index = players.indexOf(playerID);
     if (index !== -1) {
@@ -253,29 +267,29 @@ io.on('connection', (sock) => {
     }
     */
     // check if players array is not empty
-    if (players.includes(playerID) && !deadPlayers.includes(playerID)) {
-      deadPlayers.push(playerID);
-    }
+    // if (players.includes(playerID) && !deadPlayers.includes(playerID)) {
+    //   deadPlayers.push(playerID);
+    // }
 
-    if (admin === playerID) {
-      admin = null;
-    }
+    // if (admin === playerID) {
+    //   admin = null;
+    // }
 
-    io.emit('playerLeft', index);
+    // io.emit('playerLeft', index);
 
-    if (allPlayersSelectedNextMove()) {
-      io.emit('playersMoves', playersMoves);
-      playersMoves = [];
-    }
+    // if (allPlayersSelectedNextMove()) {
+    //   io.emit('playersMoves', playersMoves);
+    //   playersMoves = [];
+    // }
 
-    if (players.length === 0) {
-      admin = null;
-      players = [];
-      playerObjs = [];
-      deadPlayers = [];
-      playersMoves = [];
-      acceptNewPlayers = true;
-    }
+    // if (players.length === 0) {
+    //   admin = null;
+    //   players = [];
+    //   playerObjs = [];
+    //   deadPlayers = [];
+    //   playersMoves = [];
+    //   acceptNewPlayers = true;
+    // }
   });
 
   sock.on('restart', () => {
@@ -569,6 +583,8 @@ io.on('connection', (sock) => {
             break;
           case 2:
             // Show Votes
+            payload = getTeamsForClient();
+            console.log(payload);
             callback({
               status: 'ok',
               nextUp: 'Show Correct Answer',
@@ -652,6 +668,8 @@ io.on('connection', (sock) => {
       default:
         break;
     }
+
+    // Emit Payload (to Panel)
     io.emit('next', payload);
   });
 });

@@ -1,10 +1,5 @@
 let sock;
 
-let isAdmin = false;
-let playerName = '';
-
-let uploadNextTrackPoint;
-
 let currentGame = 'login-screen';
 let currentGameState = 0;
 
@@ -18,6 +13,15 @@ async function loadQuizData() {
 }
 loadQuizData();
 
+// Get Name & Team from LocalStorage:
+const playerName = localStorage.getItem('playerName');
+const playerTeam = localStorage.getItem('playerTeam');
+
+if (playerName && playerTeam) {
+  document.getElementById('player-name-input').value = playerName;
+  document.getElementById('team-selection').value = playerTeam;
+}
+
 // unused
 const onChatSubmitted = (sock) => (e) => {
   e.preventDefault();
@@ -25,8 +29,8 @@ const onChatSubmitted = (sock) => (e) => {
 
 function onBuzzerClicked() {
   // sock.emit('message', 'lets play!');
-  let name = 'Titus'; // document.getElementById('nameinput').value;
-  sock.emit('Buzzer', name);
+  // document.getElementById('nameinput').value;
+  sock.emit('Buzzer', sock.id);
 }
 
 function onLoginButtonClicked() {
@@ -38,11 +42,20 @@ function onLoginButtonClicked() {
     return;
   }
   console.log({ name: name, team: team });
+
+  localStorage.setItem('playerName', name);
+  localStorage.setItem('playerTeam', team);
+
   sock.emit('Login', { name: name, team: team }, (response) => {
     if (response.status == 'ok') {
       currentGame = response.game;
       currentGameState = response.gamestate;
       changeView();
+
+      document.getElementById('player-info-name').textContent = name;
+      document.getElementById('player-info-id').textContent = `${
+        parseInt(team) + 1
+      } #${sock.id.slice(0, 3)}`;
     }
   });
 }
@@ -72,6 +85,19 @@ function onAnswerButtonClicked(payload = null) {
         return;
       }
       payload = markerLocation;
+      break;
+    case 'game-teamguessing':
+      if (!isValidIntegerString(payload)) {
+        alert('Please enter a valid answer');
+        return;
+      }
+      break;
+    case 'game-mitspieler':
+      if (payload == '') {
+        alert('Please enter a valid answer');
+        return;
+      }
+      break;
   }
 
   sock.emit(
@@ -90,6 +116,12 @@ function onAnswerButtonClicked(payload = null) {
   );
 }
 
+function isValidIntegerString(value) {
+  return (
+    typeof value === 'string' && value.trim() !== '' && /^-?\d+$/.test(value)
+  );
+}
+
 (() => {
   sock = io();
 
@@ -103,9 +135,9 @@ function onAnswerButtonClicked(payload = null) {
   sock.on('message', (text) => {});
 
   sock.on('admin', () => {
-    console.log('You are the admin!');
-    isAdmin = true;
-    document.getElementById('select-racetrack').style.display = 'inline';
+    // console.log('You are the admin!');
+    // isAdmin = true;
+    // document.getElementById('select-racetrack').style.display = 'inline';
   });
 
   sock.on('new-game', (newGame) => {
@@ -133,11 +165,13 @@ function onAnswerButtonClicked(payload = null) {
     location.reload();
   });
 
-  console.log('welcome');
+  sock.on('disconnect', () => {
+    currentGame = 'login-screen';
+    currentGameState = 0;
+    changeView();
+  });
 
-  uploadNextTrackPoint = (mousePos) => {
-    sock.emit('nextTrackPoint', mousePos);
-  };
+  console.log('welcome');
 
   restartGame = () => {
     let rp = document.getElementById('restart-panel');
@@ -145,10 +179,3 @@ function onAnswerButtonClicked(payload = null) {
     sock.emit('restart');
   };
 })();
-
-function onNameChanged() {
-  let playerName = document.getElementsByClassName('name-input')[0];
-  enteredPlayerName = playerName.value;
-
-  checkForCompleteData();
-}
