@@ -86,11 +86,32 @@ const onPlayButtonClicked = (sock) => () => {
 
   sock.on('eval', (payload) => {
     // animateCounter('score-' + teamNo, score, 2000); // id, Zielwert, Dauer in ms
+    console.log('eval!');
     currentGameState = 'eval';
-    switch (currentGame) {
-      case 'game-mapfinder':
-      // do next...
-    }
+    game_payload = payload;
+    changeView();
+    // switch (currentGame) {
+    //   case 'game-mapfinder': {
+    //     switch (currentGameState) {
+    //       case 'eval': {
+    //         currentGameState = 'eval-1';
+    //         break;
+    //       }
+    //       case 'eval-1': {
+    //         currentGameState = 'eval-2';
+    //         break;
+    //       }
+    //       default: {
+    //         currentGame = 'eval';
+    //         break;
+    //       }
+    //     }
+    //     // do next...
+    //   }
+    //   default:
+    //     currentGameState = 'eval';
+    //     break;
+    // }
   });
 
   sock.on('back-to-panel', () => {
@@ -189,8 +210,76 @@ function setSortingGame(newSortedWord = false) {
   //
 }
 
+function showLeaderboard() {
+  document
+    .querySelectorAll('#game-container > div')
+    .forEach((el) => el.classList.add('hidden'));
+  document.getElementById('leaderboard').classList.remove('hidden');
+
+  // <tr class="odd:bg-transparent even:bg-transparent">
+  //     <td class="px-4 py-2 break-words">Name 1</td>
+  //     <td class="px-4 py-2 text-center">0</td>
+  //     <td class="px-4 py-2 text-center">Team Aejreklrwerjewklr</td>
+  // </tr>
+
+  const table = document.getElementById('leaderboard-table');
+  table.innerHTML = '';
+
+  Array.isArray(game_payload) &&
+    game_payload.forEach((row) => {
+      const tr = document.createElement('tr');
+      tr.className = `${teamColors[row.team]}`;
+      for (const [key, value] of Object.entries(row)) {
+        console.log(key);
+        if (key === 'team') continue;
+        const td = document.createElement('td');
+        td.className = `px-4 py-2 text-left text-black`;
+        td.textContent = value;
+        tr.appendChild(td);
+      }
+      //   [
+      //     row.name,
+      //     (Math.round(row.answer * 100) / 100).toFixed(2) + ' km',
+      //   ].forEach((item, index) => {
+      //     const td = document.createElement('td');
+      //     td.className = `px-4 py-2 text-left text-black`;
+      //     td.textContent = item;
+      //     tr.appendChild(td);
+      //   });
+
+      table.appendChild(tr);
+    });
+}
+
 function setCurrentGameView() {
   console.log('setCurrentGameView!', currentGame);
+
+  if (currentGameState === 'eval') {
+    document
+      .querySelectorAll('#game-container > div')
+      .forEach((el) => el.classList.add('hidden'));
+    document.getElementById('points-panel').classList.remove('hidden');
+
+    let els = document.getElementsByClassName('team-points-label');
+
+    Array.prototype.forEach.call(els, function (el) {
+      // Do stuff here
+      el.innerHTML = 0;
+    });
+
+    setTimeout(() => {
+      Array.isArray(game_payload) &&
+        game_payload.forEach((teampoints, index) => {
+          animateCounter(
+            `team-points-label-${index + 1}`,
+            teampoints,
+            teampoints > 15 ? teampoints * 250 : teampoints * 500
+          );
+        });
+    }, 1000);
+    return;
+  }
+
   switch (currentGame) {
     // Game No. 1
     case 'game-quiz-question-1':
@@ -198,7 +287,7 @@ function setCurrentGameView() {
     case 'game-quiz-question-3':
     case 'game-quiz-question-4': {
       switch (currentGameState) {
-        case 0:
+        case 0: {
           // Show Quiz Card Options
           document
             .getElementById('game-quiz-question-options')
@@ -208,7 +297,8 @@ function setCurrentGameView() {
             .classList.add('hidden');
           currentGameState++;
           break;
-        case 1:
+        }
+        case 1: {
           // Show Quiz Question
           document
             .getElementById('game-quiz-question-options')
@@ -227,13 +317,14 @@ function setCurrentGameView() {
 
           currentGameState--;
           break;
+        }
       }
       break;
     }
     // Game No 5
     case 'game-umfragewerte': {
       switch (currentGameState % 2) {
-        case 0:
+        case 0: {
           // SHow Question
           let elem = document.getElementById('game-multiple-choice-question');
           let question =
@@ -252,7 +343,8 @@ function setCurrentGameView() {
           currentGameState++;
           updateChart(0, 0);
           break;
-        case 1:
+        }
+        case 1: {
           // Show Answers Chart
           document
             .getElementById('game-multiple-choice-chart')
@@ -265,13 +357,14 @@ function setCurrentGameView() {
           }, 1000);
           currentGameState++;
           break;
+        }
       }
       break;
     }
     // Game No 6
     case 'game-einsortieren': {
       switch (currentGameState) {
-        default:
+        default: {
           // Show the first list
           sortedOptions = [];
           document
@@ -280,127 +373,160 @@ function setCurrentGameView() {
           currentGameState++;
           setSortingGame();
           break;
+        }
       }
       break;
     }
     // Game no 7
     case 'game-pantomime': {
       switch (currentGameState) {
-        case 0:
+        case 0: {
           startTimer(60);
           break;
+        }
       }
       break;
     }
     // Game no 8
     case 'game-kategorie': {
       switch (currentGameState) {
-        case 0:
+        case 0: {
           startTimer(60);
           break;
+        }
       }
       break;
     }
     // Game no 9
     case 'game-mapfinder': {
-      switch (currentGameState % 5) {
-        case 0:
-          // Show Question / Map
-          document.getElementById('map').classList.add('hidden');
-          const questionField = document.getElementById(
-            'game-mapfinder-question'
-          );
-          questionField.classList.remove('hidden');
-          const question =
-            quizData['game-mapfinder']?.questions?.[
-              Math.floor(currentGameState / 5)
-            ]?.question;
-          if (question) {
-            questionField.innerHTML = question;
+      if (currentGameState === 'eval') {
+        document.getElementById('game-mapfinder').classList.add('hidden');
+        document.getElementById('points-panel').classList.remove('hidden');
+      } else {
+        switch (currentGameState % 5) {
+          case 0: {
+            // Show Question / Map
+            document.getElementById('map').classList.add('hidden');
+            document.getElementById('leaderboard').classList.add('hidden');
+            document
+              .getElementById('game-mapfinder')
+              .classList.remove('hidden');
+
+            markers.clearLayers();
+
+            const questionField = document.getElementById(
+              'game-mapfinder-question'
+            );
+            questionField.classList.remove('hidden');
+            const question =
+              quizData['game-mapfinder']?.questions?.[
+                Math.floor(currentGameState / 5)
+              ]?.question;
+            if (question) {
+              questionField.innerHTML = question;
+            }
+            currentGameState++;
+            break;
           }
-          currentGameState++;
-          break;
-        case 1:
-          // Show Markers
-          document
-            .getElementById('game-mapfinder-question')
-            .classList.add('hidden');
-          document.getElementById('map').classList.remove('hidden');
+          case 1: {
+            // Show Markers
+            document
+              .getElementById('game-mapfinder-question')
+              .classList.add('hidden');
+            document.getElementById('map').classList.remove('hidden');
 
-          game_payload.forEach((marker) => {
-            const teamHues = [
-              'hue-rotate-15',
-              'hue-rotate-90',
-              'hue-rotate-180',
-              'hue-rotate-270',
-            ];
+            Array.isArray(game_payload) &&
+              game_payload?.forEach((marker) => {
+                const teamHues = [
+                  ['hue-rotate-[103deg]', 'brightness-100'],
+                  ['hue-rotate-270', 'brightness-100'],
+                  ['hue-rotate-[152deg]', 'brightness-100'],
+                  ['hue-rotate-200', 'brightness-150'],
+                ];
 
-            // const markerHtmlStyles = `
-            //     background-color: ${teamColors[marker.team]};
-            //     width: 3rem;
-            //     height: 3rem;
-            //     display: block;
-            //     left: -1.5rem;
-            //     top: -1.5rem;
-            //     position: relative;
-            //     border-radius: 3rem 3rem 0;
-            //     transform: rotate(45deg);
-            //     border: 1px solid #FFFFFF`;
+                // const markerHtmlStyles = `
+                //     background-color: ${teamColors[marker.team]};
+                //     width: 3rem;
+                //     height: 3rem;
+                //     display: block;
+                //     left: -1.5rem;
+                //     top: -1.5rem;
+                //     position: relative;
+                //     border-radius: 3rem 3rem 0;
+                //     transform: rotate(45deg);
+                //     border: 1px solid #FFFFFF`;
 
-            // const icon = L.divIcon({
-            //   className: 'my-custom-pin',
-            //   iconAnchor: [0, 24],
-            //   labelAnchor: [-6, 0],
-            //   popupAnchor: [0, -36],
-            //   html: `<span style="${markerHtmlStyles}" />`,
-            // });
+                // const icon = L.divIcon({
+                //   className: 'my-custom-pin',
+                //   iconAnchor: [0, 24],
+                //   labelAnchor: [-6, 0],
+                //   popupAnchor: [0, -36],
+                //   html: `<span style="${markerHtmlStyles}" />`,
+                // });
 
-            // let newMarker = L.marker(marker.latlng, {
-            //   icon: icon,
-            // }).bindTooltip(marker.name, {
-            //   permanent: true,
-            //   direction: 'right',
-            // });
+                // let newMarker = L.marker(marker.latlng, {
+                //   icon: icon,
+                // }).bindTooltip(marker.name, {
+                //   permanent: true,
+                //   direction: 'right',
+                // });
 
-            let newMarker = L.marker(marker.latlng).bindTooltip(marker.name, {
-              permanent: true,
-              direction: 'right',
-            });
-            markers.addLayer(newMarker);
+                let newMarker = L.marker(marker.latlng).bindTooltip(
+                  marker.name,
+                  {
+                    permanent: true,
+                    direction: 'right',
+                  }
+                );
+                markers.addLayer(newMarker);
 
-            L.DomUtil.addClass(newMarker._icon, teamHues[marker.team]);
-          });
+                L.DomUtil.addClass(newMarker._icon, teamHues[marker.team][0]);
+                L.DomUtil.addClass(newMarker._icon, teamHues[marker.team][1]);
+              });
 
-          //   setTimeout(() => {
-          //     markers.clearLayers();
-          //   }, 5000)
+            setTimeout(() => {
+              markers.clearLayers();
+            }, 5000);
 
-          currentGameState++;
-          break;
-        case 2:
-          // Show Correct Marker
-          currentGameState++;
-          break;
-        case 3:
-          // Show Leaderboard
-          currentGameState++;
-          break;
-        case 4:
-          // Show Team Average
-          currentGameState++;
-          break;
+            currentGameState++;
+            break;
+          }
+          case 2: {
+            // Show Correct Marker
+            if (game_payload?.lat) {
+              let newMarker = L.marker(game_payload);
+              markers.addLayer(newMarker);
+            }
+            currentGameState++;
+            break;
+          }
+          case 3: {
+            // Show Leaderboard
+            showLeaderboard();
+            currentGameState++;
+            break;
+          }
+          case 4: {
+            // Show Team Average
+            showLeaderboard();
+            currentGameState++;
+            break;
+          }
+        }
       }
+
       break;
     }
     // Game no 10
     case 'game-whoisthis': {
       switch (currentGameState) {
-        case 0:
+        case 0: {
           document
             .getElementById('game-whoisthis-game')
             .classList.remove('hidden');
-        // Show next picture
-        default:
+          // Show next picture
+        }
+        default: {
           let arr = quizData[currentGame].questions;
           if (arr.length > currentGameState) {
             document.getElementById('game-whoisthis-img').src =
@@ -410,6 +536,7 @@ function setCurrentGameView() {
             currentGameState++;
           }
           break;
+        }
       }
       break;
     }
@@ -424,7 +551,7 @@ function setCurrentGameView() {
     // Game no 12
     case 'game-teamguessing': {
       switch (currentGameState % 5) {
-        case 0:
+        case 0: {
           // Show Question
           let question =
             quizData['game-teamguessing'].questions[
@@ -444,32 +571,96 @@ function setCurrentGameView() {
           questionField.classList.remove('opacity-0');
           currentGameState++;
           break;
-        case 1:
+        }
+        case 1: {
           // Show Answers
           document
             .querySelectorAll('.game-teamguessing-answers-table')
             .forEach((elem) => elem.classList.remove('opacity-0'));
+
+          Array.isArray(game_payload) &&
+            game_payload.forEach((team, teamindex) => {
+              let currenttable = document.getElementById(
+                `guessing-table-${teamindex + 1}`
+              );
+              currenttable.innerHTML = '';
+              Object.values(team.members).forEach((member) => {
+                if (member.answer === '' || isNaN(member.answer)) return;
+                const tr = document.createElement('tr');
+                // tr.className = `${teamColors[row.team]}`;
+                [member.name, member.answer].forEach((item, index) => {
+                  const td = document.createElement('td');
+                  td.className = `px-4 py-2 wrap-break-word`;
+                  if (index == 1) {
+                    td.classList.add('text-end');
+                  }
+                  td.textContent = item;
+                  tr.appendChild(td);
+                });
+
+                currenttable.appendChild(tr);
+              });
+            });
+
           currentGameState++;
           break;
-        case 2:
+        }
+        case 2: {
           // Show Correct Result
+          let answer =
+            quizData['game-teamguessing'].questions[
+              Math.floor(currentGameState / 5)
+            ]?.answer;
+
+          let questionField = document.getElementById(
+            'game-teamguessing-question'
+          );
+          if (answer) {
+            questionField.innerHTML = answer;
+          }
           currentGameState++;
           break;
-        case 3:
+        }
+        case 3: {
           // Show Averages
+          Array.isArray(game_payload) &&
+            game_payload.forEach((team, teamindex) => {
+              let currenttable = document.getElementById(
+                `guessing-table-${teamindex + 1}`
+              );
+              const tr = document.createElement('tr');
+              [``, team].forEach((item, index) => {
+                const td = document.createElement('td');
+                td.className = `px-4 py-2 wrap-break-word`;
+                if (index == 1) {
+                  td.classList.add('text-end');
+                }
+                td.textContent = item;
+                tr.appendChild(td);
+              });
+
+              currenttable.appendChild(tr);
+            });
           currentGameState++;
           break;
-        case 4:
+        }
+        case 4: {
           // Show Winner
+          if (isNaN(game_payload)) break;
+          let currenttable = document.getElementById(
+            `guessing-table-${game_payload + 1}`
+          );
+          currenttable.lastElementChild.classList.add('text-green-400');
           currentGameState++;
           break;
+        }
       }
       break;
     }
     // Game no 13
     case 'game-multiple-choice': {
       switch (currentGameState % 4) {
-        case 0:
+        case 0: {
           // Show Question
           let questionField = document.getElementById(
             'game-multiple-choice-question'
@@ -499,14 +690,16 @@ function setCurrentGameView() {
           }
           currentGameState++;
           break;
-        case 1:
+        }
+        case 1: {
           // Show Answers
           document
             .getElementById('game-multiple-choice-answers')
             .classList.remove('hidden');
           currentGameState++;
           break;
-        case 2:
+        }
+        case 2: {
           // Show Votes
           const answerVoteFields = document.querySelectorAll(
             '.game-multiple-choice-votes'
@@ -520,11 +713,11 @@ function setCurrentGameView() {
             game_payload.forEach((team) => {
               Object.values(team.members).forEach((member) => {
                 let span = document.createElement('span');
-                span.className = 'px-2 py-1 text-lg text-black rounded';
+                span.className = 'px-2 py-1 ml-5 text-lg text-black rounded';
                 span.textContent = member.name;
                 span.classList.add(teamColors[team.index]);
 
-                answerVoteFields[member.answer].appendChild(span);
+                answerVoteFields[member.answer]?.appendChild(span);
               });
             });
           }
@@ -533,7 +726,8 @@ function setCurrentGameView() {
             .forEach((elem) => elem.classList.remove('hidden'));
           currentGameState++;
           break;
-        case 3:
+        }
+        case 3: {
           // Show Correct Answer
           let correct =
             quizData[currentGame].questions[Math.floor(currentGameState / 4)]
@@ -545,14 +739,14 @@ function setCurrentGameView() {
           }
           currentGameState++;
           break;
-          break;
+        }
       }
       break;
     }
     // Game no 14
     case 'game-creative-writing': {
       switch (currentGameState % 3) {
-        case 0:
+        case 0: {
           let promptField = document.getElementById(
             'game-creative-writing-prompt'
           );
@@ -570,7 +764,8 @@ function setCurrentGameView() {
 
           currentGameState++;
           break;
-        case 1:
+        }
+        case 1: {
           document
             .getElementById('game-creative-writing-prompt')
             .classList.add('hidden');
@@ -579,10 +774,12 @@ function setCurrentGameView() {
             .classList.remove('hidden');
           currentGameState++;
           break;
-        case 2:
+        }
+        case 2: {
           // Show Votes
           currentGameState++;
           break;
+        }
       }
       break;
     }
@@ -597,7 +794,7 @@ function setCurrentGameView() {
     // Game no 16
     case 'game-mitspieler': {
       switch (currentGameState % 2) {
-        case 0:
+        case 0: {
           let questionField = document.getElementById(
             'game-teamguessing-question'
           );
@@ -615,12 +812,14 @@ function setCurrentGameView() {
 
           currentGameState++;
           break;
-        case 1:
+        }
+        case 1: {
           document
             .querySelectorAll('.game-teamguessing-answers-table')
             .forEach((elem) => elem.classList.remove('opacity-0'));
           currentGameState++;
           break;
+        }
       }
       break;
     }

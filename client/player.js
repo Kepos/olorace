@@ -62,42 +62,48 @@ function onLoginButtonClicked() {
 
 function onAnswerButtonClicked(payload = null) {
   switch (currentGame) {
-    case 'game-creative-writing':
+    case 'game-creative-writing': {
       switch (currentGameState) {
-        case 1:
+        case 1: {
           if (payload && payload.length < 1) {
             alert('Please enter your answer');
             return;
           }
           break;
-        case 2:
+        }
+        case 2: {
           const selected = document.querySelector('input[name="word"]:checked');
           if (!selected) {
             alert('Please select an answer');
             return;
           }
           payload = selected.nextElementSibling.textContent;
+        }
       }
       break;
-    case 'game-mapfinder':
+    }
+    case 'game-mapfinder': {
       if (!markerLocation) {
         alert('Please select a location');
         return;
       }
       payload = markerLocation;
       break;
-    case 'game-teamguessing':
+    }
+    case 'game-teamguessing': {
       if (!isValidIntegerString(payload)) {
         alert('Please enter a valid answer');
         return;
       }
       break;
-    case 'game-mitspieler':
+    }
+    case 'game-mitspieler': {
       if (payload == '') {
         alert('Please enter a valid answer');
         return;
       }
       break;
+    }
   }
 
   sock.emit(

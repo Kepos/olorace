@@ -76,6 +76,12 @@ input::placeholder {
   font-weight: bold;
 }
 
+.team-points-label {
+  font-size: 50px;
+  font-family: 'Monotalic';
+  font-weight: bold;
+}
+
 .custom-marker div {
   width: 16px;
   height: 16px;

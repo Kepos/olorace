@@ -254,14 +254,20 @@
         >
           <div class="flex flex-row justify-between space-x-8">
             <div class="text-center w-60">
-              <span class="team-score-label text-8xl! text-[#ce5bd3]">0</span
+              <span
+                id="team-points-label-1"
+                class="team-points-label text-8xl! text-[#ce5bd3]"
+                >0</span
               ><br />
               <span class="team-name-label wrap-break-word block text-4xl!"
                 >Team 1</span
               >
             </div>
             <div class="text-center w-60">
-              <span class="team-score-label text-8xl! text-[#5bd35b]">0</span
+              <span
+                id="team-points-label-2"
+                class="team-points-label text-8xl! text-[#5bd35b]"
+                >0</span
               ><br />
               <span
                 class="team-name-label wrap-break-word block text-4xl! text-[#5bd35b]"
@@ -269,14 +275,20 @@
               >
             </div>
             <div class="text-center w-60">
-              <span class="team-score-label text-8xl! text-[#c33838]">0</span
+              <span
+                id="team-points-label-3"
+                class="team-points-label text-8xl! text-[#c33838]"
+                >0</span
               ><br />
               <span class="team-name-label wrap-break-word block text-4xl!"
                 >Team 3</span
               >
             </div>
             <div class="text-center w-60">
-              <span class="team-score-label text-8xl! text-[#d3cd5b]">0</span
+              <span
+                id="team-points-label-4"
+                class="team-points-label text-8xl! text-[#d3cd5b]"
+                >0</span
               ><br />
               <span class="team-name-label wrap-break-word block text-4xl!"
                 >Team 4</span
@@ -290,7 +302,10 @@
           <!-- Tabelle: 16 Reihen x 3 Spalten (kein Header) -->
           <div class="overflow-x-auto">
             <table class="min-w-full text-sm table-fixed">
-              <tbody class="text-2xl divide-y divide-gray-200">
+              <tbody
+                id="leaderboard-table"
+                class="text-2xl divide-y divide-gray-200"
+              >
                 <tr class="odd:bg-transparent even:bg-transparent">
                   <td class="px-4 py-2 break-words">Name 1</td>
                   <td class="px-4 py-2 text-center">0</td>
@@ -577,7 +592,10 @@
               <table
                 class="game-teamguessing-answers-table min-w-fulds w-[400px] table-fixed text-sm opacity-0"
               >
-                <tbody class="text-3xl divide-y divide-gray-200">
+                <tbody
+                  id="guessing-table-1"
+                  class="text-3xl divide-y divide-gray-200"
+                >
                   <tr class="odd:bg-transparent even:bg-transparent">
                     <td class="px-4 py-2 break-words">Kim</td>
                     <td class="px-4 py-2 text-end">1234</td>
@@ -598,7 +616,10 @@
               <table
                 class="game-teamguessing-answers-table min-w-fulds w-[400px] table-fixed text-sm opacity-0"
               >
-                <tbody class="text-3xl divide-y divide-gray-200">
+                <tbody
+                  id="guessing-table-2"
+                  class="text-3xl divide-y divide-gray-200"
+                >
                   <tr class="odd:bg-transparent even:bg-transparent">
                     <td class="px-4 py-2 break-words">Kim</td>
                     <td class="px-4 py-2 text-end">44</td>
@@ -617,7 +638,7 @@
             <div></div>
             <div
               id="game-teamguessing-question"
-              class="game-teamguessing-question text-center flex flex-col justify-center h-[150px] text-5xl opacity-0"
+              class="game-teamguessing-question text-center flex flex-col justify-center h-[150px] text-5xl opacity-0 my-12"
             >
               Wie hoch ist der höchste Berg in Europa?
             </div>
@@ -626,7 +647,10 @@
               <table
                 class="game-teamguessing-answers-table min-w-fulds w-[400px] table-fixed text-sm opacity-0"
               >
-                <tbody class="text-3xl divide-y divide-gray-200">
+                <tbody
+                  id="guessing-table-3"
+                  class="text-3xl divide-y divide-gray-200"
+                >
                   <tr class="odd:bg-transparent even:bg-transparent">
                     <td class="px-4 py-2 break-words">Kim</td>
                     <td class="px-4 py-2 text-end">44</td>
@@ -647,7 +671,10 @@
               <table
                 class="game-teamguessing-answers-table min-w-fulds w-[400px] table-fixed text-sm opacity-0"
               >
-                <tbody class="text-3xl divide-y divide-gray-200">
+                <tbody
+                  id="guessing-table-4"
+                  class="text-3xl divide-y divide-gray-200"
+                >
                   <tr class="odd:bg-transparent even:bg-transparent">
                     <td class="px-4 py-2 break-words">Kim</td>
                     <td class="px-4 py-2 text-end">44</td>
@@ -959,7 +986,7 @@
     map.addLayer(markers);
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 7,
+      maxZoom: 13,
       attribution:
         '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     }).addTo(map);
@@ -1220,7 +1247,7 @@
       //   map.invalidateSize();
     }
 
-    currentGame = 'leaderboard';
+    currentGame = 'games-panel';
     currentGameState = 0;
     changeView(true);
     // setTimeout(() => {

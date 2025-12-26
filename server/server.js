@@ -43,10 +43,10 @@ let currentGame = 'panel';
 let currentGameState = 0;
 
 let teams = [
-  { points: 0, members: new Map(), color: '#ce5bd3', index: 0 },
-  { points: 0, members: new Map(), color: '#5bd35b', index: 1 },
-  { points: 0, members: new Map(), color: '#c33838', index: 2 },
-  { points: 0, members: new Map(), color: '#d3cd5b', index: 3 },
+  { points: 0, members: new Map(), color: '#ce5bd3', avgAnswer: 0, index: 0 },
+  { points: 0, members: new Map(), color: '#5bd35b', avgAnswer: 0, index: 1 },
+  { points: 0, members: new Map(), color: '#c33838', avgAnswer: 0, index: 2 },
+  { points: 0, members: new Map(), color: '#d3cd5b', avgAnswer: 0, index: 3 },
 ];
 
 io.on('connection', (sock) => {
@@ -99,6 +99,10 @@ io.on('connection', (sock) => {
     emitTeams();
   });
 
+  sock.on('table-reload', () => {
+    emitTeams();
+  });
+
   function getTeamsForClient() {
     return teams.map((team) => ({
       ...team,
@@ -116,6 +120,12 @@ io.on('connection', (sock) => {
       team.members.forEach((member) => {
         member.answer = '';
       });
+    });
+  }
+
+  function deleteTeamGameAverages() {
+    teams.forEach((team) => {
+      team.avgAnswer = 0;
     });
   }
 
@@ -140,6 +150,7 @@ io.on('connection', (sock) => {
                 ?.correct
           ) {
             player.points++;
+            teams[playerTeam].avgAnswer++;
           }
 
           player.answer = payload;
@@ -212,6 +223,16 @@ io.on('connection', (sock) => {
   });
 
   sock.on('eval', (payload) => {
+    console.log('eval!!');
+    if (currentGame === 'game-multiple-choice') {
+      let points = [0, 0, 0, 0];
+      teams.forEach((team, teamindex) => {
+        team.members.forEach((member) => {
+          points[teamindex] += member.points;
+        });
+      });
+      payload = points;
+    }
     io.emit('eval', payload);
   });
 
@@ -221,6 +242,7 @@ io.on('connection', (sock) => {
     currentGameState = 0;
     callback({ status: 'ok' });
     deleteAllPlayerAnswers();
+    deleteTeamGameAverages();
     emitTeams();
   });
 
@@ -325,7 +347,7 @@ io.on('connection', (sock) => {
       case 'game-quiz-question-1':
       case 'game-quiz-question-2':
       case 'game-quiz-question-3':
-      case 'game-quiz-question-4':
+      case 'game-quiz-question-4': {
         switch (currentGameState) {
           case 0:
             // Show Questions
@@ -345,9 +367,9 @@ io.on('connection', (sock) => {
             break;
         }
         break;
-
+      }
       // Game No 5
-      case 'game-umfragewerte':
+      case 'game-umfragewerte': {
         switch (currentGameState % 2) {
           case 0:
             // Show Question
@@ -383,12 +405,14 @@ io.on('connection', (sock) => {
 
             currentGameState++;
             emitCurrentState();
+            deleteAllPlayerAnswers();
+            emitTeams();
             break;
         }
         break;
-
+      }
       // Game No 6
-      case 'game-einsortieren':
+      case 'game-einsortieren': {
         switch (currentGameState) {
           case 0:
             // Fade in Game
@@ -408,9 +432,9 @@ io.on('connection', (sock) => {
             break;
         }
         break;
-
+      }
       // Game no 7
-      case 'game-pantomime':
+      case 'game-pantomime': {
         switch (currentGameState) {
           case 0:
             //
@@ -421,9 +445,9 @@ io.on('connection', (sock) => {
             break;
         }
         break;
-
+      }
       // Game no 8
-      case 'game-kategorie':
+      case 'game-kategorie': {
         switch (currentGameState) {
           case 0:
             //
@@ -434,9 +458,9 @@ io.on('connection', (sock) => {
             break;
         }
         break;
-
+      }
       // Game no 9
-      case 'game-mapfinder':
+      case 'game-mapfinder': {
         switch (currentGameState % 5) {
           case 0:
             // Show Question
@@ -471,6 +495,9 @@ io.on('connection', (sock) => {
             break;
           case 2:
             // Show Correct Marker
+            let correctMarker =
+              quizData[currentGame].questions[Math.floor(currentGameState / 5)];
+            payload = correctMarker?.answer;
             callback({
               status: 'ok',
               nextUp: 'Show Leaderboard',
@@ -478,7 +505,45 @@ io.on('connection', (sock) => {
             currentGameState++;
             break;
           case 3:
+            // Calculate Distances
             // Show Leaderboard
+            let correctLocation =
+              quizData[currentGame].questions[Math.floor(currentGameState / 5)]
+                ?.answer;
+            teams.forEach((team) => (team.avgAnswer = 0));
+            let teamsLegitAnswers = [0, 0, 0, 0];
+            if (correctLocation) {
+              const flatplayers = teams.flatMap((team, teamIndex) =>
+                [...team.members.entries()].map(([id, data]) => {
+                  let distance = data.answer?.lat
+                    ? Math.round(
+                        haversineDistanceKM(
+                          data.answer.lat,
+                          data.answer.lng,
+                          correctLocation.lat,
+                          correctLocation.lng
+                        ) * 100
+                      ) / 100
+                    : '';
+                  if (distance !== '') {
+                    teamsLegitAnswers[teamIndex]++;
+                    team.avgAnswer += distance;
+                  }
+                  return {
+                    // id,
+                    name: data.name,
+                    answer: distance ? distance?.toFixed(2) + ' km' : '',
+                    team: team.index,
+                  };
+                })
+              );
+              payload = flatplayers.sort((a, b) => a.answer - b.answer);
+              console.log(payload);
+            }
+            teams.forEach(
+              (team, teamindex) =>
+                (team.avgAnswer /= teamsLegitAnswers[teamindex])
+            );
             callback({
               status: 'ok',
               nextUp: 'Show Team Average',
@@ -487,6 +552,17 @@ io.on('connection', (sock) => {
             break;
           case 4:
             // Show Team Average
+            let teamsObj = [];
+            teams.forEach((team, teamindex) => {
+              console.log('Show Avg', team.avgAnswer);
+              teamsObj.push({
+                name: `Team ${teamindex + 1}`,
+                score:
+                  (Math.round(team.avgAnswer * 100) / 100).toFixed(2) + ' km',
+                team: teamindex,
+              });
+            });
+            payload = teamsObj;
             callback({
               status: 'ok',
               nextUp: 'Show Next Question',
@@ -495,9 +571,9 @@ io.on('connection', (sock) => {
             break;
         }
         break;
-
+      }
       // Game no 10
-      case 'game-whoisthis':
+      case 'game-whoisthis': {
         switch (currentGameState) {
           case 0:
             //
@@ -508,13 +584,13 @@ io.on('connection', (sock) => {
             break;
         }
         break;
-
+      }
       // Game no 11
       case 'game-songs':
         break;
 
       // Game no 12
-      case 'game-teamguessing':
+      case 'game-teamguessing': {
         switch (currentGameState % 5) {
           case 0:
             // Show Question
@@ -526,6 +602,7 @@ io.on('connection', (sock) => {
             emitCurrentState();
             break;
           case 1:
+            payload = getTeamsForClient();
             // Show Answers
             callback({
               status: 'ok',
@@ -544,6 +621,23 @@ io.on('connection', (sock) => {
             break;
           case 3:
             // Show Averages
+            let averages = [0, 0, 0, 0];
+            let validAnswers = [0, 0, 0, 0];
+            teams.forEach((team, teamindex) => {
+              team.members.forEach((member) => {
+                if (member.answer === '' || isNaN(member.answer)) return;
+                averages[teamindex] += parseInt(member.answer);
+                validAnswers[teamindex]++;
+              });
+              if (validAnswers[teamindex] > 0) {
+                averages[teamindex] /= validAnswers[teamindex];
+                averages[teamindex] = (
+                  Math.round(averages[teamindex] * 100) / 100
+                ).toFixed(2);
+                team.avgAnswer = averages[teamindex];
+              }
+            });
+            payload = averages;
             callback({
               status: 'ok',
               nextUp: 'Show Winner',
@@ -552,17 +646,35 @@ io.on('connection', (sock) => {
             break;
           case 4:
             // Show Winner
+            let correct =
+              quizData[currentGame].questions[Math.floor(currentGameState / 5)]
+                ?.answer;
+            let closestIndex = 0;
+            if (correct) {
+              let smallestDiff = Math.abs(teams[0].avgAnswer - correct);
+
+              for (let i = 1; i < teams.length; i++) {
+                const diff = Math.abs(teams[i].avgAnswer - correct);
+                if (diff < smallestDiff) {
+                  smallestDiff = diff;
+                  closestIndex = i;
+                }
+              }
+            }
+            payload = closestIndex;
             callback({
               status: 'ok',
               nextUp: 'Next Question',
             });
+            deleteAllPlayerAnswers();
+            emitTeams();
             currentGameState++;
             break;
         }
         break;
-
+      }
       // Game no 13
-      case 'game-multiple-choice':
+      case 'game-multiple-choice': {
         switch (currentGameState % 4) {
           case 0:
             // Show Question
@@ -598,13 +710,15 @@ io.on('connection', (sock) => {
               status: 'ok',
               nextUp: 'Next Question',
             });
+            deleteAllPlayerAnswers();
+            emitTeams();
             currentGameState++;
             break;
         }
         break;
-
+      }
       // Game no 14
-      case 'game-creative-writing':
+      case 'game-creative-writing': {
         switch (currentGameState % 3) {
           case 0:
             // Show Prompt
@@ -635,13 +749,13 @@ io.on('connection', (sock) => {
             break;
         }
         break;
-
+      }
       // Game no 15
       case 'game-blamieren-kassieren':
         break;
 
       // Game no 16
-      case 'game-mitspieler':
+      case 'game-mitspieler': {
         switch (currentGameState % 2) {
           case 0:
             // Show Question
@@ -663,7 +777,7 @@ io.on('connection', (sock) => {
             break;
         }
         break;
-
+      }
       // BIG DEFAULT
       default:
         break;
@@ -673,6 +787,29 @@ io.on('connection', (sock) => {
     io.emit('next', payload);
   });
 });
+
+function haversineDistanceKM(lat1Deg, lon1Deg, lat2Deg, lon2Deg) {
+  function toRad(degree) {
+    return (degree * Math.PI) / 180;
+  }
+
+  const lat1 = toRad(lat1Deg);
+  const lon1 = toRad(lon1Deg);
+  const lat2 = toRad(lat2Deg);
+  const lon2 = toRad(lon2Deg);
+
+  const { sin, cos, sqrt, atan2 } = Math;
+
+  const R = 6371; // earth radius in km
+  const dLat = lat2 - lat1;
+  const dLon = lon2 - lon1;
+  const a =
+    sin(dLat / 2) * sin(dLat / 2) +
+    cos(lat1) * cos(lat2) * sin(dLon / 2) * sin(dLon / 2);
+  const c = 2 * atan2(sqrt(a), sqrt(1 - a));
+  const d = R * c;
+  return d; // distance in km
+}
 
 server.on('error', (err) => {
   console.error(err);

@@ -269,7 +269,7 @@
         //     // '<span class="my-div-span">Titus</span>',
         //   }),
         // });
-        marker = L.marker(e.latlng);
+        marker = new L.Marker(e.latlng, { draggable: true });
         map.addLayer(marker);
       });
 
@@ -289,7 +289,7 @@
         case 'game-blamieren-kassieren':
           view = 'buzzer';
           break;
-        case 'game-umfragewerte':
+        case 'game-umfragewerte': {
           switch (currentGameState % 2) {
             case 1:
               view = currentGame;
@@ -305,14 +305,16 @@
               break;
           }
           break;
-        case 'game-mapfinder':
+        }
+        case 'game-mapfinder': {
           switch (currentGameState % 5) {
             case 1:
               view = currentGame;
               break;
           }
           break;
-        case 'game-teamguessing':
+        }
+        case 'game-teamguessing': {
           let textInput1 = document.getElementById('player-text-answer-input');
           textInput1.type = 'number';
           let text = document.getElementById('game-teamguessing-text');
@@ -330,7 +332,8 @@
               break;
           }
           break;
-        case 'game-multiple-choice':
+        }
+        case 'game-multiple-choice': {
           switch (currentGameState % 4) {
             case 2:
               let text = document.getElementById('game-multiple-choice-text');
@@ -351,7 +354,8 @@
               break;
           }
           break;
-        case 'game-creative-writing':
+        }
+        case 'game-creative-writing': {
           document.getElementById('player-text-answer-input').type = 'text';
           switch (currentGameState % 3) {
             case 1:
@@ -371,7 +375,8 @@
               break;
           }
           break;
-        case 'game-mitspieler':
+        }
+        case 'game-mitspieler': {
           let textInput = document.getElementById('player-text-answer-input');
           textInput.type = 'text';
           let textHeader = document.getElementById('game-teamguessing-text');
@@ -389,6 +394,7 @@
               break;
           }
           break;
+        }
         case 'login-screen':
           view = currentGame;
           break;

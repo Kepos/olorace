@@ -40,6 +40,7 @@ loadQuizData();
 
 // Key Press Events
 document.addEventListener('keydown', function (event) {
+  console.log(event.key);
   switch (event.key) {
     case '1':
     case '2':
@@ -47,6 +48,8 @@ document.addEventListener('keydown', function (event) {
     case '4':
       incrementScore(`team-points-input-${event.key}`, 1);
       break;
+    case 't':
+      reloadTable();
   }
 });
 
@@ -59,6 +62,10 @@ const onPlayButtonClicked = (sock) => () => {
   // sock.emit('message', 'lets play!');
   sock.emit('signup', { name: enteredPlayerName, car: selectedCarIndex });
 };
+
+function reloadTable() {
+  sock.emit('table-reload');
+}
 
 function onGameCardClicked(emitter) {
   let newGame = emitter.getAttribute('data-game');
@@ -96,7 +103,12 @@ function onScoreSendButtonClicked(teamNo) {
 }
 
 function onEvalButtonClicked() {
-  sock.emit('eval', null);
+  let points = [];
+  [1, 2, 3, 4].forEach((team) => {
+    points.push(document.getElementById(`team-points-input-${team}`).value);
+  });
+  console.log('eval!');
+  sock.emit('eval', points);
 }
 
 function onBackToPanelButtonClicked() {
