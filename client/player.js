@@ -5,6 +5,8 @@ let currentGameState = 0;
 
 let quizData;
 
+let game_payload;
+
 async function loadQuizData() {
   const response = await fetch('../questions/questions.json');
   const data = await response.json();
@@ -63,9 +65,9 @@ function onLoginButtonClicked() {
 function onAnswerButtonClicked(payload = null) {
   switch (currentGame) {
     case 'game-creative-writing': {
-      switch (currentGameState) {
+      switch (currentGameState % 3) {
         case 1: {
-          if (payload && payload.length < 1) {
+          if (!payload || payload.length < 1 || payload === '') {
             alert('Please enter your answer');
             return;
           }
@@ -77,7 +79,7 @@ function onAnswerButtonClicked(payload = null) {
             alert('Please select an answer');
             return;
           }
-          payload = selected.nextElementSibling.textContent;
+          payload = selected.nextElementSibling.dataset.playerId;
         }
       }
       break;
@@ -160,10 +162,11 @@ function isValidIntegerString(value) {
     changeView();
   });
 
-  sock.on('player-game-state', (game, gamestate) => {
+  sock.on('player-game-state', (game, gamestate, payload = null) => {
     if (currentGame == 'login-screen') return;
     currentGame = game;
     currentGameState = gamestate;
+    game_payload = payload;
     changeView();
   });
 

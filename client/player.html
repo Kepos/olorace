@@ -173,7 +173,10 @@
 
       <!-- Game #14 Creative Writing -->
       <div id="game-creative-writing" class="hidden font-[Monotalic] w-full">
-        <div class="flex flex-col w-full space-y-2">
+        <div
+          id="game-creative-writing-options"
+          class="flex flex-col w-full space-y-2"
+        >
           <label class="cursor-pointer">
             <input type="radio" name="word" class="hidden peer" />
             <span
@@ -280,6 +283,19 @@
 
     setMap();
 
+    function shuffleChildren(parent) {
+      const children = Array.from(parent.children);
+
+      // Fisher–Yates Shuffle
+      for (let i = children.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [children[i], children[j]] = [children[j], children[i]];
+      }
+
+      // Neu anhängen (verschiebt die Elemente im DOM)
+      children.forEach((child) => parent.appendChild(child));
+    }
+
     function changeView() {
       let view = 'waiting-screen';
       switch (currentGame) {
@@ -357,6 +373,9 @@
         }
         case 'game-creative-writing': {
           document.getElementById('player-text-answer-input').type = 'text';
+          let optionsField = document.getElementById(
+            'game-creative-writing-options'
+          );
           switch (currentGameState % 3) {
             case 1:
               let question =
@@ -371,6 +390,39 @@
               break;
             case 2:
               // Show PLayers Answers
+              let optionsField = document.getElementById(
+                'game-creative-writing-options'
+              );
+              optionsField.innerHTML = '';
+              console.log('GAYMELOAD!!', game_payload);
+              Array.isArray(game_payload) &&
+                game_payload.forEach((team) => {
+                  Object.values(team.members).forEach((member) => {
+                    if (member.answer === '' || member.id === sock.id) return;
+                    // <label class="cursor-pointer">
+                    //   <input type="radio" name="word" class="hidden peer" />
+                    //   <span class="block px-4 py-2 border rounded-md peer-checked:ring-2 peer-checked:ring-yellow-400 peer-checked:bg-yellow-400 peer-checked:text-black">
+                    //     Erdbeere
+                    //   </span>
+                    // </label>;
+                    let label = document.createElement('label');
+                    label.className = 'cursor-pointer';
+                    let input = document.createElement('input');
+                    input.type = 'radio';
+                    input.name = 'word';
+                    input.className = 'hidden peer';
+                    let span = document.createElement('span');
+                    span.className =
+                      'block px-4 py-2 border rounded-md peer-checked:ring-2 peer-checked:ring-yellow-400 peer-checked:bg-yellow-400 peer-checked:text-black;';
+                    span.innerHTML = member.answer;
+                    console.log(member.answer);
+                    span.dataset.playerId = member.id;
+                    label.appendChild(input);
+                    label.appendChild(span);
+                    optionsField.appendChild(label);
+                  });
+                });
+              shuffleChildren(optionsField);
               view = 'game-creative-writing';
               break;
           }

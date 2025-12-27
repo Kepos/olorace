@@ -28,6 +28,13 @@ const teamColors = [
   'bg-[#d3cd5b]',
 ];
 
+const teamTextColors = [
+  'text-[#ce5bd3]',
+  'text-[#5bd35b]',
+  'text-[#c33838]',
+  'text-[#d3cd5b]',
+];
+
 let game_payload;
 
 let quizData;
@@ -249,6 +256,19 @@ function showLeaderboard() {
 
       table.appendChild(tr);
     });
+}
+
+function shuffleChildren(parent) {
+  const children = Array.from(parent.children);
+
+  // Fisher–Yates Shuffle
+  for (let i = children.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [children[i], children[j]] = [children[j], children[i]];
+  }
+
+  // Neu anhängen (verschiebt die Elemente im DOM)
+  children.forEach((child) => parent.appendChild(child));
 }
 
 function setCurrentGameView() {
@@ -766,17 +786,72 @@ function setCurrentGameView() {
           break;
         }
         case 1: {
+          // Show Answers
           document
             .getElementById('game-creative-writing-prompt')
             .classList.add('hidden');
-          document
-            .getElementById('game-creative-writing-game')
-            .classList.remove('hidden');
+          let answersContainer = document.getElementById(
+            'game-creative-writing-game'
+          );
+          answersContainer.classList.remove('hidden');
+
+          // <div class="flex flex-col">
+          //   <span class="p-3 mb-3 text-3xl rounded-lg bg-gray-50"
+          //     >Der Bieromat</span
+          //   >
+          //   <div class="text-xl font-semibold text-red-600">
+          //     Kim &nbsp;&nbsp;&nbsp;👍👍👍👍
+          //   </div>
+          // </div>
+          answersContainer.innerHTML = '';
+          Array.isArray(game_payload) &&
+            game_payload.forEach((team, teamindex) => {
+              Object.values(team.members).forEach((member) => {
+                if (member.answer === '') return;
+                let div = document.createElement('div');
+                div.className = 'flex flex-col';
+                let span = document.createElement('span');
+                span.className = 'p-3 mb-3 text-3xl rounded-lg bg-gray-50';
+                span.innerHTML = member.answer;
+                let div2 = document.createElement('div');
+                div2.className = `text-xl hidden font-semibold ${teamTextColors[teamindex]}`;
+                div2.dataset.playerId = member.id;
+
+                div.appendChild(span);
+                div.appendChild(div2);
+                answersContainer.appendChild(div);
+              });
+            });
+
+          shuffleChildren(answersContainer);
+
           currentGameState++;
           break;
         }
         case 2: {
           // Show Votes
+          console.log('payload!!!', game_payload);
+          Array.isArray(game_payload) &&
+            game_payload.forEach((team, teamindex) => {
+              Object.values(team.members).forEach((member) => {
+                if (member.answer === '') return;
+
+                let playerElem = document.querySelector(
+                  `[data-player-id="${member.id}"]`
+                );
+                if (!playerElem) return;
+                let str = `${member.name} &nbsp;&nbsp;&nbsp;`;
+                for (let i = 0; i < member.points; i++) {
+                  str += '👍';
+                }
+                if (member.points > 0) {
+                  str += ` &nbsp;${member.points}`;
+                }
+                playerElem.innerHTML = str;
+                playerElem.classList.remove('hidden');
+              });
+            });
+
           currentGameState++;
           break;
         }
