@@ -164,6 +164,11 @@ function setSortingGame(newSortedWord = false) {
   let options = document.getElementById('game-einsortieren-options');
   let list = document.getElementById('game-einsortieren-sorted-list');
 
+  document.getElementById('game-einsortieren-ind-up').innerHTML =
+    quizData['game-einsortieren'].indicators[currentGameState - 1][0];
+  document.getElementById('game-einsortieren-ind-down').innerHTML =
+    quizData['game-einsortieren'].indicators[currentGameState - 1][1];
+
   options.innerHTML = '';
   list.innerHTML = '';
 
@@ -892,6 +897,31 @@ function setCurrentGameView() {
           document
             .querySelectorAll('.game-teamguessing-answers-table')
             .forEach((elem) => elem.classList.remove('opacity-0'));
+
+          Array.isArray(game_payload) &&
+            game_payload.forEach((team, teamindex) => {
+              let currenttable = document.getElementById(
+                `guessing-table-${teamindex + 1}`
+              );
+              currenttable.innerHTML = '';
+              Object.values(team.members).forEach((member) => {
+                if (member.answer === '') return;
+                const tr = document.createElement('tr');
+                // tr.className = `${teamColors[row.team]}`;
+                [member.name, member.answer].forEach((item, index) => {
+                  const td = document.createElement('td');
+                  td.className = `px-4 py-2 wrap-break-word`;
+                  if (index == 1) {
+                    td.classList.add('text-end');
+                  }
+                  td.textContent = item;
+                  tr.appendChild(td);
+                });
+
+                currenttable.appendChild(tr);
+              });
+            });
+
           currentGameState++;
           break;
         }

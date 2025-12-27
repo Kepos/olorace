@@ -506,7 +506,7 @@
                 id="game-einsortieren-sorted-list"
                 class="flex flex-col items-center justify-center"
               ></div>
-              <span id="game-einsortieren-ind-up" class="mt-10 text-3xl"
+              <span id="game-einsortieren-ind-down" class="mt-10 text-3xl"
                 >spät</span
               >
             </div>
@@ -1107,14 +1107,15 @@
     }
 
     function gameStartAnimation() {
-      changeView(true);
-      return;
+      // changeView(true);
+      // return;
       document.getElementById('animated-game-name').textContent =
         quizData[currentGame].title;
       setTimeout(() => {
+        document.getElementById('game-name').classList.remove('hidden');
         animateGameName();
         setTimeout(() => {
-          changeView();
+          changeView(true);
         }, 6000);
       }, 1000);
     }
@@ -1132,7 +1133,7 @@
     function animateGameName() {
       let currentGameTmp = currentGame;
       currentGame = 'game-name';
-      changeView(true);
+      // changeView(true);
       currentGame = currentGameTmp;
       // ANimate Game Name
       const header = document.getElementById('animated-game-name');
@@ -1141,7 +1142,7 @@
 
       text.split('').forEach((char, index) => {
         const span = document.createElement('span');
-        span.textContent = char;
+        span.textContent = char === ' ' ? '\u00A0' : char;
         let letter = index % 2 == 0 ? 'letter' : 'letter text-[#d5d514]';
         span.className = letter;
         // Verzögerung für jeden Buchstaben

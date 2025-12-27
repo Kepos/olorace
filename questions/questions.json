@@ -1,7 +1,7 @@
 {
   "gameQuestions": {
     "game-quiz-question-1": {
-      "title": "Game #1 Quiz Questions",
+      "title": "Q1",
       "questions": [
         {
           "question": "Nenne einen römischen Kaiser nach dem Jahr 0",
@@ -22,7 +22,7 @@
       ]
     },
     "game-quiz-question-2": {
-      "title": "Game #2 Quiz Questions",
+      "title": "Q2",
       "questions": [
         {
           "question": "Nenne einen römischen Kaiser nach dem Jahr 0",
@@ -43,7 +43,7 @@
       ]
     },
     "game-quiz-questio-3": {
-      "title": "Game #3 Quiz Questions",
+      "title": "Q3",
       "questions": [
         {
           "question": "Nenne einen römischen Kaiser nach dem Jahr 0",
@@ -64,7 +64,7 @@
       ]
     },
     "game-quiz-question-4": {
-      "title": "Game #4 Quiz Questions",
+      "title": "Q4",
       "questions": [
         {
           "question": "Nenne einen römischen Kaiser nach dem Jahr 0",
@@ -85,7 +85,7 @@
       ]
     },
     "game-umfragewerte": {
-      "title": "Game #5 Umfragewerte",
+      "title": "Statistics!",
       "questions": [
         {
           "question": "Wer hatte schonmal nen Plug im Ass?",
@@ -106,7 +106,7 @@
       ]
     },
     "game-einsortieren": {
-      "title": "Game #6 Einsortieren",
+      "title": "Sorting!",
       "lists": [
         [
           "Hamburg",
@@ -122,16 +122,19 @@
         ],
         ["Center Word", "1", "2", "3", "Center Word", "4", "5", "6", "7", "8"]
       ],
-      "indicators": [["viel", "wenig"], ["früh, spät"]]
+      "indicators": [
+        ["viel", "wenig"],
+        ["früh", "spät"]
+      ]
     },
     "game-pantomime": {
-      "title": "Game #7 Pantomime"
+      "title": "Pantomime!"
     },
     "game-kategorie": {
-      "title": "Game #8 Kategorie"
+      "title": "Kategorie!"
     },
     "game-mapfinder": {
-      "title": "Game #9 MapFinder",
+      "title": "MapFinder!",
       "questions": [
         {
           "question": "Wo steht die größte Statue der Welt?",
@@ -144,7 +147,7 @@
       ]
     },
     "game-whoisthis": {
-      "title": "Game #10 Who is this",
+      "title": "Who is this?",
       "questions": [
         {
           "image": "StephCurry"
@@ -155,10 +158,10 @@
       ]
     },
     "game-songs": {
-      "title": "Game #11 Songs"
+      "title": "Guess the Song!"
     },
     "game-teamguessing": {
-      "title": "Game #12 TeamGuessing",
+      "title": "TeamGuessing!",
       "questions": [
         {
           "question": "Wieviel Geld hat Elon Musk in $",
@@ -171,7 +174,7 @@
       ]
     },
     "game-multiple-choice": {
-      "title": "Game #13 Multiple Choice",
+      "title": "Multiple Choice!",
       "questions": [
         {
           "question": "Wie heißt die Mutter von Niki Lauda?",
@@ -186,7 +189,7 @@
       ]
     },
     "game-creative-writing": {
-      "title": "Game #14 Creative Writing",
+      "title": "Creative Writing!",
       "questions": [
         {
           "question": "Wie sollte eine Bar in Nürnberg heißen?"
@@ -197,10 +200,10 @@
       ]
     },
     "game-blamieren-kassieren": {
-      "title": "#15 Blamieren kassieren"
+      "title": "Blamieren oder kassieren!"
     },
     "game-mitspieler": {
-      "title": "Game #16 Mitspieler",
+      "title": "Say the Same!",
       "questions": [
         "Was isst du am liebsten: Kartoffeln, Reis oder Nudeln?",
         "Nennt beide ein Land in Europa",

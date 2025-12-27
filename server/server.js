@@ -1,6 +1,7 @@
 const http = require('http');
 const express = require('express');
 const socketio = require('socket.io');
+const { truncateSync } = require('fs');
 // const createGame = require('./create-game');
 
 const app = express();
@@ -115,12 +116,15 @@ io.on('connection', (sock) => {
     io.emit('Login', teamsForClient);
   }
 
-  function deleteAllPlayerAnswersAndPoints() {
+  function deleteAllPlayerAnswersAndPoints(teamPoints = true) {
     teams.forEach((team) => {
       team.members.forEach((member) => {
         member.answer = '';
         member.points = 0;
       });
+      if (teamPoints) {
+        team.points = 0;
+      }
     });
   }
 
@@ -251,6 +255,12 @@ io.on('connection', (sock) => {
       let points = [0, 0, 0, 0];
       teams.forEach((team, teamindex) => {
         points[teamindex] = team.avgAnswer;
+      });
+      payload = points;
+    } else if (currentGame === 'game-teamguessing') {
+      let points = [0, 0, 0, 0];
+      teams.forEach((team, teamindex) => {
+        points[teamindex] = team.points;
       });
       payload = points;
     }
@@ -626,7 +636,7 @@ io.on('connection', (sock) => {
             currentGameState++;
             emitCurrentState();
 
-            deleteAllPlayerAnswersAndPoints();
+            deleteAllPlayerAnswersAndPoints(false);
             emitTeams();
             break;
           case 1:
@@ -688,14 +698,26 @@ io.on('connection', (sock) => {
                   closestIndex = i;
                 }
               }
+
+              const rankedTeams = [...teams].sort((a, b) => {
+                return (
+                  Math.abs(a.avgAnswer - correct) -
+                  Math.abs(b.avgAnswer - correct)
+                );
+              });
+
+              // Punktevergabe
+              const points = [3, 2, 1, 0];
+
+              rankedTeams.forEach((team, index) => {
+                team.points += points[index] ?? 0;
+              });
             }
             payload = closestIndex;
             callback({
               status: 'ok',
               nextUp: 'Next Question',
             });
-            deleteAllPlayerAnswersAndPoints();
-            emitTeams();
             currentGameState++;
             break;
         }
@@ -801,9 +823,13 @@ io.on('connection', (sock) => {
             });
             currentGameState++;
             emitCurrentState();
+
+            deleteAllPlayerAnswersAndPoints();
+            emitTeams();
             break;
           case 1:
             // Show Results
+            payload = getTeamsForClient();
             callback({
               status: 'ok',
               nextUp: 'Show Next Question',
